@@ -2,113 +2,87 @@ from tkinter import *
 from functools import partial
 import tkinter as tk
 from tkinter import messagebox
+from entidades.usuario
+import sqlite3
 
-class Usuario:
-    def __init__ (self, _nombre, _pasaporte, _cuil, _licencia, _edad, _foto):
-        self._nombre = _nombre
-        self._pasaporte = _pasaporte
-        self._cuil = _cuil
-        self._licencia = _licencia
-        self._edad = _edad
-        self._foto = _foto
+class  VentanaUsuario:
+    db_nombre = 'database.db'
 
-
-    def get_nombre(self):
-        return self._nombre
-
-    def get_pasaporte(self):
-        return self._pasaporte
-
-    def get_cuil(self):
-        return self._cuil
-
-    def get_licencia(self):
-        return self._licencia
-
-    def get_edad(self):
-        return self._edad
-
-    def get_foto(self):
-        return self._foto
+    def __init__(self, ventana):
+        self.ventana = ventana
+        ancho = ventana.winfo_screenwidth()
+        alto = ventana.winfo_screenheight()
+        ancho2 = 800
+        alto2 = 600
+        izquierda = (ancho - ancho2) / 2
+        arriba = (alto - alto2) / 2
+        self.ventana.geometry("%dx%d+%d+%d" % (ancho2, alto2, izquierda, arriba))
+        self.ventana.title("Agregar Vehiculo")
+        self.ventana.resizable(False, False)
 
 
-    def set_nombre(self, new_nombre):
-        self._nombre = new_nombre
+        etiqueta = Frame(ventana, width="100", height="400", pady=120)
+        etiqueta.pack(expand=True, fill=tk.BOTH)
 
-    def set_pasaporte(self, new_pasaporte):
-        self._pasaporte = new_pasaporte
+        self.nombre = Label(etiqueta, text = 'Nombre', font= ("Bahnschrift Light",10))
+        self.nombre.pack(fill=tk.BOTH)
+        self.nombre = Entry(etiqueta)
+        self.nombre.pack()
 
-    def set_cuil(self, new_cuil):
-        self._cuil = new_cuil
+        self.apellido =Label(etiqueta, text = 'Apellido', font= ("Bahnschrift Light",10))
+        self.apellido.pack(fill=tk.BOTH)
+        self.apellido = Entry(etiqueta)
+        self.apellido.pack()
 
-    def set_licencia(self, new_licencia):
-        self._licencia = new_licencia
+        self.carnetConducir =Label(etiqueta, text = 'Carnet de Conducir', font= ("Bahnschrift Light",10))
+        self.carnetConducir.pack(fill=tk.BOTH)
+        self.carnetConducir = Entry(etiqueta)
+        self.carnetConducir.pack()
 
-    def set_edad(self, new_edad):
-        self._edad = new_edad
+        self.fechaNacimiento =Label(etiqueta, text = 'Fecha de nacimiento', font= ("Bahnschrift Light",10))
+        self.fechaNacimiento.pack(fill=tk.BOTH)
+        self.fechaNacimiento = Entry(etiqueta)
+        self.fechaNacimiento.pack()
 
-    def set_foto(self, new_foto):
-        self._foto = new_foto
+        self.correo =Label(etiqueta, text = 'Correo', font= ("Bahnschrift Light",10))
+        self.correo.pack(fill=tk.BOTH)
+        self.correo = Entry(etiqueta)
+        self.correo.pack()
 
+        self.extrangero =Label(etiqueta, text = 'Es extrangero?', font= ("Bahnschrift Light",10))
+        self.extrangero.pack(fill=tk.BOTH)
+        self.extrangero = Entry(etiqueta)
+        self.extrangero.pack()
 
-class Ventana:
-    def __init__(self, inter):
-        self.interfaz = inter
-        self.interfaz.geometry("800x600")
-        self.interfaz.title("Alquila YA")
-        self.dibujarVentana()
+        self.cuil =Label(etiqueta, text = 'CUIL', font= ("Bahnschrift Light",10))
+        self.cuil.pack(fill=tk.BOTH)
+        self.cuil = Entry(etiqueta)
+        self.cuil.pack()
 
-# LAYOUT
-    def dibujarVentana(self):
-        Button(self.interfaz, command=self.loginAdmin,
-               text="Login Admin").place(x=700, y=10)
-        Button(self.interfaz, command=self.alquilar,
-               text="Alquilar").place(x=325, y=250)
-        Button(self.interfaz, command=self.devolucion,
-               text="Devolucion").place(x=425, y=250)
+        self.pasaporte =Label(etiqueta, text = 'Pasaporte', font= ("Bahnschrift Light",10))
+        self.pasaporte.pack(fill=tk.BOTH)
+        self.pasaporte = Entry(etiqueta)
+        self.pasaporte.pack()
 
-# VALIDACION
-    def validar(a1, a2):
-        #print("hola")
-        if a1 == "Rxvargas" and a2 == "rodrigo":
-            abrirVentanaAdmin()
-        else:
-            messagebox.showwarning("Error", "Error de credenciales")
+        self.boton = tk.Button(etiqueta, text = 'Enviar', font= ("Bahnschrift Light",10), )
+        self.boton.pack()
 
-    def loginAdmin(self):
-        self.interfaz.withdraw()
-        ventana2 = tk.Toplevel()
-        ventana2.geometry("800x600")
-        ventana2.title("Alquila YA")
-        etiqueta1 = Label(ventana2, text="Nombre: ").place(x=325, y=150)
-        text1 = Entry(ventana2).place(x=400, y=150)
-        etiqueta2 = Label(ventana2, text="Pasaporte: ").place(x=325, y=175)
-        text2 = Entry(ventana2).place(x=400, y=175)
-        etiqueta3 = Label(ventana2, text="Cuil: ").place(x=325, y=200)
-        text2 = Entry(ventana2).place(x=400, y=200)
-        etiqueta4 = Label(ventana2, text="Liciencia: ").place(x=325, y=225)
-        text2 = Entry(ventana2).place(x=400, y=225)
-        etiqueta5 = Label(ventana2, text="Edad: ").place(x=325, y=250)
-        text2 = Entry(ventana2).place(x=400, y=250)
-        Button(self.interfaz, command=self.loginAdmin,
-               text="Reconocimiento facial").place(x=700, y=350)
+        self.obtener_usuario()
 
-        botonValidar = Button(ventana2, text="Validar",
-                              command=partial(validar, text1, text2)).place(x=450, y=350)
+    def correo_peticion(self, peticion, parametros = ()):
+        with sqlite3.connect(self.db_nombre) as conn:
+            cursor = conn.cursor()
+            resultados = cursor.execute(peticion, parametros)
+            conn.commit()
+        return resultados
 
-    def abrirVentanaAdmin(self):
-        ventana2.withdraw()
-        ventana3 = tk.Toplevel()
-        ventana3.geometry("800x600")
-        ventana3.title("Alquila YA")
-        Label(ventana3, text="Exito!!!").place(x=325, y=250)
-
-    def alquilar(self):
-        print("Hola")
-
-    def devolucion(self):
-        print("Hola")
+    def obtener_usuario(self):
+        peticion = 'SELECT * FROM usuarios ORDER BY nombre DESC'
+        db_filas = self.correo_peticion(peticion)
+        print(db_filas)
 
 
-obj = Ventana(Tk())
-obj.interfaz.mainloop()
+if __name__ == '__main__':
+    ventana = Tk()
+    aplicacion = VentanaUsuario(ventana)
+    ventana.mainloop()

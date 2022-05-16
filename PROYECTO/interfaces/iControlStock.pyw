@@ -1,6 +1,6 @@
 from tkinter import Tk, Frame, Label, Button, ttk
 
-from alquilaya_interfaces.iAgregarVehiculo import VentanaAgregarVehiculo
+from interfaces.iAgregarVehiculo import VentanaAgregarVehiculo
 # ------------------------------------------------------------------------------
 class VentanaControlStock():
 
