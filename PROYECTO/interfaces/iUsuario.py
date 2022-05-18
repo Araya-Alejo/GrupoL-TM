@@ -67,22 +67,27 @@ class  VentanaUsuario:
         self.boton = tk.Button(etiqueta, text = 'Enviar', font= ("Bahnschrift Light",10), )
         self.boton.pack()
 
-        self.obtener_usuario()
+        var1 = IntVar()
+        self.check = Checkbutton(etiqueta, text="male", variable=var1)
+        self.check.pack()
 
-    def correo_peticion(self, peticion, parametros = ()):
-        with sqlite3.connect(self.db_nombre) as conn:
-            cursor = conn.cursor()
-            resultados = cursor.execute(peticion, parametros)
-            conn.commit()
-        return resultados
-
-    def obtener_usuario(self):
-        peticion = 'SELECT * FROM usuarios ORDER BY nombre DESC'
-        db_filas = self.correo_peticion(peticion)
-        print(db_filas)
+        var2 = IntVar()
+        self.check = Checkbutton(etiqueta, text="female", variable=var2)
+        self.check.pack()
 
 
-if __name__ == '__main__':
-    ventana = Tk()
-    aplicacion = VentanaUsuario(ventana)
-    ventana.mainloop()
+        ventana.mainloop()
+
+    #     self.obtener_usuario()
+    #
+    # def correo_peticion(self, peticion, parametros = ()):
+    #     with sqlite3.connect(self.db_nombre) as conn:
+    #         cursor = conn.cursor()
+    #         resultados = cursor.execute(peticion, parametros)
+    #         conn.commit()
+    #     return resultados
+    #
+    # def obtener_usuario(self):
+    #     peticion = 'SELECT * FROM usuarios ORDER BY nombre DESC'
+    #     db_filas = self.correo_peticion(peticion)
+    #     print(db_filas)
