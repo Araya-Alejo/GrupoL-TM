@@ -2,7 +2,7 @@ from tkinter import *
 from functools import partial
 import tkinter as tk
 from tkinter import messagebox
-from entidades.usuario
+import entidades.usuario as usuario
 import sqlite3
 
 class  VentanaUsuario:
