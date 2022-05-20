@@ -78,8 +78,6 @@ class Ventana1:
         self.wind.withdraw()
         #conexion a interface de Devolucion
 
-        
-
 
 window = Tk()
 application = Ventana1(window)
