@@ -1,16 +1,12 @@
 from tkinter import ttk
 from tkinter import *
-#import iControlStock
+from interfaces.iControlStock import VentanaControlStock
 import sqlite3
 from interfaces.iUsuario import VentanaUsuario
 from interfaces.iIniciarSesion import VentanaInicioSesion
 
 
-
 class Ventana1:
-
-    def llamadaInicioDeSesion(self):
-        ventana = VentanaInicioSesion(Tk())
 
     def __init__(self, window):
         self.wind = window
@@ -27,7 +23,7 @@ class Ventana1:
         self.wind.geometry("%dx%d+%d+%d" % (width, height, left, top))
 
         #Creacion del Frame
-        frame = LabelFrame(self.wind, text="ALQUILA YA!!!")
+        frame = LabelFrame(self.wind)
         frame.place(relwidth=1, relheight=1)
 
         #Creacion de Botones
@@ -74,11 +70,13 @@ class Ventana1:
     def validar(self):
         self.wind.withdraw()
         self.ventanaAdmin.withdraw()
+        ventana = VentanaControlStock(Tk())
         #conexion a iControlStock
 
-    def alquilar(self):
+    def llamadaInicioDeSesion(self):
         self.wind.withdraw()
-        #conexion a interface de Alquilar
+        ventana = VentanaInicioSesion(Tk())
+        #conexion con inicio de sesion de usuario
 
     def devolucion(self):
         self.wind.withdraw()
