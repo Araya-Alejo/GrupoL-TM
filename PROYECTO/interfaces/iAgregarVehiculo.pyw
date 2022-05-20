@@ -1,6 +1,6 @@
 from tkinter import Tk, Frame, Label, Button, Entry, ttk
 
-from alquilaya_servicios.vehiculoservicio import VehiculoServicio
+from servicios.vehiculoservicio import VehiculoServicio
 # ------------------------------------------------------------------------------
 vs = VehiculoServicio()
 # ------------------------------------------------------------------------------

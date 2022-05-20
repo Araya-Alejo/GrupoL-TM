@@ -2,9 +2,15 @@ from tkinter import ttk
 from tkinter import *
 #import iControlStock
 import sqlite3
+from interfaces.iUsuario import VentanaUsuario
+from interfaces.iIniciarSesion import VentanaInicioSesion
+
 
 
 class Ventana1:
+
+    def llamadaInicioDeSesion(self):
+        ventana = VentanaInicioSesion(Tk())
 
     def __init__(self, window):
         self.wind = window
@@ -25,7 +31,7 @@ class Ventana1:
         frame.place(relwidth=1, relheight=1)
 
         #Creacion de Botones
-        ttk.Button(frame, text="Alquilar", command=self.alquilar).place(
+        ttk.Button(frame, text="Alquilar", command=self.llamadaInicioDeSesion).place(
             relx=0.35, rely=0.4)
         ttk.Button(frame, text="Devolución", command=self.devolucion).place(
             relx=0.55, rely=0.4)

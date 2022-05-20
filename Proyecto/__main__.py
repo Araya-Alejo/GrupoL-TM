@@ -1,14 +1,12 @@
 from tkinter import Tk
 # #-----------------ZAIR-------------------------------##
-
-# from alquilaya_interfaces.iControlStock import VentanaControlStock
+#
+# from interfaces.iControlStock import VentanaControlStock
 # if __name__ == "__main__":
 #     ventana = VentanaControlStock(Tk())
 
-
-# #-------------ALEJO------------------##
-
-from interfaces.iUsuario import VentanaUsuario
+# #-------------RODRIGO/ALEJO------------------##
+from interfaces.iPrimerPantalla import Ventana1
 
 if __name__ == "__main__":
-     ventana = VentanaUsuario(Tk())
+     ventana = Ventana1(Tk())

@@ -1,4 +1,4 @@
-from alquilaya_entidades.vehiculo import Vehiculo
+from entidades.vehiculo import Vehiculo
 # ------------------------------------------------------------------------------
 class VehiculoServicio():
 
