@@ -78,8 +78,7 @@ class Ventana1:
         self.wind.withdraw()
         #conexion a interface de Devolucion
 
-        #ventanaStock = VentanaControlStock(Tk())
-        #ventanaStock.mainloop()
+        
 
 
 window = Tk()
