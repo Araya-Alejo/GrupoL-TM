@@ -77,16 +77,13 @@ class Ventana1:
         db_name = "base_datos/databaseGeneral.db"
         con = sqlite3.connect(db_name)
         cur = con.cursor()
-        acceso = False
         usuario = self.usuario.get()
         contrasena = self.contrasena.get()
         cur.execute(
             "SELECT IDUsuario FROM Administradores WHERE IDUsuario=? AND Contrasena=?", (usuario, contrasena))
         datos = cur.fetchall()
-        if (datos):
-            acceso = True
         con.close()
-        return acceso
+        return datos
 
     def validar(self):
         if (self.usuario.get()):
