@@ -73,9 +73,24 @@ class Ventana1:
         ttk.Button(frameLoginAdmin, text="Atras",
                    command=self.ventanaAdmin.withdraw).place(relx=0.01, rely=0.01)
 
+    def searchUsuarioCont(self):
+        db_name = "base_datos/databaseGeneral.db"
+        con = sqlite3.connect(db_name)
+        cur = con.cursor()
+        acceso = False
+        usuario = self.usuario.get()
+        contrasena = self.contrasena.get()
+        cur.execute(
+            "SELECT IDUsuario FROM Administradores WHERE IDUsuario=? AND Contrasena=?", (usuario, contrasena))
+        datos = cur.fetchall()
+        if (datos):
+            acceso = True
+        con.close()
+        return acceso
+
     def validar(self):
         if (self.usuario.get()):
-            if (self.usuario.get() == "Rodrigo"):
+            if (self.searchUsuarioCont()):
                 self.wind.withdraw()
                 self.ventanaAdmin.withdraw()
                 ventana = VentanaControlStock(Tk())
