@@ -45,6 +45,8 @@ class VentanaDevolucion:
         tk.Button(frame, text="SIGUIENTE",
                   command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
 
+        window.mainloop()
+
     def verTecnica(self):
         self.verTec = Toplevel()
         self.verTec.title("Ingreso de Administradores")
@@ -94,8 +96,3 @@ class VentanaDevolucion:
     def siguienteInterfaz(self):
         self.wind.withdraw()
         #Conexion con siguiente interfaz
-
-
-window = Tk()
-application = VentanaDevolucion(window)
-window.mainloop()

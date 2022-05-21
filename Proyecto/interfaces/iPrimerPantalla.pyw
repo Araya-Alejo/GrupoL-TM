@@ -1,6 +1,7 @@
 from tkinter import ttk
 from tkinter import *
 from interfaces.iControlStock import VentanaControlStock
+from interfaces.iDevolucion import VentanaDevolucion
 import sqlite3
 from interfaces.iUsuario import VentanaUsuario
 from interfaces.iIniciarSesion import VentanaInicioSesion
@@ -95,7 +96,10 @@ class Ventana1:
 
     def devolucion(self):
         self.wind.withdraw()
-        #conexion a interface de Devolucion
+        ventana = VentanaDevolucion(Tk())
+        #Se hace la conexion a la interfaz de devolucion para continuar trabajando
+        #Primero va la conexion a la interfaz de la verificacion por reconocimiento facial
+        #y luego a la interfaz de devolucion si el reconocimiento facial da True
 
 
 window = Tk()
