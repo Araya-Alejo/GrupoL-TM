@@ -1,7 +1,5 @@
 from tkinter import *
-from functools import partial
 import tkinter as tk
-from tkinter import messagebox
 import entidades.usuario as usuario
 import subprocess
 from TyC import *
@@ -30,8 +28,7 @@ class  VentanaUsuario:
         self.ventana.title("Agregar Vehiculo")
         self.ventana.resizable(False, False)
 
-
-        area = Frame(ventana, pady=20)
+        area = Frame(ventana, pady=10)
         area.pack(expand=True, fill=tk.BOTH)
 
         self.nombre = Label(area, text = 'Nombre', font= ("Bahnschrift Light",10))
@@ -55,6 +52,7 @@ class  VentanaUsuario:
         self.fechaNacimiento.pack()
         self.botonCalendar = tk.Button(area, text = 'Seleccionar fecha', font= ("Bahnschrift Light",10),command = self.llamarVentanaCalendario)
         self.botonCalendar.pack()
+        # self.fechaNacimiento.insert(0,obtenerFecha())
 
         self.correo =Label(area, text = 'Correo', font= ("Bahnschrift Light",10))
         self.correo.pack(fill=tk.BOTH)
@@ -79,11 +77,15 @@ class  VentanaUsuario:
 
 
         self.boton = tk.Button(area, text = 'T&C', font= ("Bahnschrift Light",10), command = self.abrirPDF )
-        self.boton.pack(pady = 5)
+        self.boton.pack()
 
         var1 = IntVar()
         self.check = Checkbutton(area, text="Termino y condiciones", variable=var1)
         self.check.pack()
+
+        self.boton = tk.Button(area, text = 'Reconocimiento facial', font= ("Bahnschrift Light",10),command = exit )
+        self.boton.pack()
+
 
         self.boton = tk.Button(area, text = 'Enviar', font= ("Bahnschrift Light",10),command = exit )
         self.boton.pack(pady = 20)
