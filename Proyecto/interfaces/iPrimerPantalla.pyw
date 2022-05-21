@@ -4,6 +4,7 @@ from interfaces.iControlStock import VentanaControlStock
 import sqlite3
 from interfaces.iUsuario import VentanaUsuario
 from interfaces.iIniciarSesion import VentanaInicioSesion
+from tkinter import messagebox
 
 
 class Ventana1:
@@ -21,6 +22,7 @@ class Ventana1:
         left = (screenWidth - width) / 2
         top = (screenHeight - height) / 2
         self.wind.geometry("%dx%d+%d+%d" % (width, height, left, top))
+        self.wind.resizable(0, 0)
 
         #Creacion del Frame
         frame = LabelFrame(self.wind)
@@ -46,6 +48,7 @@ class Ventana1:
         left = (screenWidth - width) / 2
         top = (screenHeight - height) / 2
         self.ventanaAdmin.geometry("%dx%d+%d+%d" % (width, height, left, top))
+        self.ventanaAdmin.resizable(0, 0)
 
         #Creacion del Frame
         frameLoginAdmin = LabelFrame(self.ventanaAdmin)
@@ -66,11 +69,23 @@ class Ventana1:
         #Creacion del Boton Validar
         ttk.Button(frameLoginAdmin, text="Validar",
                    command=self.validar).place(relx=0.50, rely=0.5)
+        ttk.Button(frameLoginAdmin, text="Atras",
+                   command=self.ventanaAdmin.withdraw).place(relx=0.01, rely=0.01)
 
     def validar(self):
-        self.wind.withdraw()
-        self.ventanaAdmin.withdraw()
-        ventana = VentanaControlStock(Tk())
+        if (self.usuario.get()):
+            if (self.usuario.get() == "Rodrigo"):
+                self.wind.withdraw()
+                self.ventanaAdmin.withdraw()
+                ventana = VentanaControlStock(Tk())
+            else:
+                messagebox.showwarning(
+                    "Error de credenciales", "Datos incorrectos")
+                self.usuario.focus()
+        else:
+            messagebox.showwarning(
+                "Error", "Los campos no pueden estar vacíos")
+            self.usuario.focus()
         #conexion a iControlStock
 
     def llamadaInicioDeSesion(self):
