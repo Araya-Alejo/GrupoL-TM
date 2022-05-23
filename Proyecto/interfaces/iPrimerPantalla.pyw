@@ -110,9 +110,6 @@ class Ventana1:
     def devolucion(self):
         self.wind.withdraw()
         ventana = ReconDev(Tk())
-        #Se hace la conexion a la interfaz de devolucion para continuar trabajando
-        #Primero va la conexion a la interfaz de la verificacion por reconocimiento facial
-        #y luego a la interfaz de devolucion si el reconocimiento facial da True
 
 
 window = Tk()
