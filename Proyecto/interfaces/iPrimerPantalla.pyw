@@ -74,7 +74,7 @@ class Ventana1:
                    command=self.ventanaAdmin.withdraw).place(relx=0.01, rely=0.01)
 
     def searchUsuarioCont(self):
-        db_name = "base_datos/databaseGeneral.db"
+        db_name = "base_datos/databaseGeneral.sqlite3"
         con = sqlite3.connect(db_name)
         cur = con.cursor()
         usuario = self.usuario.get()
