@@ -44,6 +44,8 @@ class VentanaDevolucion:
                   command=self.verTecnica).place(relx=0.05, rely=0.45)
         tk.Button(frame, text="SIGUIENTE",
                   command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
+        tk.Button(frame, text="Mostrar Datos",
+                  command=self.mostrarDatos).place(relx=0.90, rely=0.9)
 
         window.mainloop()
 
@@ -96,3 +98,17 @@ class VentanaDevolucion:
     def siguienteInterfaz(self):
         self.wind.withdraw()
         #Conexion con siguiente interfaz
+
+    def mostrarDatos(self):
+        db_name = "base_datos/databaseGeneral.sqlite3"
+        con = sqlite3.connect(db_name)
+        cur = con.cursor()
+        cur.execute('SELECT * FROM Usuarios')
+        data = cur.fetchall()
+        print(data[0])
+        for row in data:
+            print(row)
+        #for row in cur.execute("SELECT Nombre FROM Usuarios;"):
+        #    print(row)
+
+        con.close()
