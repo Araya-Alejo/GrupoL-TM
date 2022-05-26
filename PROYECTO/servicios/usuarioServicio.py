@@ -9,7 +9,7 @@ class UsuarioServicio():
     def validarAlfa(self,candena):
         return (cadena.isdigit()) or (cadena.isalpha())
 
-    def validarStringAlfa numerica(self, cadena):
+    def validarStringAlfa (self, cadena):
         return (cadena.isspace()) or (cadena == "") or (cadena.isdigit()) or (cadena.isalpha())
 
 
