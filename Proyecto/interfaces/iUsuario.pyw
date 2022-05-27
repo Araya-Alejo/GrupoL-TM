@@ -25,7 +25,6 @@ class  VentanaUsuario:
 
         if(not us.validarString(self.nombre.get())):
             print("Nombre: Bien")
-            return True
         else:
             print("Nombre: Mal")
 
@@ -162,9 +161,12 @@ class  VentanaUsuario:
     #     print(db_filas)
 
     def agregar_usuario(self):
-        if self.aceptar():
-            consulta = 'INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
-            parametros = (self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.extranjero.get(),self.cuil.get(),self.pasaporte.get())
-            self.ejecutar_consulta(consulta,parametros)
-        else:
-            print("hay un error")
+        while(True):
+            try:
+                if self.aceptar():
+                    consulta = 'INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
+                    parametros = (self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.extranjero.get(),self.cuil.get(),self.pasaporte.get())
+                    self.ejecutar_consulta(consulta,parametros)
+                    break
+            except Exception:
+                print("hay un error")
