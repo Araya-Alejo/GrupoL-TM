@@ -5,12 +5,13 @@ import subprocess
 from TyC import *
 from interfaces.iCalendar import *
 from servicios.usuarioServicio import UsuarioServicio
+import base_datos
 import sqlite3
 
 us = UsuarioServicio()
 
 class  VentanaUsuario:
-    db_nombre = 'database.db'
+    db_nombre = 'base_datos/databaseGeneral.sqlite3'
 
     def llamarVentanaCalendario(self):
         ventana = VentanaCalendario(Tk())
@@ -20,8 +21,11 @@ class  VentanaUsuario:
         subprocess.Popen([path], shell=True)
 
     def aceptar(self):
+
+
         if(not us.validarString(self.nombre.get())):
             print("Nombre: Bien")
+            return True
         else:
             print("Nombre: Mal")
 
@@ -136,7 +140,7 @@ class  VentanaUsuario:
         self.boton.pack()
 
 
-        self.boton = tk.Button(area, text = 'Enviar', font= ("Bahnschrift Light",10),command = self.aceptar )
+        self.boton = tk.Button(area, text = 'Enviar', font= ("Bahnschrift Light",10),command = self.agregar_usuario )
         self.boton.pack(pady = 20)
 
 
@@ -144,15 +148,23 @@ class  VentanaUsuario:
         ventana.mainloop()
 
     #     self.obtener_usuario()
-    #
-    # def correo_peticion(self, peticion, parametros = ()):
-    #     with sqlite3.connect(self.db_nombre) as conn:
-    #         cursor = conn.cursor()
-    #         resultados = cursor.execute(peticion, parametros)
-    #         conn.commit()
-    #     return resultados
+
+    def ejecutar_consulta(self, consulta, parametros = ()):
+        with sqlite3.connect(self.db_nombre) as coneccion:
+            cursor = coneccion.cursor()
+            resultados = cursor.execute(consulta, parametros)
+            coneccion.commit()
+        return resultados
     #
     # def obtener_usuario(self):
-    #     peticion = 'SELECT * FROM usuarios ORDER BY nombre DESC'
-    #     db_filas = self.correo_peticion(peticion)
+    #     consulta = 'SELECT * FROM Usuarios ORDER BY nombre DESC'
+    #     db_filas = self.ejecutar_consulta(consulta)
     #     print(db_filas)
+
+    def agregar_usuario(self):
+        if self.aceptar():
+            consulta = 'INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
+            parametros = (self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.extranjero.get(),self.cuil.get(),self.pasaporte.get())
+            self.ejecutar_consulta(consulta,parametros)
+        else:
+            print("hay un error")
