@@ -1,7 +1,6 @@
 from tkinter import ttk  # biblioteca para diseniar interfaz
 from tkinter import *  # botones tablas .. etc
-from conexionPago import Conexion  # de modulo conexion importa la clase Conexion
-
+from conexionPago import Conexion
 import sqlite3  # modulo para conexion
 
 # clase pago va a tener todos los metodos de mi ventana (titulo botones, entradas dde texto) funcionalidad de nuestras ventanas
