@@ -3,6 +3,7 @@ from tkinter import *
 from interfaces.iReconDevolucion import ReconDev
 from interfaces.iDevolucion import VentanaDevolucion
 from interfaces.iControlStock import VentanaControlStock
+from interfaces.iNdexPago import Pago
 import sqlite3
 from interfaces.iUsuario import VentanaUsuario
 from interfaces.iIniciarSesion import VentanaInicioSesion
@@ -37,6 +38,8 @@ class Ventana1:
             relx=0.55, rely=0.4)
         ttk.Button(frame, text="Ingreso de Administradores",
                    command=self.loginAdmin).place(relx=0.80, rely=0.01)
+        ttk.Button(frame, text="Pago",
+                   command=self.ventanaPago).place(relx=0.01, rely=0.90)
 
     def loginAdmin(self):
         self.ventanaAdmin = Toplevel()
@@ -73,6 +76,11 @@ class Ventana1:
                    command=self.validar).place(relx=0.50, rely=0.5)
         ttk.Button(frameLoginAdmin, text="Atras",
                    command=self.ventanaAdmin.withdraw).place(relx=0.01, rely=0.01)
+
+
+    def ventanaPago(self):
+        self.wind.withdraw()
+        obj = Pago(Tk())
 
     def searchUsuarioCont(self):
         db_name = "base_datos/databaseGeneral.sqlite3"
