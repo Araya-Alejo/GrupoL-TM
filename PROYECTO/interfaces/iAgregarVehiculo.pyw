@@ -1,57 +1,113 @@
-from tkinter import Tk, Frame, Label, Button, Entry, ttk
-
-from servicios.vehiculoservicio import VehiculoServicio
+'''
+    Interfaz Administrador para agregar Vehiculo
+    @author Bulos
+'''
 # ------------------------------------------------------------------------------
-vs = VehiculoServicio()
+from tkinter import Tk, Frame, Label, Button, Entry, ttk, messagebox
+
+from entidades.vehiculo import Vehiculo
+from servicios.vehiculoservicio_basedatos import add_vehiculo, validate_vehiculo
+from servicios.vehiculoservicio import VehiculoServicio
 # ------------------------------------------------------------------------------
 class VentanaAgregarVehiculo():
 
     '''
+        Procedimiento que limpia la pantalla (Combobox y Entry).
+    '''
+    def limpiar(self):
+        self.comboClasificacion.delete(0, "end")
+        self.comboMarca.delete(0, "end")
+        self.entryModelo.delete(0, "end")
+        self.entryGeneracion.delete(0, "end")
+        self.entryMatricula.delete(0, "end")
+        self.entryKm.delete(0, "end")
+        self.entryPrecio.delete(0, "end")
+
+    '''
         Procedimiento para el Button Cancelar.
-        Destruye la ventana actual.
+        Destuye la ventana actual.
     '''
     def cancelar(self):
         self.root.destroy()
 
     '''
+        Función que valida los campos ingresados.
+        Coloca un Label a todos aquellos campos incorrectos.
+        Retorna un bool.
+    '''
+    def validar(self):
+        vs = VehiculoServicio()
+        band = True
+
+        # Validación Clasifiación
+        if (vs.isStringVacio(self.comboClasificacion.get())):
+            self.labelClasificacion["text"] = "Incorrecto"
+            band = False
+        else:
+            self.labelClasificacion["text"] = ""
+
+        # Validación Marca
+        if (vs.isStringVacio(self.comboMarca.get())):
+            self.labelMarca["text"] = "Incorrecto"
+            band = False
+        else:
+            self.labelMarca["text"] = ""
+
+        # Validación Modelo
+        if (vs.isStringVacio(self.entryModelo.get()) or
+            (not vs.isStringAlfaNumerico(self.entryModelo.get()))):
+            self.labelModelo["text"] = "Incorrecto"
+            band = False
+        else:
+            self.labelModelo["text"] = ""
+
+        # Validación Generación
+        if (not vs.isEnteroPositivo(self.entryGeneracion.get())):
+            self.labelGeneracion["text"] = "Incorrecto"
+            band = False
+        else:
+            self.labelGeneracion["text"] = ""
+
+        # Validación Matricula
+        if (not vs.isMatricula(self.entryMatricula.get(), self.entryGeneracion.get())):
+            self.labelMatricula["text"] = "Incorrecto"
+            band = False
+        else:
+            self.labelMatricula["text"] = ""
+
+        # Validación Kilómetros
+        if (not vs.isDecimalPositivo(self.entryKm.get())):
+            self.labelKm["text"] = "Incorrecto"
+            band = False
+        else:
+            self.labelKm["text"] = ""
+
+        # Validación Precio
+        if (not vs.isDecimalPositivo(self.entryPrecio.get())):
+            self.labelPrecio["text"] = "Incorrecto"
+            band = False
+        else:
+            self.labelPrecio["text"] = ""
+
+        return band
+
+    '''
         Procedimiento para el Button Aceptar.
-        Obtiene todos los campos.
+        Si la validacion es correcta, crea un Vehiculo y lo ingresa a la db, en
+            caso contrario avisa mediante un mensaje.
     '''
     def aceptar(self):
-        if(not vs.validarString(self.comboClasificacion.get())):
-            self.labelClasificacion.tk.configure(text="Bien")
+        if (self.validar()):
+            if (not validate_vehiculo(self.entryMatricula.get())):
+                add_vehiculo(Vehiculo(self.comboClasificacion.get(),
+                    self.comboMarca.get(), self.entryModelo.get(),
+                    self.entryGeneracion.get(), self.entryMatricula.get(),
+                    self.entryKm.get(), self.entryPrecio.get(), False), self.root)
+                self.limpiar()
+            else:
+                messagebox.showinfo(message="El vehiculo ya ha sido ingresado!", title="", parent=self.root)
         else:
-            print("Clasificacion: Mal")
-
-        if(not vs.validarString(self.comboMarca.get())):
-            print("Marca: Bien")
-        else:
-            print("Marca: Mal")
-
-        if(not vs.validarString(self.entryModelo.get())):
-            print("Modelo: Bien")
-        else:
-            print("Modelo: Mal")
-
-        if(vs.validarInt(self.entryGeneracion.get())):
-            print("Generacion: Bien")
-        else:
-            print("Generacion: Mal")
-
-        if(vs.validarMatricula(self.entryMatricula.get(), self.entryGeneracion.get())):
-            print("Matricula: Bien")
-        else:
-            print("Matricula: Mal")
-
-        if(vs.validarInt(self.entryKm.get())):
-            print("Km: Bien")
-        else:
-            print("Km: Mal")
-
-        if(vs.validarFloat(self.entryPrecio.get())):
-            print("Precio: Bien")
-        else:
-            print("Precio: Mal")
+            messagebox.showinfo(message="No se pudo agregar el vehiculo!", title="", parent=self.root)
 
     '''
         Método Constructor.
@@ -69,6 +125,12 @@ class VentanaAgregarVehiculo():
         self.root.title("Agregar Vehiculo")
         self.root.resizable(False, False)
 
+        self.initComponents(root)
+
+    '''
+        Procedimiento que inicializa los componentes gráficos.
+    '''
+    def initComponents(self, root):
         # Frame
         frame1 = Frame(root, width="100", height="50")
         frame1.pack(expand=False, fill="both")
@@ -78,27 +140,35 @@ class VentanaAgregarVehiculo():
 
         # Label
         Label(frame1, text="Introducir los siguientes datos:", font=("Bahnschrift SemiLight", 20)).place(x=400, y=25, anchor="center")
-
         Label(frame2, text="CLASIFICACIÓN: ", font=("Bahnschrift Light", 10)).place(x=50, y=30)
-        self.labelClasificacion = Label(frame2, text="", fg="red").place(x=350, y=30)
-
         Label(frame2, text="MARCA: ", font=("Bahnschrift Light", 10)).place(x=50, y=70)
-        self.labelMarca = Label(frame2, text="", fg="red").place(x=350, y=70)
-
         Label(frame2, text="MODELO: ", font=("Bahnschrift Light", 10)).place(x=50, y=110)
-        self.labelModelo = Label(frame2, text="", fg="red").place(x=350, y=110)
-
         Label(frame2, text="GENERACIÓN: ", font=("Bahnschrift Light", 10)).place(x=50, y=150)
-        self.labelGeneracion = Label(frame2, text="", fg="red").place(x=350, y=150)
-
         Label(frame2, text="MATRICULA: ", font=("Bahnschrift Light", 10)).place(x=50, y=190)
-        self.labelMatricula = Label(frame2, text="", fg="red").place(x=350, y=190)
-
         Label(frame2, text="KILÓMETROS: ", font=("Bahnschrift Light", 10)).place(x=50, y=230)
-        self.labelKm= Label(frame2, text="", fg="red").place(x=350, y=230)
-
         Label(frame2, text="PRECIO DE ALQUILER: ", font=("Bahnschrift Light", 10)).place(x=50, y=270)
-        self.labelPrecio = Label(frame2, text="", fg="red").place(x=350, y=270)
+
+        # Label (Salida)
+        self.labelClasificacion = Label(frame2, text="", fg="red")
+        self.labelClasificacion.place(x=350, y=30)
+
+        self.labelMarca = Label(frame2, text="", fg="red")
+        self.labelMarca.place(x=350, y=70)
+
+        self.labelModelo = Label(frame2, text="", fg="red")
+        self.labelModelo.place(x=350, y=110)
+
+        self.labelGeneracion = Label(frame2, text="", fg="red")
+        self.labelGeneracion.place(x=350, y=150)
+
+        self.labelMatricula = Label(frame2, text="", fg="red")
+        self.labelMatricula.place(x=350, y=190)
+
+        self.labelKm = Label(frame2, text="", fg="red")
+        self.labelKm.place(x=350, y=230)
+
+        self.labelPrecio = Label(frame2, text="", fg="red")
+        self.labelPrecio.place(x=350, y=270)
 
         # Conmbobox
         opcTipo = ["SUV", "COUPE", "SEDAN", "PICKUP", "URBANO", "DEPORTIVO",
