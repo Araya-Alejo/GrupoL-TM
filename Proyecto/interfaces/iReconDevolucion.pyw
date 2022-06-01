@@ -30,17 +30,37 @@ class ReconDev:
             relx=0.40, rely=0.4)
 
         #Creacion de los Botones
-        tk.Button(frame, text="No reconoce",
-                  command=self.mensajeError).place(relx=0.40, rely=0.60)
-        tk.Button(frame, text="Si reconoce",
-                  command=self.siguienteInterfaz).place(relx=0.60, rely=0.60)
+        tk.Button(frame, text="Reconocimiento",
+                  command=self.validarUsuario).place(relx=0.40, rely=0.60)
+
+        #Crecion de Entry
+        self.idCuil = tk.Entry(frame)
+        self.idCuil.focus()
+        self.idCuil.place(relx=0.50, rely=0.3)
 
         window.mainloop()
 
-    def mensajeError(self):
-        messagebox.showinfo("Error", "No se reconoce el rostro")
+    def validarUsuario(self):
+        if (self.idCuil.get()):
+            if (self.searchUsuario()):
+                self.wind.withdraw()
+                ventana = VentanaDevolucion(Tk())
+            else:
+                messagebox.showwarning(
+                    "Usuario sin operacion", "No hay alquileres pendientes para este usuario")
+                self.idCuil.focus()
+        else:
+            messagebox.showwarning(
+                "Error", "Los campos no pueden estar vacíos")
+            self.idCuil.focus()
 
-    def siguienteInterfaz(self):
-        self.wind.withdraw()
-        ventana = VentanaDevolucion(Tk())
-        #Conexion con siguiente interfaz
+    def searchUsuario(self):
+        db_name = "base_datos/databaseGeneral.sqlite3"
+        con = sqlite3.connect(db_name)
+        cur = con.cursor()
+        idCuil = self.idCuil.get()
+        cur.execute(
+            "SELECT IdCuil FROM Alquileres WHERE IdCuil=?", (idCuil))
+        datos = cur.fetchall()
+        con.close()
+        return datos

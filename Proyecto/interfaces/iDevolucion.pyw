@@ -103,12 +103,10 @@ class VentanaDevolucion:
         db_name = "base_datos/databaseGeneral.sqlite3"
         con = sqlite3.connect(db_name)
         cur = con.cursor()
-        cur.execute('SELECT * FROM Usuarios')
-        data = cur.fetchall()
-        print(data[0])
-        for row in data:
-            print(row)
-        #for row in cur.execute("SELECT Nombre FROM Usuarios;"):
-        #    print(row)
+        usuario = self.usuario.get()
+
+        cur.execute("SELECT IdCuil FROM Alquileres WHERE IdCuil=?", (idCuil))
+        datos = cur.fetchall()
+        con.close()
 
         con.close()
