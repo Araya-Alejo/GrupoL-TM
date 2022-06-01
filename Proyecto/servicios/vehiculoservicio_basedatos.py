@@ -33,7 +33,7 @@ def get_vehiculo(tree):
     for element in records:
         tree.delete(element)
 
-    query = "SELECT * FROM vehiculo"
+    query = "SELECT * FROM vehiculos"
     db_rows = run_query(query)
 
     for row in db_rows:
@@ -65,7 +65,7 @@ def delete_vehiculo(tree, root):
     except IndexError:
         messagebox.showinfo(message="Seleccione un Vehiculo!", title="", parent=root)
     else:
-        query = "DELETE FROM vehiculo WHERE matricula = ?"
+        query = "DELETE FROM vehiculos WHERE matricula = ?"
         result = run_query(query, (matricula, ))
         if (result != None):
             messagebox.showinfo(message="Vehiculo Eliminado!", title="", parent=root)
@@ -76,7 +76,7 @@ def delete_vehiculo(tree, root):
     Retorna un bool.
 '''
 def validate_vehiculo(matricula):
-    query = "SELECT * FROM vehiculo"
+    query = "SELECT * FROM vehiculos"
     db_rows = run_query(query)
 
     for row in db_rows:
