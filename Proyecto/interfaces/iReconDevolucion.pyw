@@ -42,9 +42,10 @@ class ReconDev:
 
     def validarUsuario(self):
         if (self.idCuil.get()):
-            if (self.searchUsuario()):
+            dato =self.idCuil.get()
+            if (dato):
                 self.wind.withdraw()
-                ventana = VentanaDevolucion(Tk())
+                ventana = VentanaDevolucion(Tk(), dato)
             else:
                 messagebox.showwarning(
                     "Usuario sin operacion", "No hay alquileres pendientes para este usuario")
@@ -60,7 +61,7 @@ class ReconDev:
         cur = con.cursor()
         idCuil = self.idCuil.get()
         cur.execute(
-            "SELECT IdCuil FROM Alquileres WHERE IdCuil=?", (idCuil))
+            "SELECT IdCuil FROM Alquileres WHERE IdCuil=?", (idCuil,))
         datos = cur.fetchall()
         con.close()
         return datos
