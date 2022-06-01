@@ -3,7 +3,6 @@ import tkinter as tk
 import entidades.usuario as usuario
 import subprocess
 from TyC import *
-from interfaces.iCalendar import *
 from servicios.usuarioServicio import UsuarioServicio
 import base_datos
 import sqlite3
@@ -38,7 +37,7 @@ class  VentanaUsuario:
         else:
             print("carnetConducir: Mal")
 
-        if(not us.validarStringAlfa(self.fechaNacimiento.get())): #Completar
+        if(not us.validarStringAlfa(self.fechaNacimiento.get())):
             print("fechaNacimiento: Bien")
         else:
             print("fechaNacimiento: Mal")
@@ -103,9 +102,6 @@ class  VentanaUsuario:
         self.fechaNacimiento.pack(fill=tk.BOTH)
         self.fechaNacimiento = Entry(area)
         self.fechaNacimiento.pack()
-        self.botonCalendar = tk.Button(area, text = 'Seleccionar fecha', font= ("Bahnschrift Light",10),command = self.llamarVentanaCalendario)
-        self.botonCalendar.pack()
-        # self.fechaNacimiento.insert(0,obtenerFecha())
 
         self.correo =Label(area, text = 'Correo', font= ("Bahnschrift Light",10))
         self.correo.pack(fill=tk.BOTH)
@@ -135,7 +131,7 @@ class  VentanaUsuario:
         self.check = Checkbutton(area, text="Termino y condiciones", variable=self.var1, onvalue="On", offvalue="Off")
         self.check.pack()
 
-        self.boton = tk.Button(area, text = 'Reconocimiento facial', font= ("Bahnschrift Light",10),command = exit )
+        self.boton = tk.Button(area, text = 'Reconocimiento facial', font= ("Bahnschrift Light",10),command = self.desarrollando )
         self.boton.pack()
 
 
@@ -146,7 +142,23 @@ class  VentanaUsuario:
 
         ventana.mainloop()
 
-    #     self.obtener_usuario()
+    def desarrollando(self):
+        self.ventana = Tk()
+        ancho = self.ventana.winfo_screenwidth()
+        alto = self.ventana.winfo_screenheight()
+        ancho2 = 400
+        alto2 = 200
+        izquierda = (ancho - ancho2) / 2
+        arriba = (alto - alto2) / 2
+        self.ventana.geometry("%dx%d+%d+%d" % (ancho2, alto2, izquierda, arriba))
+        self.ventana.title("Agregar Vehiculo")
+        self.ventana.resizable(False, False)
+
+        area = Frame(self.ventana, pady=10)
+        area.pack(expand=True, fill=tk.BOTH)
+
+        self.mensaje = Label(area, text = 'Se hara proximamente', font= ("Bahnschrift Light",10))
+        self.mensaje.pack(expand = True)
 
     def ejecutar_consulta(self, consulta, parametros = ()):
         with sqlite3.connect(self.db_nombre) as coneccion:
@@ -161,12 +173,10 @@ class  VentanaUsuario:
     #     print(db_filas)
 
     def agregar_usuario(self):
-        while(True):
             try:
                 if self.aceptar():
                     consulta = 'INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
                     parametros = (self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.extranjero.get(),self.cuil.get(),self.pasaporte.get())
                     self.ejecutar_consulta(consulta,parametros)
-                    break
             except Exception:
                 print("hay un error")

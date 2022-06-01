@@ -1,3 +1,7 @@
+'''
+    Clase Vehiculo
+    @author Bulos
+'''
 class Vehiculo():
 
     '''
@@ -11,7 +15,7 @@ class Vehiculo():
         self.__matricula = matricula                                            # String
         self.__km = km                                                          # float
         self.__precio = precio                                                  # float
-        self.__estaAlquilado = estaAlquilado                                    # boolean
+        self.__estaAlquilado = estaAlquilado                                    # bool
 
     '''
         Métodos Getters.

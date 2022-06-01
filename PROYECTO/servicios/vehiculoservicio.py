@@ -1,26 +1,29 @@
-from entidades.vehiculo import Vehiculo
+'''
+    Clase Servicio para Vehiculo
+    @author Bulos
+'''
 # ------------------------------------------------------------------------------
 class VehiculoServicio():
 
     '''
-        Función que valida si una cadena esta vacía o no.
+        Función que valida si una cadena esta vacía.
         Retorna un bool.
     '''
-    def validarString(self, cadena):
-        return (cadena.isspace()) or (cadena == "")
+    def isStringVacio(self, cadena):
+        return (cadena.isspace() or cadena == "")
 
     '''
-        Función que valida si una cadena contiene números y caracteres.
+        Función que valida si una cadena es alfanumerica.
         Retorna un bool.
     '''
-    def validarStringAlfanumerica(self, cadena):
-        return (cadena.isspace()) or (cadena == "") or (cadena.isdigit()) or (cadena.isalpha())
+    def isStringAlfaNumerico(self, cadena):
+        return cadena.isalnum()
 
     '''
         Función que valida que un número entero sea positivo.
         Retorna un bool.
     '''
-    def validarInt(self, numero):
+    def isEnteroPositivo(self, numero):
         try:
             numero = int(numero)
         except ValueError:
@@ -32,7 +35,7 @@ class VehiculoServicio():
         Función que valida que un número decimal sea positivo.
         Retorna un bool.
     '''
-    def validarFloat(self, numero):
+    def isDecimalPositivo(self, numero):
         try:
             numero = float(numero)
         except ValueError:
@@ -44,10 +47,10 @@ class VehiculoServicio():
         Función que valida que una cadena sea del tipo 'AAA111' o 'AA111AA'
         Retorna un bool.
     '''
-    def validarMatricula(self, cadena, generacion):
+    def isMatricula(self, cadena, generacion):
         cadena = cadena.replace(" ", "")
 
-        if(self.validarInt(generacion)):
+        if(self.isEnteroPositivo(generacion)):
             if(int(generacion) >= 2016):
                 if(len(cadena) == 7):
                     return (cadena[0:2].isalpha() and cadena[2:5].isdigit() and cadena[5:].isalpha())
