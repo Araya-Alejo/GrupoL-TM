@@ -24,6 +24,7 @@ class  VentanaUsuario:
 
         if(not us.validarString(self.nombre.get())):
             print("Nombre: Bien")
+            return True
         else:
             print("Nombre: Mal")
 

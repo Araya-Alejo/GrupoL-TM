@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 import sqlite3
 from tkinter import messagebox
+#from interfaces.iReconDevolucion import ReconDev
 
 
 class VentanaDevolucion:
@@ -43,13 +44,14 @@ class VentanaDevolucion:
         tk.Label(frame, text="Precio Total").place(
             relx=0.01, rely=0.45)
 
+        self.idMatricula = ""
         db_name = "base_datos/databaseGeneral.sqlite3"
         con = sqlite3.connect(db_name)
         cursorAlq = con.cursor()
         cursorAlq.execute("SELECT * FROM Alquileres WHERE idCuil=?", (idCuil,))
         recordsAlq= cursorAlq.fetchall()
         for row in recordsAlq:
-            idMatricula = row[1]
+            self.idMatricula = ""+row[1]
             self.L1 = tk.Label(frame, text= row[0]).place(relx=0.4, rely=0.05)
             self.L5 = tk.Label(frame, text=row[1]).place(
                 relx=0.4, rely=0.20)
@@ -68,8 +70,9 @@ class VentanaDevolucion:
         for row in recordsUser:
             self.L2 = tk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.10)
 
+
         cursorVehiculo = con.cursor()
-        cursorVehiculo.execute("SELECT * FROM Vehiculos WHERE Matricula=?", (idMatricula,))
+        cursorVehiculo.execute("SELECT * FROM vehiculos WHERE matricula=?", (self.idMatricula,))
         recordsVehiculo= cursorVehiculo.fetchall()
         for row in recordsVehiculo:
             self.L3 = tk.Label(frame, text=row[1]).place(relx=0.4, rely=0.25)
@@ -84,8 +87,14 @@ class VentanaDevolucion:
                   command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
         tk.Button(frame, text="Mostrar Datos",
                   command=self.mostrarDatos).place(relx=0.90, rely=0.9)
+        #tk.Button(frame, text="Atras",
+        #           command=self.atras).place(relx=0.01, rely=0.9)
 
         window.mainloop()
+
+    def atras(self):
+        self.wind.withdraw()
+        ventana = ReconDev(Tk())
 
     def verTecnica(self):
         self.verTec = Toplevel()
