@@ -43,7 +43,7 @@ def get_vehiculo(tree):
     Procedimiento para ingresar un Vehiculo a la base de datos.
 '''
 def add_vehiculo(vehiculo, root):
-    query = "INSERT INTO vehiculo VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
+    query = "INSERT INTO vehiculos VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
     parameters = (vehiculo.getClasificacion(),
         vehiculo.getMarca(),
         vehiculo.getModelo().upper(),
@@ -53,7 +53,7 @@ def add_vehiculo(vehiculo, root):
         vehiculo.getPrecio(),
         vehiculo.isEstaAlquilado())
     result = run_query(query, parameters)
-    if (resul != None):
+    if (result != None):
         messagebox.showinfo(message="Vehiculo agregado!", title="", parent=root)
 
 '''
