@@ -32,7 +32,7 @@ class Pago:
         # interfaz creo un contenedor (Frame)
         # elemento de bibioteca ttk lo asignamos a la variable frame
         # elemento que provee la libreria ttk
-        contenedor = LabelFrame(self.ventana, text='agregar un Pago')
+        contenedor = LabelFrame(self.ventana, text='Pagar')
         contenedor.grid(row=20, column=20, columnspan=3, pady=20)  # metodo grid(posicionamiento)
         #               fila  , columna   desplazar columnas , espaciado/relleno
         # ----------------------------------
