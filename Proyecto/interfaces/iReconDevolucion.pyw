@@ -43,7 +43,7 @@ class ReconDev:
     def validarUsuario(self):
         if (self.idCuil.get()):
             dato =self.idCuil.get()
-            if (dato):
+            if (self.searchUsuario()):
                 self.wind.withdraw()
                 ventana = VentanaDevolucion(Tk(), dato)
             else:
