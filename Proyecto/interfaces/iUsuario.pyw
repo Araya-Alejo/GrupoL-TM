@@ -6,6 +6,7 @@ import entidades.usuario as usuario
 import subprocess
 from TyC import *
 import re
+from servicios.vehiculoservicio import *
 from servicios.usuarioServicio import UsuarioServicio
 import base_datos
 import sqlite3
@@ -17,7 +18,10 @@ class  VentanaUsuario:
 
 #---------------------------------------------------------------------------------#
 
-    def cuandoEscriba(self,event):
+    def cuandoEscribaFecha(self,event):
+        if(len(self.fechaNacimiento.get()) > 9):
+            return "break"
+
         if event.char.isdigit():
             texto = self.fechaNacimiento.get()
             letras = 0
@@ -29,23 +33,30 @@ class  VentanaUsuario:
             elif letras == 5:
                 self.fechaNacimiento.insert(5,"/")
         else:
-            return False
+            return "break"
+
+    def cuandoEscribaCUIL(self,event):
+        if event.char.isdigit():
+            if(len(self.cuil.get()) > 10):
+                return "break"
+        else:
+            return "break"
 
 #---------------------------------------------------------------------------------#
 
-    def cuandoEscriba_correo(self):
-        texto = self.correo.get()
-        if(re.search(r"@gmail.com$, @hotmail.com$,@hotmail.com.ar$,@gmail.com.ar$,@alumnos.frm.utn.edu.ar$,@docentes.frm.utn.edu.ar$",texto)):
-            return True
-        else:
+    def cuandoEscriba_correo(self,texto):
+        try:
+            patron = re.compile(r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{1,3}$')
+            return re.search(patron, texto)
+        except  ValueError:
             return False
 
 #---------------------------------------------------------------------------------#
 
     def validarPASAPORTE(self, texto):
         try:
-            buscador = re.search(r"[A-Z].{3}er,[0-9].{5}er,",texto)
-            print(buscador)
+            patron = re.compile(r'^([A-Z]{3})+([0-9]){6}')
+            return re.search(patron, texto)
         except ValueError:
             return False
 
@@ -60,6 +71,16 @@ class  VentanaUsuario:
         path = 'TyC\AlquilaYa_TerminosyCondiciones.pdf'
         subprocess.Popen([path], shell=True)
 
+#---------------------------------------------------------------------------------#
+
+    def cambiar(self):
+        print("ingrese")
+        if(self.extranjero.get() == "SI"):
+            print("si")
+            self.cuil.config(state=tk.DISABLED)             #proceso
+        if(self.extranjero.get()  == "NO"):
+            print("no")
+            self.cuil.config(state=tk.NORMAL)
 #---------------------------------------------------------------------------------#
 
     def aceptar(self):
@@ -91,17 +112,16 @@ class  VentanaUsuario:
 
         try:
             if(not us.isStringVacio(self.fechaNacimiento.get())):
-                if(us.isEnteroPositivo(self.fechaNacimiento.get())):
-                    if(us.validarStringAlfa(self.fechaNacimiento.get())):
-                        if(us.validarLomgitudFecha(self.fechaNacimiento.get())):
-                            contador = contador + 1
-                            print("fecha bien")
+                if(us.validarLongitudFecha(self.fechaNacimiento.get())):
+                    if(us.validarFecha(self.fechaNacimiento.get())):
+                        contador = contador + 1
+                        print("fecha bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
 
         try:
             if(not us.isStringVacio(self.correo.get())):
-                if(cuandoEscriba_correo(self.correo.get())):
+                if(self.cuandoEscriba_correo(self.correo.get())):
                     contador = contador + 1
                     print("correo bien")
         except ValueError:
@@ -118,21 +138,22 @@ class  VentanaUsuario:
 
         try:
             if(not us.isStringVacio(self.pasaporte.get())):
-                    if( us.validarStringAlfa(self.pasaporte.get())):
-                        if( us.validarLomgitudFecha(self.pasaporte.get())):
-                            contador = contador + 1
-                            print("pasaporte bien")
+                if( self.validarPASAPORTE(self.pasaporte.get())):
+                    print("pasaporte bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
 
-        if(contador == 6):
+        try:
+            print(self.variable.get())
+            if(self.variable.get() == 0):
+                contador = contador + 1                 #terminar
+                print("check bien")
+        except ValueError:
+            MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
+
+
+        if(contador == 7):
             return True
-
-        # if(self.var1.get()=="On"):                      #Arreglar
-        #     print("terminos y condiciones : Bien")
-        # else:
-        #     print("terminos y condiciones : Mal")
-
 #---------------------------------------------------------------------------------#
 
     def __init__(self, ventana):
@@ -169,7 +190,7 @@ class  VentanaUsuario:
         self.fechaNacimiento.pack(fill=tk.BOTH)
         self.fechaNacimiento = Entry(area)
         self.fechaNacimiento.pack()
-        self.fechaNacimiento.bind("<Key>", self.cuandoEscriba)
+        self.fechaNacimiento.bind("<Key>", self.cuandoEscribaFecha)
         self.fechaNacimiento.bind("<BackSpace>", lambda _:self.fechaNacimiento.delete(tk.END))
 
         self.correo =Label(area, text = 'Correo *', font= ("Bahnschrift Light",10))
@@ -189,12 +210,8 @@ class  VentanaUsuario:
         self.cuil.pack(fill=tk.BOTH)
         self.cuil = Entry(area)
         self.cuil.pack(pady = 5)
-
-        # if(self.extranjero.get() == "SI"):
-        #     self.cuil.config(state=tk.DISABLED)             #TERMINAR
-        # if(self.extranjero.get() == "NO"):
-        #     self.cuil.config(state=tk.NORMAL)
-
+        self.cuil.bind("<Key>", self.cuandoEscribaCUIL)
+        self.cuil.bind("<BackSpace>", lambda _:self.cuil.delete(tk.END))
 
         self.pasaporte =Label(area, text = 'Pasaporte', font= ("Bahnschrift Light",10))
         self.pasaporte.pack(fill=tk.BOTH)
@@ -205,15 +222,15 @@ class  VentanaUsuario:
         self.boton = tk.Button(area, text = 'T&C', font= ("Bahnschrift Light",10), command = self.abrirPDF )
         self.boton.pack()
 
-        self.var1 = StringVar()
-        self.check = Checkbutton(area, text="Termino y condiciones *", variable=self.var1, onvalue="On", offvalue="Off")
+        self.variable = IntVar()
+        self.check = Checkbutton(area, text="Termino y condiciones *", variable=self.variable, onvalue=1, offvalue=0)
         self.check.pack()
 
         self.boton = tk.Button(area, text = 'Reconocimiento facial *', font= ("Bahnschrift Light",10),command = self.desarrollando )
         self.boton.pack()
 
 
-        self.boton = tk.Button(area, text = 'Enviar', font= ("Bahnschrift Light",10),command = self.validar )
+        self.boton = tk.Button(area, text = 'Enviar', font= ("Bahnschrift Light",10),command = self.agregar_usuario )
         self.boton.pack(pady = 20)
 
         ventana.mainloop()
@@ -254,7 +271,8 @@ class  VentanaUsuario:
 
     def agregar_usuario(self):
             try:
-                if self.aceptar():
+                if self.validar():
+                    MessageBox.showinfo(" ", "Se a guardado el usuario en la base de datos")
                     consulta = 'INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
                     parametros = (self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.extranjero.get(),self.cuil.get(),self.pasaporte.get())
                     self.ejecutar_consulta(consulta,parametros)
@@ -264,7 +282,7 @@ class  VentanaUsuario:
 #---------------------------------------------------------------------------------#
 
     def validar(self):
-        if(self.aceptar):
+        if(self.aceptar()):
             print("fue validado")
             return True
         else:

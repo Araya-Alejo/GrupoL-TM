@@ -4,9 +4,11 @@ from servicios.vehiculoservicio import *
 
 class UsuarioServicio():
 
+    def isStringVacio(self, cadena):
+        return (cadena.isspace() or cadena == "")
 
     def validarString(self, cadena):
-        return (cadena.isspace()) or (cadena == "")
+        return (cadena.isalpha())
 
     def validarAlfa(self,candena):
         return (cadena.isdigit()) or (cadena.isalpha())
@@ -16,24 +18,21 @@ class UsuarioServicio():
 
     def validarDNI(self, numero):
         try:
-            numero = int(numero)
-            if(numero > 6 and numero < 9 ):
+            if(len(numero) > 6 and len(numero) < 9 ):
                 return True
         except ValueError:
             return False
 
     def validarCUIL(self, numero):
         try:
-            numero = int(numero)
-            if(numero > 9 and numero < 12 ):
+            if(len(numero) > 9 and len(numero) < 12 ):
                 return True
         except ValueError:
             return False
 
-    def validarLomgitudFecha(self, numero):
+    def validarLongitudFecha(self, numero):
         try:
-            if(len(numero) == 10 ):
-                return True
+            return len(numero) == 10
         except ValueError:
             return False
 
@@ -53,3 +52,21 @@ class UsuarioServicio():
             return False
         else:
             return numero > 0.0
+
+    def isEnteroPositivo(self, numero):
+        try:
+            numero = int(numero)
+        except ValueError:
+            return False
+        else:
+            return numero > 1
+
+    def validarFecha(self,texto):
+        try:
+            if (texto[2]  == "/" and texto[5] == "/"):
+                if(int(texto[0:2]) > 0 and  int(texto[0:2]) < 32):
+                    if(int(texto[3:5]) > 0 and  int(texto[3:5]) < 13):
+                        if(int(texto[6:10]) > 1931 and  int(texto[6:10]) < 2002):
+                            return True
+        except ValueError:
+            return False
