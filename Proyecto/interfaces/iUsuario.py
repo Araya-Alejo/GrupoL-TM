@@ -10,12 +10,11 @@ from servicios.vehiculoservicio import *
 from servicios.usuarioServicio import UsuarioServicio
 import base_datos
 import servicios.usuarioservicios_basedatos as usuario_bd
+from entidades.usuario import Usuario
 
 us = UsuarioServicio()
 
 class  VentanaUsuario:
-    db_nombre = 'base_datos/databaseGeneral.sqlite3'
-
 #---------------------------------------------------------------------------------#
 
     def cuandoEscribaFecha(self,event):
@@ -85,6 +84,8 @@ class  VentanaUsuario:
         if(self.aceptar()):
             print("fue validado")
             MessageBox.showinfo("", "Ventana de reconocomiento facil")
+            USUARIO = Usuario(self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.cuil.get())
+            usuario_bd.agregar_usuario(USUARIO)
         else:
             print("no fue validado")
             return False
@@ -97,6 +98,7 @@ class  VentanaUsuario:
             if(not us.isStringVacio(self.nombre.get())):
                 if(us.validarString(self.nombre.get())):
                     contador = contador + 1
+
                     print("nombre bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
@@ -105,6 +107,7 @@ class  VentanaUsuario:
             if(not us.isStringVacio(self.apellido.get())):
                 if(us.validarString(self.apellido.get())):
                     contador = contador + 1
+
                     print("apellido bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
@@ -114,6 +117,7 @@ class  VentanaUsuario:
                 if(us.isEnteroPositivo(self.carnetConducir.get())):
                     if(us.validarDNI(self.carnetConducir.get())):
                         contador = contador + 1
+
                         print("carnet bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
@@ -123,6 +127,7 @@ class  VentanaUsuario:
                 if(us.validarLongitudFecha(self.fechaNacimiento.get())):
                     if(us.validarFecha(self.fechaNacimiento.get())):
                         contador = contador + 1
+
                         print("fecha bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
@@ -131,6 +136,7 @@ class  VentanaUsuario:
             if(not us.isStringVacio(self.correo.get())):
                 if(self.cuandoEscriba_correo(self.correo.get())):
                     contador = contador + 1
+
                     print("correo bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
@@ -139,8 +145,11 @@ class  VentanaUsuario:
             if(not us.isStringVacio(self.cuil.get())):
                 if(us.isEnteroPositivo(self.cuil.get())):
                     if(us.validarCUIL(self.cuil.get())):
-                        contador = contador + 1
-                        print("cuil bien")
+                        if(us.compararDNI_CUIL(self.cuil.get(), self.carnetConducir.get())):
+                            contador = contador + 1
+
+
+                            print("cuil bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
 

@@ -30,6 +30,11 @@ class UsuarioServicio():
         except ValueError:
             return False
 
+    def compararDNI_CUIL(self, cuil, carnetConducir):
+        if(carnetConducir == cuil[2:10]):
+            return True
+        else:
+            return False
     def validarLongitudFecha(self, numero):
         try:
             return len(numero) == 10

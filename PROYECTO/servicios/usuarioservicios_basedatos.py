@@ -1,28 +1,33 @@
-
 import sqlite3
 from entidades.usuario import Usuario
 import interfaces.iUsuario
+from tkinter import messagebox as MessageBox
 
-def ejecutar_consulta(self, consulta, parametros = ()):
+def agregar_usuario(usuario):
+        try:
+            consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?)"
+            print("consulta")
+            print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
+            parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
+            print("parametros")
+            resultado = ejecutar_consulta(consulta,parametros)
+            print("resultados")
+            if (resultado != None):
+                MessageBox.showinfo(" ", "Se a guardado el usuario en la base de datos")
+        except Exception:
+            MessageBox.showwarning("Alerta", "Hay un error al agregar un usuario")
+
+def ejecutar_consulta(consulta, parametros = ()):
     db_name = "base_datos/databaseGeneral.sqlite3"
+    print("ejecutar")
 
     try:
         with sqlite3.connect(db_name) as conn:
             cursor = conn.cursor()
-            result = cursor.execute(query, parameters)
+            print("cursor")
+            resultado = cursor.execute(consulta, parametros)
+            print("resultado")
             conn.commit()
     except sqlite3.OperationalError:
-        messagebox.showinfo(message="No se pudo acceder a la base de datos!", title="")
-    else:
-        return result
-
-def agregar_usuario(self):
-        try:
-            print("agregar usuario")
-            if self.validar():
-                MessageBox.showinfo(" ", "Se a guardado el usuario en la base de datos")
-                consulta = 'INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?, ?)'
-                parametros = (self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.extranjero.get(),self.cuil.get(),self.pasaporte.get())
-                self.ejecutar_consulta(consulta,parametros)
-        except Exception:
-            MessageBox.showwarning("Alerta", "Hay valores fue erroneo")
+        messagebox.showinfo(" ","No se pudo acceder a la base de datos!")
+    return resultado
