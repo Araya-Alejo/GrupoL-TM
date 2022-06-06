@@ -1,5 +1,5 @@
-
 from tkinter import Tk
+
 from interfaces.iPrimerPantalla import Ventana1
 
 # ------------------------------------------------------------------------------
