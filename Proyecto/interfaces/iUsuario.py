@@ -3,14 +3,13 @@ from tkinter import messagebox as MessageBox
 import tkinter as tk
 from tkinter import ttk
 import entidades.usuario as usuario
-import subprocess
 from TyC import *
-import re
 from servicios.vehiculoservicio import *
 from servicios.usuarioServicio import UsuarioServicio
 import base_datos
 import servicios.usuarioservicios_basedatos as usuario_bd
 from entidades.usuario import Usuario
+import TyC.ingresoTyC as TC
 
 us = UsuarioServicio()
 
@@ -56,29 +55,6 @@ class  VentanaUsuario:
 
 #---------------------------------------------------------------------------------#
 
-    def cuandoEscriba_correo(self,texto):
-        try:
-            patron = re.compile(r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{1,3}$')
-            return re.search(patron, texto)
-        except  ValueError:
-            return False
-
-#---------------------------------------------------------------------------------#
-
-    def validarPASAPORTE(self, texto):
-        try:
-            patron = re.compile(r'^([A-Z]{3})+([0-9]){6}')
-            return re.search(patron, texto)
-        except ValueError:
-            return False
-
-#---------------------------------------------------------------------------------#
-
-    def abrirPDF(self):
-        path = 'TyC\AlquilaYa_TerminosyCondiciones.pdf'
-        subprocess.Popen([path], shell=True)
-
-#---------------------------------------------------------------------------------#
     def validar(self):
         print("validar")
         if(self.aceptar()):
@@ -134,7 +110,7 @@ class  VentanaUsuario:
 
         try:
             if(not us.isStringVacio(self.correo.get())):
-                if(self.cuandoEscriba_correo(self.correo.get())):
+                if(us.cuandoEscriba_correo(self.correo.get())):
                     contador = contador + 1
 
                     print("correo bien")
@@ -223,7 +199,7 @@ class  VentanaUsuario:
         self.cuil.bind("<Key>", self.cuandoEscribaCUIL)
         self.cuil.bind("<BackSpace>", lambda _:self.cuil.delete(tk.END))
 
-        self.boton = tk.Button(area, text = 'T&C', font= ("Bahnschrift Light",10), command = self.abrirPDF )
+        self.boton = tk.Button(area, text = 'T&C', font= ("Bahnschrift Light",10), command = TC.abrirPDF )
         self.boton.pack()
 
         self.variable = IntVar()

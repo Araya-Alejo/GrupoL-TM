@@ -1,8 +1,16 @@
 from entidades.usuario import Usuario
 from servicios.vehiculoservicio import *
+import re
 
 
 class UsuarioServicio():
+
+    def cuandoEscriba_correo(self,texto):
+        try:
+            patron = re.compile(r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{1,3}$')
+            return re.search(patron, texto)
+        except  ValueError:
+            return False
 
     def isStringVacio(self, cadena):
         return (cadena.isspace() or cadena == "")
@@ -75,3 +83,4 @@ class UsuarioServicio():
                             return True
         except ValueError:
             return False
+            
