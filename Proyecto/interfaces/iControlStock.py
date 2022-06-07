@@ -99,14 +99,11 @@ class VentanaControlStock():
         self.tree.place(x=400, y=225, anchor="center")
 
         # Button
-        imgEditar = PhotoImage(file="imagenes/actualizar.png")
-        imgVolver = PhotoImage(file="imagenes/volver.png")
-
         Button(frame2, text="Agregar", width=10, height=1, command=self.actionAgregar).place(x=200, y=40, anchor="center")
         Button(frame2, text="Eliminar", width=10, height=1, command=self.actionEliminar).place(x=400, y=40, anchor="center")
         Button(frame2, text="Editar", width=10, height=1, command=self.actionEditar).place(x=600, y=40, anchor="center")
-        Button(frame2, image=imgEditar, compound=TOP, width=25, height=25, command=self.actionActualizar).place(x=760, y=80, anchor="center")
-        Button(frame1, image=imgVolver, compound=TOP, width=25, height=25, command=self.actionVolver).place(x=30, y=25, anchor="center")
+        Button(frame2, text="Actualizar", width=10, height=1, command=self.actionActualizar).place(x=750, y=80, anchor="center")
+        Button(frame1, text="Volver", width=10, height=1, command=self.actionVolver).place(x=40, y=25, anchor="center")
 
         # Database
         obtenerVehiculos(self.tree)

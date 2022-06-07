@@ -13,7 +13,7 @@ from tkinter import Toplevel, Label, Entry, Button, StringVar, messagebox
     Función para consulta a base de datos.
 '''
 def ejecutarConsulta(consulta, parametros=()):
-    dbNombre = "database/databaseGeneral.sqlite3"
+    dbNombre = "base_datos/databaseGeneral.sqlite3"
 
     try:
         with sqlite3.connect(dbNombre) as conn:
