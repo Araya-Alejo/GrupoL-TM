@@ -7,7 +7,7 @@ from tkinter import Tk, Frame, Label, Button, Entry, ttk, messagebox
 
 from entidades.vehiculo import Vehiculo
 from servicios.vehiculoservicio import VehiculoServicio
-from servicios.vehiculo_basedatos import agregarVehiculo, esVehiculoIngresado, mensajeAdvertencia
+from servicios.vehiculoservicio_basedatos import agregarVehiculo, esVehiculoIngresado, mensajeAdvertencia
 # ------------------------------------------------------------------------------
 class VentanaAgregarVehiculo():
 

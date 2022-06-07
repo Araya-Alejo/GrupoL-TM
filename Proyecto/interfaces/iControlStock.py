@@ -6,7 +6,7 @@
 from tkinter import Tk, Frame, Label, Button, ttk, PhotoImage, TOP
 
 from interfaces.iAgregarVehiculo import VentanaAgregarVehiculo
-from servicios.vehiculo_basedatos import ejecutarConsulta, obtenerVehiculos, eliminarVehiculo, editarVehiculo
+from servicios.vehiculoservicio_basedatos import ejecutarConsulta, obtenerVehiculos, eliminarVehiculo, editarVehiculo
 # ------------------------------------------------------------------------------
 class VentanaControlStock():
 
