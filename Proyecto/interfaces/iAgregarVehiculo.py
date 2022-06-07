@@ -6,29 +6,29 @@
 from tkinter import Tk, Frame, Label, Button, Entry, ttk, messagebox
 
 from entidades.vehiculo import Vehiculo
-from servicios.vehiculoservicio_basedatos import add_vehiculo, validate_vehiculo
 from servicios.vehiculoservicio import VehiculoServicio
+from servicios.vehiculo_basedatos import agregarVehiculo, esVehiculoIngresado, mensajeAdvertencia
 # ------------------------------------------------------------------------------
 class VentanaAgregarVehiculo():
-
-    '''
-        Procedimiento que limpia la pantalla (Combobox y Entry).
-    '''
-    def limpiar(self):
-        self.comboClasificacion.delete(0, "end")
-        self.comboMarca.delete(0, "end")
-        self.entryModelo.delete(0, "end")
-        self.entryGeneracion.delete(0, "end")
-        self.entryMatricula.delete(0, "end")
-        self.entryKm.delete(0, "end")
-        self.entryPrecio.delete(0, "end")
 
     '''
         Procedimiento para el Button Cancelar.
         Destuye la ventana actual.
     '''
-    def cancelar(self):
-        self.root.destroy()
+    def actionCancelar(self):
+        self.root.withdraw()
+
+    '''
+        Procedimiento que limpia la pantalla (Combobox y Entry).
+    '''
+    def limpiar(self):
+        self.comboClasificacion.set("")
+        self.comboMarca.set("")
+        self.entryModelo.delete(0, "end")
+        self.entryGeneracion.delete(0, "end")
+        self.entryMatricula.delete(0, "end")
+        self.entryKm.delete(0, "end")
+        self.entryPrecio.delete(0, "end")
 
     '''
         Función que valida los campos ingresados.
@@ -40,50 +40,50 @@ class VentanaAgregarVehiculo():
         band = True
 
         # Validación Clasifiación
-        if (vs.isStringVacio(self.comboClasificacion.get())):
+        if (vs.esStringVacio(self.comboClasificacion.get())):
             self.labelClasificacion["text"] = "Incorrecto"
             band = False
         else:
             self.labelClasificacion["text"] = ""
 
         # Validación Marca
-        if (vs.isStringVacio(self.comboMarca.get())):
+        if (vs.esStringVacio(self.comboMarca.get())):
             self.labelMarca["text"] = "Incorrecto"
             band = False
         else:
             self.labelMarca["text"] = ""
 
         # Validación Modelo
-        if (vs.isStringVacio(self.entryModelo.get()) or
-            (not vs.isStringAlfaNumerico(self.entryModelo.get()))):
+        if (vs.esStringVacio(self.entryModelo.get()) or
+            (not vs.esStringAlfaNumerico(self.entryModelo.get()))):
             self.labelModelo["text"] = "Incorrecto"
             band = False
         else:
             self.labelModelo["text"] = ""
 
         # Validación Generación
-        if (not vs.isEnteroPositivo(self.entryGeneracion.get())):
+        if (not vs.esAnioValido(self.entryGeneracion.get())):
             self.labelGeneracion["text"] = "Incorrecto"
             band = False
         else:
             self.labelGeneracion["text"] = ""
 
         # Validación Matricula
-        if (not vs.isMatricula(self.entryMatricula.get(), self.entryGeneracion.get())):
+        if (not vs.esMatricula(self.entryMatricula.get(), self.entryGeneracion.get())):
             self.labelMatricula["text"] = "Incorrecto"
             band = False
         else:
             self.labelMatricula["text"] = ""
 
         # Validación Kilómetros
-        if (not vs.isDecimalPositivo(self.entryKm.get())):
+        if (not vs.esDecimalPositivo(self.entryKm.get(), 320000)):
             self.labelKm["text"] = "Incorrecto"
             band = False
         else:
             self.labelKm["text"] = ""
 
         # Validación Precio
-        if (not vs.isDecimalPositivo(self.entryPrecio.get())):
+        if (not vs.esDecimalPositivo(self.entryPrecio.get(), 30000)):
             self.labelPrecio["text"] = "Incorrecto"
             band = False
         else:
@@ -96,18 +96,25 @@ class VentanaAgregarVehiculo():
         Si la validacion es correcta, crea un Vehiculo y lo ingresa a la db, en
             caso contrario avisa mediante un mensaje.
     '''
-    def aceptar(self):
+    def actionAceptar(self):
         if (self.validar()):
-            if (not validate_vehiculo(self.entryMatricula.get())):
-                add_vehiculo(Vehiculo(self.comboClasificacion.get(),
-                    self.comboMarca.get(), self.entryModelo.get(),
-                    self.entryGeneracion.get(), self.entryMatricula.get(),
-                    self.entryKm.get(), self.entryPrecio.get(), False), self.root)
+            if (not esVehiculoIngresado(self.entryMatricula.get())):
+                agregarVehiculo(Vehiculo(self.comboClasificacion.get(),
+                    self.comboMarca.get(),
+                    self.entryModelo.get(),
+                    self.entryGeneracion.get(),
+                    self.entryMatricula.get(),
+                    self.entryKm.get(),
+                    self.entryPrecio.get(),
+                    False),
+                    self.root)
                 self.limpiar()
             else:
-                messagebox.showinfo(message="El vehiculo ya ha sido ingresado!", title="", parent=self.root)
+                mensajeAdvertencia("¡Error!",
+                    "La matricula {} ya ha sido ingresada".format(self.entryMatricula.get().upper()),
+                     self.root )
         else:
-            messagebox.showinfo(message="No se pudo agregar el vehiculo!", title="", parent=self.root)
+            mensajeAdvertencia("¡Error!", "No se pudo ingresar el vehículo. Revise los datos ingresados", self.root)
 
     '''
         Método Constructor.
@@ -117,8 +124,8 @@ class VentanaAgregarVehiculo():
         self.root = root
         screenWidth = root.winfo_screenwidth()                                  # Obtiene ancho del área de visualización.
         screenHeight = root.winfo_screenheight()                                # Obtiene altura del área de visualización.
-        width = 800                                                             # Establece ancho de la ventana.
-        height = 600                                                            # Establece altura de la ventana.
+        width = 600                                                             # Establece ancho de la ventana.
+        height = 400                                                            # Establece altura de la ventana.
         left = (screenWidth - width) / 2
         top = (screenHeight - height) / 2
         self.root.geometry("%dx%d+%d+%d" % (width, height, left, top))          # Ancho x Alto + Desplazamiento x + Desplazamiento y
@@ -139,7 +146,7 @@ class VentanaAgregarVehiculo():
         frame2.pack(expand=False, fill="both")
 
         # Label
-        Label(frame1, text="Introducir los siguientes datos:", font=("Bahnschrift SemiLight", 20)).place(x=400, y=25, anchor="center")
+        Label(frame1, text="Introducir los siguientes datos:", font=("Bahnschrift SemiLight", 20)).place(x=300, y=25, anchor="center")
         Label(frame2, text="CLASIFICACIÓN: ", font=("Bahnschrift Light", 10)).place(x=50, y=30)
         Label(frame2, text="MARCA: ", font=("Bahnschrift Light", 10)).place(x=50, y=70)
         Label(frame2, text="MODELO: ", font=("Bahnschrift Light", 10)).place(x=50, y=110)
@@ -171,14 +178,14 @@ class VentanaAgregarVehiculo():
         self.labelPrecio.place(x=350, y=270)
 
         # Conmbobox
-        opcTipo = ["SUV", "COUPE", "SEDAN", "PICKUP", "URBANO", "DEPORTIVO",
-                "FURGONETA", "TODOTERRENO", "DESCAPOTABLE", "MONOVOLUMEN"]
-        self.comboClasificacion = ttk.Combobox(frame2, values=opcTipo, state="readonly")
+        self.comboClasificacion = ttk.Combobox(frame2, state="readonly",
+            values=["SUV", "COUPE", "SEDAN", "PICKUP", "URBANO", "DEPORTIVO",
+                    "FURGONETA", "TODOTERRENO", "DESCAPOTABLE", "MONOVOLUMEN"])
         self.comboClasificacion.place(x=200, y=30, height=24)
 
-        opcMarca = ["FIAT","AUDI","BMW","FORD","NISSAN","TOYOTA","RENAULT",
-                "PEUGEOT", "PORSCHE","CHEVROLET","VOLKSWAGEN","MERCEDES-BENZ"]
-        self.comboMarca = ttk.Combobox(frame2, values=opcMarca, state="readonly")
+        self.comboMarca = ttk.Combobox(frame2, state="readonly",
+            values=["FIAT","AUDI","BMW","FORD","NISSAN","TOYOTA","RENAULT",
+                    "PEUGEOT", "PORSCHE","CHEVROLET","VOLKSWAGEN","MERCEDES-BENZ"])
         self.comboMarca.place(x=200, y=70, height=24)
 
         # Entry
@@ -198,7 +205,7 @@ class VentanaAgregarVehiculo():
         self.entryPrecio.place(x=200, y=270, height=22)
 
         # Button
-        Button(frame2, text="Cancelar", width=10, height=1, command=self.cancelar).place(x=50, y=325)
-        Button(frame2, text="Aceptar", width=10, height=1, command=self.aceptar).place(x=200, y=325)
+        Button(frame2, text="Cancelar", width=10, height=1, command=self.actionCancelar).place(x=400, y=315)
+        Button(frame2, text="Aceptar", width=10, height=1, command=self.actionAceptar).place(x=500, y=315)
 
         root.mainloop()
