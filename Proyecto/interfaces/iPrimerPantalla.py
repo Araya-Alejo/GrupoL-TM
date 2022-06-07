@@ -68,7 +68,7 @@ class Ventana1:
         self.usuario = ttk.Entry(frameLoginAdmin)
         self.usuario.focus()
         self.usuario.place(relx=0.50, rely=0.3)
-        self.contrasena = ttk.Entry(frameLoginAdmin)
+        self.contrasena = ttk.Entry(frameLoginAdmin, show="*")
         self.contrasena.place(relx=0.50, rely=0.4)
 
         #Creacion del Boton Validar
