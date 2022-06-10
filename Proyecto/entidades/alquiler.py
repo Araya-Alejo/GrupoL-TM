@@ -1,9 +1,12 @@
+from entidades.usuario import Usuario
+from entidades.vehiculo import Vehiculo
+
 class Alquiler:
 
-    def __init__(self, usuarioCuil, vehiculoMatricula, fechaAlquiler, cantDias,
+    def __init__(self, Vehiculo, Usuario, fechaAlquiler, cantDias,
                 precioTotal, numAlquiler):
-        self.__idCuil = usuarioCuil
-        self.__idMatricula = vehiculoMatricula
+        self.__idCuil = Usuario.getCuil()
+        self.__idMatricula = Vehiculo.getIdMatricula()
         self.__fechaAlquiler = fechaAlquiler
         self.__cantDias = cantDias
         self.__precioTotal = precioTotal

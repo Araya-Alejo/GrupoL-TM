@@ -3,10 +3,10 @@
     @author Bulos
 '''
 # ------------------------------------------------------------------------------
-from tkinter import Tk, Frame, Label, Button, ttk
+from tkinter import Tk, Frame, Label, Button, ttk, PhotoImage, TOP
 
 from interfaces.iAgregarVehiculo import VentanaAgregarVehiculo
-from servicios.vehiculoservicio_basedatos import run_query, get_vehiculo, delete_vehiculo
+from servicios.vehiculoservicio_basedatos import ejecutarConsulta, obtenerVehiculos, eliminarVehiculo, editarVehiculo
 # ------------------------------------------------------------------------------
 class VentanaControlStock():
 
@@ -14,22 +14,32 @@ class VentanaControlStock():
         Procedimiento para el Button Agregar.
         Muestra la ventana para cargar datos del Vehiculo.
     '''
-    def agregar(self):
+    def actionAgregar(self):
         ventanaDatos = VentanaAgregarVehiculo(Tk())
 
     '''
         Procedimiento para el Button Eliminar.
-        Llama una función para eleminar un Vehiculo.
+        Llama una función para eliminar un Vehiculo.
     '''
-    def eliminar(self):
-        delete_vehiculo(self.tree, self.root)
+    def actionEliminar(self):
+        eliminarVehiculo(self.tree, self.root)
+
+    '''
+        Procedimiento para el Button Editar.
+        Llama una función para editar un Vehiculo.
+    '''
+    def actionEditar(self):
+        editarVehiculo(self.tree, self.root)
 
     '''
         Procedimiento para el Button Actualizar.
         Llama una funcíon para actualizar la tabla.
     '''
-    def actualizar(self):
-        get_vehiculo(self.tree)
+    def actionActualizar(self):
+        obtenerVehiculos(self.tree)
+
+    def actionVolver(self):
+        self.root.withdraw()
 
     '''
         Método Constructor
@@ -66,12 +76,6 @@ class VentanaControlStock():
         # Label
         Label(frame1, text="Control Stock", font=("Bahnschrift SemiLight", 20)).place(x=400, y=25, anchor="center")
 
-        # Button
-        Button(frame2, text="Agregar", width=10, height=1, command=self.agregar).place(x=200, y=40, anchor="center")
-        Button(frame2, text="Eliminar", width=10, height=1, command=self.eliminar).place(x=400, y=40, anchor="center")
-        Button(frame2, text="Modificar", width=10, height=1,).place(x=600, y=40, anchor="center")
-        Button(frame2, text="Actualizar", width=10, height=1, command=self.actualizar).place(x=400, y=80, anchor="center")
-
         # Treeview
         self.tree = ttk.Treeview(frame3, height=20, columns=[f"#{n}" for n in range(1, 8)])
         self.tree.heading("#0", text="Clasifiación")
@@ -83,7 +87,7 @@ class VentanaControlStock():
         self.tree.heading("#6", text="Precio")
         self.tree.heading("#7", text="Alquilado")
 
-        self.tree.column("#0", minwidth=0, width=95)
+        self.tree.column("#0", minwidth=0, width=105)
         self.tree.column("#1", minwidth=0, width=95)
         self.tree.column("#2", minwidth=0, width=95)
         self.tree.column("#3", minwidth=0, width=95)
@@ -94,7 +98,14 @@ class VentanaControlStock():
 
         self.tree.place(x=400, y=225, anchor="center")
 
+        # Button
+        Button(frame2, text="Agregar", width=10, height=1, command=self.actionAgregar).place(x=200, y=40, anchor="center")
+        Button(frame2, text="Eliminar", width=10, height=1, command=self.actionEliminar).place(x=400, y=40, anchor="center")
+        Button(frame2, text="Editar", width=10, height=1, command=self.actionEditar).place(x=600, y=40, anchor="center")
+        Button(frame2, text="Actualizar", width=10, height=1, command=self.actionActualizar).place(x=750, y=80, anchor="center")
+        Button(frame1, text="Volver", width=10, height=1, command=self.actionVolver).place(x=40, y=25, anchor="center")
+
         # Database
-        get_vehiculo(self.tree)
+        obtenerVehiculos(self.tree)
 
         root.mainloop()
