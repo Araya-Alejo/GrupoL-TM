@@ -1,7 +1,7 @@
 from tkinter import ttk
 from tkinter import *
 
-from interfaces.iPrimerPantalla import *
+
 from interfaces.iControlStock import VentanaControlStock
 import sqlite3
 from tkinter import messagebox
@@ -48,7 +48,8 @@ class LoginAdministrador:
 
     def volver(self):
         self.ventanaAdmin.withdraw()
-        obj= Primera(Tk())
+        from interfaces.iPrimerPantalla import Ventana1
+        obj= Ventana1(Tk())
 
     def searchUsuarioCont(self):
         db_name = "base_datos/databaseGeneral.sqlite3"

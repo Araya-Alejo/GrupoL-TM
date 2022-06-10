@@ -5,7 +5,7 @@
 # ------------------------------------------------------------------------------
 from tkinter import Tk, Frame, Label, Button, ttk, PhotoImage, TOP
 
-from interfaces.iPrimerPantalla import Ventana1
+
 from interfaces.iAgregarVehiculo import VentanaAgregarVehiculo
 from servicios.vehiculoservicio_basedatos import ejecutarConsulta, obtenerVehiculos, eliminarVehiculo, editarVehiculo
 # ------------------------------------------------------------------------------
@@ -44,6 +44,7 @@ class VentanaControlStock():
     '''
     def actionVolver(self):
         self.root.withdraw()
+        from interfaces.iPrimerPantalla import Ventana1
         ventanaPrincipal = Ventana1(Tk())
 
     '''
