@@ -8,6 +8,18 @@ import cv2
 from matplotlib import pyplot as plt
 from mtcnn.mtcnn import MTCNN
 # ------------------------------------------------------------------------------
+'''
+'''
+def convertToBinaryData(filename):
+    try:
+        with open(filename, 'rb') as file:
+            binaryData = file.read()
+        return binaryData
+    except:
+        return 0
+
+'''
+'''
 def face(img, faces):
     data = plt.imread(img)
     for i in range(len(faces)):
@@ -19,23 +31,23 @@ def face(img, faces):
         cv2.imwrite(img, face)
         plt.imshow(data[y1:y2, x1:x2])
 
-def register_face_db(img):
-    name_user = img.replace(".jpg","").replace(".png","")
-    res_bd = db.registerUser(name_user, path + img)
+'''
+'''
+def register_face_db(usuario, img):
+    # Tendrias que llamar a la funcion para ingresar el usario a la db
+    # Le envias el usario y la imagen
+    # imgNombre = img.replace(".jpg", "").replace(".png", "")
 
-    getEnter(screen1)
-    if(res_bd["affected"]):
-        printAndShow(screen1, "¡Éxito! Se ha registrado correctamente", 1)
-    else:
-        printAndShow(screen1, "¡Error! No se ha registrado correctamente", 0)
     os.remove(img)
 
-def register_capture(cuil):
+'''
+'''
+def register_capture(usuario):
     cap = cv2.VideoCapture(0)
-    user_reg_img = cuil
-    img = f"{user_reg_img}.jpg"
+    user_reg_img = usuario.getCuil()                                            # Nombre de la imagen (Número de cuil)
+    img = f"{user_reg_img}.jpg"                                                 # Al nombre de la imagen se agrega .jpg
 
-    while True:
+    while True:                                                                 # Bucle que se ejecutará hasta que se capture la imagen (Tecla Esc)
         ret, frame = cap.read()
         cv2.imshow("Registro Facial", frame)
         if cv2.waitKey(1) == 27:
@@ -45,9 +57,7 @@ def register_capture(cuil):
     cap.release()
     cv2.destroyAllWindows()
 
-    #user_entry1.delete(0, END)
-
     pixels = plt.imread(img)
     faces = MTCNN().detect_faces(pixels)
     face(img, faces)
-    #register_face_db(img)
+    register_face_db(usuario, img)
