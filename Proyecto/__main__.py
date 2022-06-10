@@ -1,6 +1,6 @@
 from tkinter import Tk
 
-from interfaces.iPrimerPantalla import Ventana1
+from interfaces.iPrimerPantalla import *
 #from interfaces.iLogin import VentanaLoginRC
 # ------------------------------------------------------------------------------
 

@@ -1,11 +1,9 @@
 from tkinter import ttk
 from tkinter import *
+#from interfaces import *
 from interfaces.iReconDevolucion import ReconDev
-from interfaces.iDevolucion import VentanaDevolucion
-from interfaces.iControlStock import VentanaControlStock
 from interfaces.iNdexPago import Pago
 import sqlite3
-from interfaces.iUsuario import VentanaUsuario
 from interfaces.iIniciarSesion import VentanaInicioSesion
 from tkinter import messagebox
 from interfaces.iLoginAdmin import LoginAdministrador

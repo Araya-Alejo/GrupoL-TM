@@ -1,12 +1,9 @@
 from tkinter import ttk
 from tkinter import *
-from interfaces.iReconDevolucion import ReconDev
-from interfaces.iDevolucion import VentanaDevolucion
+
+from interfaces.iPrimerPantalla import *
 from interfaces.iControlStock import VentanaControlStock
-from interfaces.iNdexPago import Pago
 import sqlite3
-from interfaces.iUsuario import VentanaUsuario
-from interfaces.iIniciarSesion import VentanaInicioSesion
 from tkinter import messagebox
 
 class LoginAdministrador:
@@ -45,11 +42,13 @@ class LoginAdministrador:
         ttk.Button(frameLoginAdmin, text="Validar",
                 command=self.validar).place(relx=0.50, rely=0.5)
         ttk.Button(frameLoginAdmin, text="Atras",
-               command=self.ventanaAdmin.withdraw).place(relx=0.01, rely=0.01)
+               command=self.volver).place(relx=0.01, rely=0.01)
 
         window.mainloop()
 
-    
+    def volver(self):
+        self.ventanaAdmin.withdraw()
+        obj= Primera(Tk())
 
     def searchUsuarioCont(self):
         db_name = "base_datos/databaseGeneral.sqlite3"
