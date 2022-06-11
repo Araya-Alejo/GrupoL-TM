@@ -57,3 +57,6 @@ class Ventana1:
     def ventanaPago(self):
         self.wind.withdraw()
         obj = Pago(Tk())
+
+
+#prueba de modificacion
