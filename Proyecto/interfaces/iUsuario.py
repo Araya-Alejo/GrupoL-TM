@@ -68,7 +68,6 @@ class  VentanaUsuario:
             RECONOCIMIENTO_FACIAL.register_capture(USUARIO)
 
             MENSAJE_INFO("READY TO ENTER THE DATABASE")
-            # usuario_bd.agregar_usuario(USUARIO)
         else:
             print("no fue validado")
             return False

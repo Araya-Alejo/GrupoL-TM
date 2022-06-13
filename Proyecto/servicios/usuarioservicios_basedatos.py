@@ -1,14 +1,15 @@
 import sqlite3
 from entidades.usuario import Usuario
 import interfaces.iUsuario
+import servicios.reconocimientoFacial
 from interfaces.ESTANDARES import *
 
-def agregar_usuario(usuario):
+def agregar_usuario(usuario, imagen):
         try:
-            consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?)"
+            consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
             print("consulta")
             print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
-            parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
+            parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil(), imagen)
             print("parametros")
             resultado = ejecutar_consulta(consulta,parametros)
             print("resultados")
