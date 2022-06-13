@@ -1,7 +1,7 @@
 import sqlite3
 from entidades.usuario import Usuario
 import interfaces.iUsuario
-from tkinter import messagebox as MessageBox
+from interfaces.ESTANDARES import *
 
 def agregar_usuario(usuario):
         try:
@@ -13,21 +13,20 @@ def agregar_usuario(usuario):
             resultado = ejecutar_consulta(consulta,parametros)
             print("resultados")
             if (resultado != None):
-                MessageBox.showinfo(" ", "Se a guardado el usuario en la base de datos")
+                MENSAJE_INFO("Se a guardado el usuario en la base de datos")
         except Exception:
-            MessageBox.showwarning("Alerta", "Hay un error al agregar un usuario")
+            MENSAJE_ERROR("Hay un error al agregar un usuario")
 
 def ejecutar_consulta(consulta, parametros = ()):
-    db_name = "base_datos/databaseGeneral.sqlite3"
     print("ejecutar")
 
     try:
-        with sqlite3.connect(db_name) as conn:
+        with sqlite3.connect(direccion_base_datos) as conn:
             cursor = conn.cursor()
             print("cursor")
             resultado = cursor.execute(consulta, parametros)
             print("resultado")
             conn.commit()
     except sqlite3.OperationalError:
-        messagebox.showinfo(" ","No se pudo acceder a la base de datos!")
+        MENSAJE_INFO("No se pudo acceder a la base de datos!")
     return resultado
