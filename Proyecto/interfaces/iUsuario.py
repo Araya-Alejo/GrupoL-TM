@@ -10,6 +10,7 @@ import base_datos
 import servicios.usuarioservicios_basedatos as usuario_bd
 from entidades.usuario import Usuario
 import TyC.ingresoTyC as TC
+import servicios.reconocimientoFacial as RECONOCIMIENTO_FACIAL
 
 us = UsuarioServicio()
 
@@ -59,9 +60,14 @@ class  VentanaUsuario:
         print("validar")
         if(self.aceptar()):
             print("fue validado")
-            MessageBox.showinfo("", "Ventana de reconocomiento facil")
+
             USUARIO = Usuario(self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.cuil.get())
-            usuario_bd.agregar_usuario(USUARIO)
+
+            MessageBox.showinfo("", "Ventana de reconocomiento facil")
+            RECONOCIMIENTO_FACIAL.register_capture(USUARIO)
+
+            MessageBox.showinfo("", "READY TO ENTER THE DATABASE")
+            # usuario_bd.agregar_usuario(USUARIO)
         else:
             print("no fue validado")
             return False
