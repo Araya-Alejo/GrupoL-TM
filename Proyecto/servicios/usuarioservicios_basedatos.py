@@ -7,16 +7,19 @@ from interfaces.ESTANDARES import *
 def agregar_usuario(usuario, imagen):
         try:
             consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
-            print("consulta")
+            MENSAJE_CONSOLA("CONSULTA", visible)
+
             print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
             parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil(), imagen)
-            print("parametros")
+            MENSAJE_CONSOLA("PARAMETROS",visible)
+
             resultado = ejecutar_consulta(consulta,parametros)
-            print("resultados")
+            MENSAJE_CONSOLA("RESULTADOS",visible)
+
             if (resultado != None):
-                MENSAJE_INFO("Se a guardado el usuario en la base de datos")
+                MENSAJE_CONSOLA("EL USUARIO FUE GUARDADO EN LA BASE DE DATOS ", visible)
         except Exception:
-            MENSAJE_ERROR("Hay un error al agregar un usuario")
+            MENSAJE_ERROR("HAY UN ERROR AL AGREGAR UN USUARIO")
 
 def ejecutar_consulta(consulta, parametros = ()):
     print("ejecutar")

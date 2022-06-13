@@ -6,7 +6,6 @@ from TyC import *
 from servicios.vehiculoservicio import *
 from servicios.usuarioServicio import UsuarioServicio
 import base_datos
-import servicios.usuarioservicios_basedatos as usuario_bd
 from entidades.usuario import Usuario
 import TyC.ingresoTyC as TC
 import servicios.reconocimientoFacial as RECONOCIMIENTO_FACIAL
@@ -57,25 +56,28 @@ class  VentanaUsuario:
 #---------------------------------------------------------------------------------#
 
     def validar(self):
-        print("validar")
-        MENSAJE_INFO("VALIDADO")
-        if(self.aceptar()):
-            print("fue validado")
-
+        validado = self.aceptar()
+        if(validado == True):
+            MENSAJE_CONSOLA("VALORES INGRESADOS VALIDADOS", visible)
+            print("---------------------------------------------------------------------------------")
             USUARIO = Usuario(self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.cuil.get())
 
-            MessageBox.showinfo("", "Ventana de reconocomiento facil")
+            MessageBox.showinfo("", "VENTANA DE RECONOCIMIENTO FACIAL")
             RECONOCIMIENTO_FACIAL.register_capture(USUARIO)
-
-            MENSAJE_INFO("READY TO ENTER THE DATABASE")
+        elif (validado == None):
+            MENSAJE_CONSOLA("PROBLEMAS CON LA VALIDACION",visible)
+            print("---------------------------------------------------------------------------------")
+            return False
         else:
-            print("no fue validado")
+            MENSAJE_CONSOLA("PROBLEMAS CON EL RECONOCIMIENTO FACIL",visible)
+            print("---------------------------------------------------------------------------------")
             return False
 
 #---------------------------------------------------------------------------------#
 
     def aceptar(self):
         contador = 0
+        print("---------------------------------------------------------------------------------")
         try:
             if(not us.isStringVacio(self.nombre.get())):
                 if(us.validarString(self.nombre.get())):
@@ -143,6 +145,7 @@ class  VentanaUsuario:
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
 
+        print("---------------------------------------------------------------------------------")
 
         if(contador == 7):
             return True
@@ -162,6 +165,13 @@ class  VentanaUsuario:
 
         area = Frame(ventana, pady=10)
         area.pack(expand=True, fill=tk.BOTH)
+
+        self.nombre = Label(area, text = '', font= (tipografia,10))
+        self.nombre.pack(fill=tk.BOTH)
+        self.nombre = Label(area, text = '', font= (tipografia,10))
+        self.nombre.pack(fill=tk.BOTH)
+        self.nombre = Label(area, text = '', font= (tipografia,10))
+        self.nombre.pack(fill=tk.BOTH)
 
         self.nombre = Label(area, text = 'Nombre *', font= (tipografia,10))
         self.nombre.pack(fill=tk.BOTH)

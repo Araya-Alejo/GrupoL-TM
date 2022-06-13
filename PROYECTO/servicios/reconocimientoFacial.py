@@ -7,6 +7,7 @@ import os
 import cv2
 from matplotlib import pyplot as plt
 from mtcnn.mtcnn import MTCNN
+from  servicios.usuarioservicios_basedatos import agregar_usuario
 # ------------------------------------------------------------------------------
 '''
 '''
@@ -36,10 +37,10 @@ def face(img, faces):
 def register_face_db(usuario, img):
     # Tendrias que llamar a la funcion para ingresar el usario a la db
     # Le envias el usario y la imagen
+
     imgNombre = img.replace(".jpg", "").replace(".png", "")
     imagen = convertToBinaryData(imgNombre)
-    usuario_bd.agregar_usuario(usuario, imagen)
-
+    agregar_usuario(usuario, imagen)
 
     os.remove(img)
 
