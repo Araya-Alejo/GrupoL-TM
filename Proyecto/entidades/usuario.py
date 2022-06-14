@@ -1,14 +1,14 @@
 class Usuario():
 
     # Constructor
-    def __init__(self,nombre, apellido, carnetConducir,
-                 fechaNacimiento, correo,cuil):
-        self.__nombre = nombre  # String
-        self.__apellido = apellido  # String
+    def __init__(self,nombre, apellido, carnetConducir, fechaNacimiento, correo,cuil):
+        self.__nombre = nombre  # Texto
+        self.__apellido = apellido  # Texto
         self.__carnetConducir = carnetConducir  # Alfanumerico
-        self.__fechaNacimiento = fechaNacimiento  # int
+        self.__fechaNacimiento = fechaNacimiento  # Entero
         self.__correo = correo  # Alfanumerico
-        self.__cuil = cuil  # int
+        self.__cuil = cuil  # Entero
+
 
     # Getters (Métodos get)
 
@@ -30,6 +30,9 @@ class Usuario():
     def getCuil(self):
         return self.__cuil
 
+    def getFoto(self):
+        return self.__foto
+
     # Setters (Métodos set)
 
     def setNombre(self, nombre):
@@ -49,3 +52,6 @@ class Usuario():
 
     def setCuil(self, cuil):
         self.__cuil = cuil
+
+    def setFoto(self, foto):
+        self.__foto = foto

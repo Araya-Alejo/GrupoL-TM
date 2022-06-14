@@ -3,7 +3,7 @@
     @author Bulos
 '''
 # ------------------------------------------------------------------------------
-from tkinter import Tk, Frame, Label, Button, ttk, PhotoImage, TOP
+from tkinter import Tk, Frame, Label, Button, ttk
 
 from interfaces.iAgregarVehiculo import VentanaAgregarVehiculo
 from servicios.vehiculoservicio_basedatos import ejecutarConsulta, obtenerVehiculos, eliminarVehiculo, editarVehiculo
@@ -38,8 +38,14 @@ class VentanaControlStock():
     def actionActualizar(self):
         obtenerVehiculos(self.tree)
 
+    '''
+        Procedimiento para el Button Volver
+    '''
     def actionVolver(self):
+        from interfaces.iPrimerPantalla import Ventana1
+
         self.root.withdraw()
+        ventanaPrincipal = Ventana1(Tk())
 
     '''
         Método Constructor

@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import messagebox as MessageBox
 import tkinter as tk
 from tkinter import ttk
 import entidades.usuario as usuario
@@ -7,9 +6,10 @@ from TyC import *
 from servicios.vehiculoservicio import *
 from servicios.usuarioServicio import UsuarioServicio
 import base_datos
-import servicios.usuarioservicios_basedatos as usuario_bd
 from entidades.usuario import Usuario
 import TyC.ingresoTyC as TC
+import servicios.reconocimientoFacial as RECONOCIMIENTO_FACIAL
+from interfaces.ESTANDARES import *
 
 us = UsuarioServicio()
 
@@ -56,20 +56,28 @@ class  VentanaUsuario:
 #---------------------------------------------------------------------------------#
 
     def validar(self):
-        print("validar")
-        if(self.aceptar()):
-            print("fue validado")
-            MessageBox.showinfo("", "Ventana de reconocomiento facil")
+        validado = self.aceptar()
+        if(validado == True):
+            MENSAJE_CONSOLA("VALORES INGRESADOS VALIDADOS", visible)
+            print("---------------------------------------------------------------------------------")
             USUARIO = Usuario(self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.cuil.get())
-            usuario_bd.agregar_usuario(USUARIO)
+
+            MessageBox.showinfo("", "VENTANA DE RECONOCIMIENTO FACIAL")
+            RECONOCIMIENTO_FACIAL.register_capture(USUARIO)
+        elif (validado == None):
+            MENSAJE_CONSOLA("PROBLEMAS CON LA VALIDACION",visible)
+            print("---------------------------------------------------------------------------------")
+            return False
         else:
-            print("no fue validado")
+            MENSAJE_CONSOLA("PROBLEMAS CON EL RECONOCIMIENTO FACIL",visible)
+            print("---------------------------------------------------------------------------------")
             return False
 
 #---------------------------------------------------------------------------------#
 
     def aceptar(self):
         contador = 0
+        print("---------------------------------------------------------------------------------")
         try:
             if(not us.isStringVacio(self.nombre.get())):
                 if(us.validarString(self.nombre.get())):
@@ -137,6 +145,7 @@ class  VentanaUsuario:
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
 
+        print("---------------------------------------------------------------------------------")
 
         if(contador == 7):
             return True
@@ -157,7 +166,14 @@ class  VentanaUsuario:
         area = Frame(ventana, pady=10)
         area.pack(expand=True, fill=tk.BOTH)
 
-        self.nombre = Label(area, text = 'Nombre *', font= ("Bahnschrift Light",10))
+        self.nombre = Label(area, text = '', font= (tipografia,10))
+        self.nombre.pack(fill=tk.BOTH)
+        self.nombre = Label(area, text = '', font= (tipografia,10))
+        self.nombre.pack(fill=tk.BOTH)
+        self.nombre = Label(area, text = '', font= (tipografia,10))
+        self.nombre.pack(fill=tk.BOTH)
+
+        self.nombre = Label(area, text = 'Nombre *', font= (tipografia,10))
         self.nombre.pack(fill=tk.BOTH)
         self.nombre = Entry(area)
         self.nombre.pack(pady = 5)
@@ -165,14 +181,14 @@ class  VentanaUsuario:
         self.nombre.bind("<BackSpace>", lambda _:self.nombre.delete(tk.END))
 
 
-        self.apellido =Label(area, text = 'Apellido *', font= ("Bahnschrift Light",10))
+        self.apellido =Label(area, text = 'Apellido *', font= (tipografia,10))
         self.apellido.pack(fill=tk.BOTH)
         self.apellido = Entry(area)
         self.apellido.pack(pady = 5)
         self.apellido.bind("<Key>", self.cuandoEscribaNombre)
         self.apellido.bind("<BackSpace>", lambda _:self.apellido.delete(tk.END))
 
-        self.carnetConducir =Label(area, text = 'Carnet de Conducir *', font= ("Bahnschrift Light",10))
+        self.carnetConducir =Label(area, text = 'Carnet de Conducir *', font= (tipografia,10))
         self.carnetConducir.pack(fill=tk.BOTH)
         self.carnetConducir = Entry(area)
         self.carnetConducir.pack(pady = 5)
@@ -180,33 +196,33 @@ class  VentanaUsuario:
         self.carnetConducir.bind("<BackSpace>", lambda _:self.carnetConducir.delete(tk.END))
 
 
-        self.fechaNacimiento =Label(area, text = 'Fecha de nacimiento *', font= ("Bahnschrift Light",10))
+        self.fechaNacimiento =Label(area, text = 'Fecha de nacimiento *', font= (tipografia,10))
         self.fechaNacimiento.pack(fill=tk.BOTH)
         self.fechaNacimiento = Entry(area)
         self.fechaNacimiento.pack()
         self.fechaNacimiento.bind("<Key>", self.cuandoEscribaFecha)
         self.fechaNacimiento.bind("<BackSpace>", lambda _:self.fechaNacimiento.delete(tk.END))
 
-        self.correo =Label(area, text = 'Correo *', font= ("Bahnschrift Light",10))
+        self.correo =Label(area, text = 'Correo *', font= (tipografia,10))
         self.correo.pack(fill=tk.BOTH)
         self.correo = Entry(area)
         self.correo.pack(pady = 5)
 
-        self.cuil =Label(area, text = 'CUIL', font= ("Bahnschrift Light",10))
+        self.cuil =Label(area, text = 'CUIL', font= (tipografia,10))
         self.cuil.pack(fill=tk.BOTH)
         self.cuil = Entry(area)
         self.cuil.pack(pady = 5)
         self.cuil.bind("<Key>", self.cuandoEscribaCUIL)
         self.cuil.bind("<BackSpace>", lambda _:self.cuil.delete(tk.END))
 
-        self.boton = tk.Button(area, text = 'T&C', font= ("Bahnschrift Light",10), command = TC.abrirPDF )
+        self.boton = tk.Button(area, text = 'T&C', font= (tipografia,10), command = TC.abrirPDF )
         self.boton.pack()
 
         self.variable = IntVar()
-        self.check = Checkbutton(area, text="Termino y condiciones *", variable=self.variable, onvalue=1, offvalue=0)
+        self.check = Checkbutton(area, text="Termino y condiciones *", font=(tipografia,10), variable=self.variable, onvalue=1, offvalue=0)
         self.check.pack()
 
-        self.boton = tk.Button(area, text = 'Reconocimiento facial *', font= ("Bahnschrift Light",10),command = self.validar )
+        self.boton = tk.Button(area, text = 'Reconocimiento facial *', font= (tipografia,10),command = self.validar )
         self.boton.pack()
 
         ventana.mainloop()

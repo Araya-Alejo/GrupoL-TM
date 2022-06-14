@@ -4,7 +4,6 @@
 '''
 # ------------------------------------------------------------------------------
 from tkinter import Frame, Label, Entry, Button
-from servicios.reconocimientoFacial import register_capture
 # ------------------------------------------------------------------------------
 class VentanaLoginRC():
 
@@ -47,6 +46,6 @@ class VentanaLoginRC():
         self.cuil.focus_force()
 
         # Button
-        Button(frame2, text="Capturar Rostro", command=lambda: register_capture(self.cuil.get())).place(x=250, y=100, anchor="center", width=200, height=50)
+        Button(frame2, text="Capturar Rostro").place(x=250, y=100, anchor="center", width=200, height=50)
 
         root.mainloop()
