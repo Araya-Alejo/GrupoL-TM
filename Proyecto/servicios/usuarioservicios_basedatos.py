@@ -10,7 +10,7 @@ def agregar_usuario(usuario, imagen):
             MENSAJE_CONSOLA("CONSULTA", visible)
             imagenBinario = convertToBinaryData(imagen)
 
-            if imagenBinario:
+            if imagenBinario != 0:
                 print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
                 parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil(), imagenBinario)
                 MENSAJE_CONSOLA("PARAMETROS",visible)
