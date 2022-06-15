@@ -10,13 +10,13 @@ def agregar_usuario(usuario, imagen):
             MENSAJE_CONSOLA("CONSULTA", visible)
             imagenBinario = convertToBinaryData(imagen)
 
-            if imagenBinario:
-                print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
-                parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil(), imagenBinario)
-                MENSAJE_CONSOLA("PARAMETROS",visible)
 
-                resultado = ejecutar_consulta(consulta,parametros)
-                MENSAJE_CONSOLA("RESULTADOS",visible)
+            print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
+            parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil(), imagenBinario)
+            MENSAJE_CONSOLA("PARAMETROS",visible)
+
+            resultado = ejecutar_consulta(consulta,parametros)
+            MENSAJE_CONSOLA("RESULTADOS",visible)
 
             if (resultado != None):
                 MENSAJE_CONSOLA("EL USUARIO FUE GUARDADO EN LA BASE DE DATOS ", visible)
