@@ -7,9 +7,11 @@ import os
 import cv2
 from matplotlib import pyplot as plt
 from mtcnn.mtcnn import MTCNN
-from  servicios.usuarioservicios_basedatos import agregar_usuario
+from entidades.usuario import Usuario
+from servicios.usuarioservicios_basedatos import agregar_usuario
 # ------------------------------------------------------------------------------
 '''
+    Función que convierte una imágen a formato binario.
 '''
 def convertToBinaryData(filename):
     try:
@@ -20,6 +22,7 @@ def convertToBinaryData(filename):
         return 0
 
 '''
+    Procedimiento que detecta el rostro de la imágen
 '''
 def face(img, faces):
     data = plt.imread(img)
@@ -33,11 +36,10 @@ def face(img, faces):
         plt.imshow(data[y1:y2, x1:x2])
 
 '''
+    Procedimiento que llama al método para cargar el usuario a la base de datos.
+    Envía un Usuario y la imágen (ya convertida en binario).
 '''
 def register_face_db(usuario, img):
-    # Tendrias que llamar a la funcion para ingresar el usario a la db
-    # Le envias el usario y la imagen
-
     imgNombre = img.replace(".jpg", "").replace(".png", "")
     imagen = convertToBinaryData(imgNombre)
     agregar_usuario(usuario, imagen)
@@ -45,6 +47,7 @@ def register_face_db(usuario, img):
     os.remove(img)
 
 '''
+    Procedimiento que captura la imágen.
 '''
 def register_capture(usuario):
     cap = cv2.VideoCapture(0)
