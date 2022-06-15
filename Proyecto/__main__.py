@@ -1,4 +1,4 @@
-from tkinter import Tk 
+from tkinter import Tk
 from interfaces.iPrimerPantalla import *
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":

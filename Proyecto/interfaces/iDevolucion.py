@@ -1,8 +1,9 @@
 import tkinter as tk
-from tkinter import *
+from tkinter import Tk, Frame, Label, Button, Entry, ttk, messagebox
+
 import sqlite3
 from tkinter import messagebox
-#from interfaces.iReconDevolucion import ReconDev
+from functools import partial
 
 
 class VentanaDevolucion:
@@ -23,26 +24,28 @@ class VentanaDevolucion:
         self.wind.resizable(0, 0)
 
         #Creacion del Frame
-        frame = LabelFrame(self.wind)
+        frame = ttk.LabelFrame(self.wind)
         frame.place(relwidth=1, relheight=1)
 
         #Creacion de los Label de etiqueta
-        tk.Label(frame, text="DATOS DEL ALQUILER").place(relx=0.40, rely=0.0)
-        tk.Label(frame, text="Cuil:").place(relx=0.01, rely=0.05)
-        tk.Label(frame, text="Nombre y Apellido:").place(
+        ttk.Label(frame, text="DATOS DEL ALQUILER").place(relx=0.40, rely=0.0)
+        ttk.Label(frame, text="Cuil:").place(relx=0.01, rely=0.05)
+        ttk.Label(frame, text="Nombre y Apellido:").place(
             relx=0.01, rely=0.10)
-        tk.Label(frame, text="Marca:").place(relx=0.01, rely=0.25)
-        tk.Label(frame, text="Modelo:").place(relx=0.01, rely=0.15)
-        tk.Label(frame, text="Matricula del auto alquilado:").place(
+        ttk.Label(frame, text="Marca:").place(relx=0.01, rely=0.25)
+        ttk.Label(frame, text="Modelo:").place(relx=0.01, rely=0.15)
+        ttk.Label(frame, text="Matricula del auto alquilado:").place(
             relx=0.01, rely=0.20)
-        tk.Label(frame, text="Fecha del Alquiler:").place(
+        ttk.Label(frame, text="Fecha del Alquiler:").place(
             relx=0.01, rely=0.30)
-        tk.Label(frame, text="Cantidad de dias del alquiler:").place(
+        ttk.Label(frame, text="Cantidad de dias del alquiler:").place(
             relx=0.01, rely=0.35)
-        tk.Label(frame, text="Precio del alquiler por dia:").place(
+        ttk.Label(frame, text="Precio del alquiler por dia:").place(
             relx=0.01, rely=0.40)
-        tk.Label(frame, text="Precio Total").place(
+        ttk.Label(frame, text="Precio Total").place(
             relx=0.01, rely=0.45)
+        labelValidacion = ttk.Label(frame, text="hola").place(
+            relx=0.30, rely=0.60)
 
         self.idMatricula = ""
         db_name = "base_datos/databaseGeneral.sqlite3"
@@ -52,49 +55,48 @@ class VentanaDevolucion:
         recordsAlq= cursorAlq.fetchall()
         for row in recordsAlq:
             self.idMatricula = ""+row[1]
-            self.L1 = tk.Label(frame, text= row[0]).place(relx=0.4, rely=0.05)
-            self.L5 = tk.Label(frame, text=row[1]).place(
+            self.L1 = ttk.Label(frame, text= row[0]).place(relx=0.4, rely=0.05)
+            self.L5 = ttk.Label(frame, text=row[1]).place(
                 relx=0.4, rely=0.20)
-            self.L6 = tk.Label(frame, text=row[2]).place(
+            self.L6 = ttk.Label(frame, text=row[2]).place(
                 relx=0.4, rely=0.30)
-            self.L7 = tk.Label(frame, text=row[3]).place(
+            self.L7 = ttk.Label(frame, text=row[3]).place(
                 relx=0.4, rely=0.35)
-            self.L8 = tk.Label(frame, text=row[4]).place(
+            self.L8 = ttk.Label(frame, text=row[4]).place(
                 relx=0.4, rely=0.40)
-            self.L9 = tk.Label(frame, text=(row[3]*row[4])).place(
+            self.L9 = ttk.Label(frame, text=(row[3]*row[4])).place(
                 relx=0.4, rely=0.45)
 
         cursorUser = con.cursor()
         cursorUser.execute("SELECT * FROM Usuarios WHERE Cuil=?", (idCuil,))
         recordsUser= cursorUser.fetchall()
         for row in recordsUser:
-            self.L2 = tk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.10)
+            self.L2 = ttk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.10)
 
 
         cursorVehiculo = con.cursor()
         cursorVehiculo.execute("SELECT * FROM vehiculos WHERE matricula=?", (self.idMatricula,))
         recordsVehiculo= cursorVehiculo.fetchall()
         for row in recordsVehiculo:
-            self.L3 = tk.Label(frame, text=row[1]).place(relx=0.4, rely=0.25)
-            self.L4 = tk.Label(frame, text=row[2]).place(relx=0.4, rely=0.15)
+            self.L3 = ttk.Label(frame, text=row[1]).place(relx=0.4, rely=0.25)
+            self.L4 = ttk.Label(frame, text=row[2]).place(relx=0.4, rely=0.15)
 
         con.close()
 
         #Creacion de los Botones
-        tk.Button(frame, text="VERIFICACIÓN TÉCNICA",
+        ttk.Button(frame, text="VERIFICACIÓN TÉCNICA",
                   command=self.verTecnica).place(relx=0.05, rely=0.60)
-        tk.Button(frame, text="SIGUIENTE",
+        ttk.Button(frame, text="SIGUIENTE",
                   command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
-        tk.Button(frame, text="Mostrar Datos",
-                  command=self.mostrarDatos).place(relx=0.90, rely=0.9)
-        #tk.Button(frame, text="Atras",
-        #           command=self.atras).place(relx=0.01, rely=0.9)
+        ttk.Button(frame, text="Atras",
+                   command=self.atras).place(relx=0.01, rely=0.9)
 
         window.mainloop()
 
     def atras(self):
         self.wind.withdraw()
-        ventana = ReconDev(Tk())
+        from interfaces.iPrimerPantalla import Ventana1
+        obj= Ventana1(Tk())
 
     def verTecnica(self):
         self.verTec = Toplevel()
@@ -111,22 +113,22 @@ class VentanaDevolucion:
         self.verTec.resizable(0, 0)
 
         #Creacion del Frame
-        frameVerTec = LabelFrame(self.verTec)
+        frameVerTec = ttk.LabelFrame(self.verTec)
         frameVerTec.place(relwidth=1, relheight=1)
 
         #Creacion de los Label
-        tk.Label(frameVerTec, text="Ingrese Codigo de Verificación:").place(
+        ttk.Label(frameVerTec, text="Ingrese Codigo de Verificación:").place(
             relx=0.30, rely=0.3)
 
         #Crecion de los Textbox
-        self.codigoVer = tk.Entry(frameVerTec)
+        self.codigoVer = ttk.Entry(frameVerTec)
         self.codigoVer.focus()
         self.codigoVer.place(relx=0.50, rely=0.3)
 
         #Creacion del Botones
-        tk.Button(frameVerTec, text="Validar",
+        ttk.Button(frameVerTec, text="Validar",
                   command=self.validarTec).place(relx=0.50, rely=0.5)
-        tk.Button(frameVerTec, text="Atras",
+        ttk.Button(frameVerTec, text="Atras",
                   command=self.verTec.withdraw).place(relx=0.01, rely=0.01)
 
     def validarTec(self):
@@ -145,10 +147,3 @@ class VentanaDevolucion:
     def siguienteInterfaz(self):
         self.wind.withdraw()
         #Conexion con siguiente interfaz
-
-    def mostrarDatos(self):
-
-        usuario = self.usuario.get()
-
-
-        con.close()

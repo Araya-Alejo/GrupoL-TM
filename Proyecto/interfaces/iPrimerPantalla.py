@@ -1,8 +1,7 @@
 from tkinter import ttk
 from tkinter import *
-#from interfaces import *
+
 from interfaces.iReconDevolucion import ReconDev
-from interfaces.iNdexPago import Pago
 import sqlite3
 from interfaces.iIniciarSesion import VentanaInicioSesion
 from tkinter import messagebox
@@ -36,8 +35,7 @@ class Ventana1:
             relx=0.55, rely=0.4)
         ttk.Button(frame, text="Ingreso de Administradores",
                    command=self.loginAdmin).place(relx=0.80, rely=0.01)
-        ttk.Button(frame, text="Pago",
-                   command=self.ventanaPago).place(relx=0.01, rely=0.90)
+
 
         window.mainloop()
 
@@ -54,9 +52,7 @@ class Ventana1:
         self.wind.withdraw()
         ventana = ReconDev(Tk())
 
-    def ventanaPago(self):
-        self.wind.withdraw()
-        obj = Pago(Tk())
+
 
 
 #prueba de modificacion
