@@ -22,7 +22,7 @@ def convertToBinaryData(filename):
         return 0
 
 '''
-    Procedimiento que detecta el rostro de la imágen
+    Procedimiento que detecta el rostro de la imágen.
 '''
 def face(img, faces):
     data = plt.imread(img)
@@ -41,13 +41,13 @@ def face(img, faces):
 '''
 def register_face_db(usuario, img):
     imgNombre = img.replace(".jpg", "").replace(".png", "")
-    imagen = convertToBinaryData(imgNombre)
-    agregar_usuario(usuario, imagen)
+    path = os.getcwd()
+    agregar_usuario(usuario, path + img)
 
     os.remove(img)
 
 '''
-    Procedimiento que captura la imágen.
+    Procedimiento que captura la imágen
 '''
 def register_capture(usuario):
     cap = cv2.VideoCapture(0)
