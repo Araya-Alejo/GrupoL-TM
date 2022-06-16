@@ -9,7 +9,7 @@ def agregar_usuario(usuario, imagen):
             consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
             MENSAJE_CONSOLA("CONSULTA", visible)
             imagenBinario = convertToBinaryData(imagen)
-
+            MENSAJE_CONSOLA("BINARIO", visible)
 
             print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
             parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil(), imagenBinario)

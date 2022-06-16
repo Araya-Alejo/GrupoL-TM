@@ -9,6 +9,7 @@ from matplotlib import pyplot as plt
 from mtcnn.mtcnn import MTCNN
 from entidades.usuario import Usuario
 from servicios.usuarioservicios_basedatos import agregar_usuario
+from interfaces.ESTANDARES import *
 # ------------------------------------------------------------------------------
 '''
     Función que convierte una imágen a formato binario.
@@ -40,12 +41,16 @@ def face(img, faces):
     Envía un Usuario y la imágen (ya convertida en binario).
 '''
 def register_face_db(usuario, img):
+    MENSAJE_CONSOLA("Comienza Conversion", visible)
     imgNombre = img.replace(".jpg", "").replace(".png", "")
+    MENSAJE_CONSOLA("Cambia la extension", visible)
     path = os.getcwd()
-    agregar_usuario(usuario, path + img)
+    MENSAJE_CONSOLA("Asigna el Path", visible)
+    agregar_usuario(usuario, path + imgNombre)
+    MENSAJE_CONSOLA("Agrega al usuario", visible)
 
     os.remove(img)
-
+    MENSAJE_CONSOLA("elimina la imagen", visible)
 '''
     Procedimiento que captura la imágen
 '''
