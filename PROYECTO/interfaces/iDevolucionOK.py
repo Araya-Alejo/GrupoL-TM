@@ -4,6 +4,7 @@ import sqlite3
 from tkinter import messagebox
 from functools import partial
 from interfaces.ESTANDARES import *
+import servicios.mail
 
 
 class VentanaDevOk:
