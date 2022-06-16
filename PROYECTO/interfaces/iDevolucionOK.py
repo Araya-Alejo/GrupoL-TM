@@ -8,7 +8,7 @@ from interfaces.ESTANDARES import *
 
 class VentanaDevOk:
 
-    def __init__(self, window, idCuil):
+    def __init__(self, window, idCuil, idMatricula):
         self.wind = window
         self.wind.title("Alquila Ya")
         # Obtiene ancho del área de visualización.
@@ -28,35 +28,19 @@ class VentanaDevOk:
         frame.place(relwidth=1, relheight=1)
 
         #Creacion de los Label de etiqueta
-        tk.Label(frame, text="DEVOLUCIÓN REALIZADA").place(relx=0.40, rely=0.0)
+        tk.Label(frame, text="DEVOLUCIÓN REALIZADA").place(relx=0.40, rely=0.40)
 
-        self.labelValidacion = tk.Label(frame, text="A continuacion se le enviará un email informando la confirmacion de la Devolución", fg="red").place(relx=0.40, rely=0.60)
+        self.labelValidacion = tk.Label(frame, text="A continuacion se le enviará un email informando la confirmacion de la Devolución").place(relx=0.2, rely=0.50)
         self.Verificacion = False
 
         self.idMatricula = ""
         #Creacion de los Botones
         tk.Button(frame, text="Salir",
-                  command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
+                  command=window.destroy).place(relx=0.60, rely=0.70)
         tk.Button(frame, text="Volver a Pagina de inicio",
-                   command=self.atras).place(relx=0.01, rely=0.9)
+                   command=self.atras).place(relx=0.30, rely=0.7)
 
-        #self.cambiosEnBD(idCuil)
-        db_name = "base_datos/databaseGeneral.sqlite3"
-        con = sqlite3.connect(db_name)
-        cursorAlq = con.cursor()
-        cursorAlq.execute("SELECT * FROM Alquileres WHERE idCuil=?", (idCuil,))
-        recordsAlq= cursorAlq.fetchall()
-        for row in recordsAlq:
-            self.idMatricula = ""+row[1]
-            row[5]="DEVUELTO"
-
-        cursorVehiculo = con.cursor()
-        cursorVehiculo.execute("SELECT * FROM vehiculos WHERE matricula=?", (self.idMatricula,))
-        recordsVehiculo= cursorVehiculo.fetchall()
-        for row in recordsVehiculo:
-            row[7]=0
-
-        con.close()
+        self.cambiosEnBD(idCuil, idMatricula)
 
         window.mainloop()
 
@@ -65,7 +49,19 @@ class VentanaDevOk:
         from interfaces.iPrimerPantalla import Ventana1
         obj= Ventana1(Tk())
 
-    def siguienteInterfaz(self):
-        self.wind.destroyAllWindows()
+    def cambiosEnBD(self,idCuil, idMatricula):
+        try:
+            db_name = "base_datos/databaseGeneral.sqlite3"
+            con = sqlite3.connect(db_name)
+            cursorAlq = con.cursor()
+            cursorAlq.execute("DELETE FROM Alquileres WHERE IdCuil=?", (idCuil,))
+            con.commit()
 
-        #Conexion con siguiente interfaz
+            cursorVehiculo = con.cursor()
+            estadoV =0
+            cursorVehiculo.execute("UPDATE vehiculos SET estaAlquilado=? WHERE matricula=?", (estadoV , idMatricula,))
+            con.commit()
+
+            con.close()
+        except Exception:
+            MENSAJE_ERROR("HAY UN ERROR AL MODIFICAR EL ESTADO")

@@ -91,7 +91,7 @@ class VentanaDevolucion:
         tk.Button(frame, text="VERIFICACIÓN TÉCNICA",
                   command=partial(self.verTecnica,frame)).place(relx=0.01, rely=0.60)
         tk.Button(frame, text="SIGUIENTE",
-                  command=partial(self.siguienteInterfaz,idCuil)).place(relx=0.80, rely=0.80)
+                  command=partial(self.siguienteInterfaz,idCuil,self.idMatricula)).place(relx=0.80, rely=0.80)
         tk.Button(frame, text="Atras",
                    command=self.atras).place(relx=0.01, rely=0.9)
         self.codigoVer = tk.Entry(frame)
@@ -123,12 +123,10 @@ class VentanaDevolucion:
             self.codigoVer.focus()
 
 
-
-
-    def siguienteInterfaz(self, idCuil):
+    def siguienteInterfaz(self, idCuil, idMatricula):
         if(self.Verificacion==True):
             self.wind.withdraw()
-            #obj=VentanaDevOk(Tk(),idCuil)
+            obj=VentanaDevOk(Tk(),idCuil,idMatricula)
         else:
             messagebox.showerror("Verificacion Tecnica", "Por favor, haga la verificacion tecnica")
         #Conexion con siguiente interfaz
