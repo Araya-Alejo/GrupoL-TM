@@ -51,7 +51,7 @@ class Pago:
             relx=0.01, rely=0.50)
         #Creacion de los Botones
 
-        tk.Button(frame, text="SIGUIENTE",
+        tk.Button(frame, text="CONFIRMAR",
                   command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
 
         window.mainloop()
