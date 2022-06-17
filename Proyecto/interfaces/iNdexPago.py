@@ -14,7 +14,10 @@ class Pago:
 
     def __init__(self, window, idCuil):
         self.wind = window
-        self.wind.title("Alquila Ya")
+        self.wind.title("VENTANA PAGO")
+
+
+
         # Obtiene ancho del área de visualización.
         screenWidth = window.winfo_screenwidth()
         screenHeight = window.winfo_screenheight()
@@ -30,6 +33,7 @@ class Pago:
         #Creacion del Frame
         frame = LabelFrame(self.wind)
         frame.place(relwidth=1, relheight=1)
+        frame.config(bg="light green")  # color fondo
 
         #Creacion de los Label de etiqueta
         tk.Label(frame, text="DATOS DEL ALQUILER").place(            relx=0.40, rely=0.0)
@@ -50,8 +54,8 @@ class Pago:
 
 
         #Creacion de los Botones
-        tk.Button(frame, text="PAGO",command=self.verPago).place(               relx=0.05, rely=0.60)
-        tk.Button(frame, text="SIGUIENTE",command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
+        tk.Button(frame, text="PAGO",command=self.verPago).place(                                 relx=0.40, rely=0.60)
+        tk.Button(frame, text="SIGUIENTE",command=self.siguienteInterfaz).place(                  relx=0.80, rely=0.80)
 
         tk.Button(frame, text="CALCULAR TOTAL",command = partial(self.calcularTOTAL,frame)).place(relx=0.60, rely=0.45)   #tasar
         #tk.Button(frame, text="A",command=self.atras).place(                    relx=0.01, rely=0.9)
@@ -78,13 +82,23 @@ class Pago:
             self.precio = tk.Label(         frame, text=row[6]).place(          relx=0.4, rely=0.35)
             self.precioXdia = int(row[6])
 
+
+
+        cursorAlquiler = con.cursor()
+        cursorAlquiler.execute("SELECT * FROM Alquileres WHERE idCuil=?", (idCuil,))
+        recordsAlquiler= cursorAlquiler.fetchall()
+        for row in recordsAlquiler:
+            # self.idMatricula = ""+row[1]
+            self.fechaDelAlquiler = tk.Label(frame, text= row[2]).place(                      relx=0.4, rely=0.40)
+
+
         con.close()
 
         window.mainloop()
 
     def verPago(self):
         self.verPago = Toplevel()
-        self.verPago.title("PAGO")
+        self.verPago.title(" VER PAGO")
         screenWidth = self.verPago.winfo_screenwidth()
         screenHeight = self.verPago.winfo_screenheight()
         # Establece ancho de la ventana.
@@ -115,6 +129,10 @@ class Pago:
         tk.Button(frameVerPago, text="Atras",
                   command=self.verPago.withdraw).place(relx=0.01, rely=0.01)
 
+
+    """
+    -----------------------------*******FUNCIONES********-----------------------------------------
+    """
     def validarPago(self):
         if (self.codigoVer.get()):
             if (self.codigoVer.get() == "123"):  # Valida el codigo ingresado con el codigo tecnico
