@@ -6,6 +6,8 @@ from tkinter import messagebox
 from functools import partial
 from interfaces.ESTANDARES import *
 from interfaces.iDevolucionOK import VentanaDevOk
+import servicios.mail
+import servicios.SO
 
 
 class VentanaDevolucion:
@@ -58,40 +60,48 @@ class VentanaDevolucion:
         recordsAlq= cursorAlq.fetchall()
         for row in recordsAlq:
             self.idMatricula = ""+row[1]
-            self.L1 = tk.Label(frame, text= row[0]).place(relx=0.4, rely=0.05)
-            self.L5 = tk.Label(frame, text=row[1]).place(
+            self.bdCuil = tk.Label(frame, text= row[0]).place(relx=0.4, rely=0.05)
+            cuil=row[0]
+            self.bdMatricula = tk.Label(frame, text=row[1]).place(
                 relx=0.4, rely=0.20)
-            self.L6 = tk.Label(frame, text=row[2]).place(
+            self.bdFecha = tk.Label(frame, text=row[2]).place(
                 relx=0.4, rely=0.30)
-            self.L7 = tk.Label(frame, text=row[3]).place(
+            fechaAlquiler=row[2]
+            self.bdDiasAlquiler = tk.Label(frame, text=row[3]).place(
                 relx=0.4, rely=0.35)
-            self.L8 = tk.Label(frame, text=row[4]).place(
+            diasAlquiler=str(row[3])
+            self.bdPrecio = tk.Label(frame, text=row[4]).place(
                 relx=0.4, rely=0.40)
-            self.L9 = tk.Label(frame, text=(row[3]*row[4])).place(
+            precio=str(row[4])
+            self.dbPrecioTotal = tk.Label(frame, text=(row[3]*row[4])).place(
                 relx=0.4, rely=0.45)
+            precioTotal=str(row[3]*row[4])
 
         cursorUser = con.cursor()
         cursorUser.execute("SELECT * FROM Usuarios WHERE Cuil=?", (idCuil,))
         recordsUser= cursorUser.fetchall()
         for row in recordsUser:
-            self.L2 = tk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.10)
-
+            self.bdNombreApellido = tk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.10)
+            nombreApellido= row[0]+" "+row[1]
+            email=row[4]
 
         cursorVehiculo = con.cursor()
         cursorVehiculo.execute("SELECT * FROM vehiculos WHERE matricula=?", (self.idMatricula,))
         recordsVehiculo= cursorVehiculo.fetchall()
         for row in recordsVehiculo:
-            self.L3 = tk.Label(frame, text=row[1]).place(relx=0.4, rely=0.25)
-            self.L4 = tk.Label(frame, text=row[2]).place(relx=0.4, rely=0.15)
+            self.bdMarca = tk.Label(frame, text=row[1]).place(relx=0.4, rely=0.25)
+            marca=row[1]
+            self.bdModelo = tk.Label(frame, text=row[2]).place(relx=0.4, rely=0.15)
+            modelo=row[2]
 
         con.close()
-
+        mensaje= "Subject: AlquilaYa - Devolución de Vehículo.\nSaludos Sr/Sra: " + nombreApellido +"\nLe informamos que se ha devuelto correctamente el vehículo de los siguientes datos: \n Modelo: "+ modelo +"\nMarca: "+ marca +"\nMatricula: "+ self.idMatricula +"\nDesde la fecha"+ fechaAlquiler +"\nDias del alquiler: "+ diasAlquiler +"\nPrecio Total: "+ precioTotal +"\nMuchas gracias por usar nuestro servicio."
 
         #Creacion de los Botones
         tk.Button(frame, text="VERIFICACIÓN TÉCNICA",
                   command=partial(self.verTecnica,frame)).place(relx=0.01, rely=0.60)
         tk.Button(frame, text="SIGUIENTE",
-                  command=partial(self.siguienteInterfaz,idCuil,self.idMatricula)).place(relx=0.80, rely=0.80)
+                  command=partial(self.siguienteInterfaz,idCuil,self.idMatricula, mensaje, email)).place(relx=0.80, rely=0.80)
         tk.Button(frame, text="Atras",
                    command=self.atras).place(relx=0.01, rely=0.9)
         self.codigoVer = tk.Entry(frame)
@@ -123,10 +133,10 @@ class VentanaDevolucion:
             self.codigoVer.focus()
 
 
-    def siguienteInterfaz(self, idCuil, idMatricula):
+    def siguienteInterfaz(self, idCuil, idMatricula, mensaje, email):
         if(self.Verificacion==True):
             self.wind.withdraw()
-            obj=VentanaDevOk(Tk(),idCuil,idMatricula)
+            obj=VentanaDevOk(Tk(),idCuil,idMatricula, mensaje, email)
         else:
             messagebox.showerror("Verificacion Tecnica", "Por favor, haga la verificacion tecnica")
         #Conexion con siguiente interfaz

@@ -4,12 +4,13 @@ import sqlite3
 from tkinter import messagebox
 from functools import partial
 from interfaces.ESTANDARES import *
-import servicios.mail
+from servicios.mail import *
+from servicios.SO import *
 
 
 class VentanaDevOk:
 
-    def __init__(self, window, idCuil, idMatricula):
+    def __init__(self, window, idCuil, idMatricula, mensaje, email):
         self.wind = window
         self.wind.title("Alquila Ya")
         # Obtiene ancho del área de visualización.
@@ -32,7 +33,9 @@ class VentanaDevOk:
         tk.Label(frame, text="DEVOLUCIÓN REALIZADA").place(relx=0.40, rely=0.40)
 
         self.labelValidacion = tk.Label(frame, text="A continuacion se le enviará un email informando la confirmacion de la Devolución").place(relx=0.2, rely=0.50)
-        self.Verificacion = False
+
+        self.cambiosEnBD(idCuil, idMatricula)
+        ENVIAR_CORREO(mensaje, email)
 
         self.idMatricula = ""
         #Creacion de los Botones
@@ -41,7 +44,7 @@ class VentanaDevOk:
         tk.Button(frame, text="Volver a Pagina de inicio",
                    command=self.atras).place(relx=0.30, rely=0.7)
 
-        self.cambiosEnBD(idCuil, idMatricula)
+
 
         window.mainloop()
 

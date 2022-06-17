@@ -3,18 +3,21 @@ from tkinter import *  # botones tablas .. etc
 #from servicios.conexionPago import Conexion
 import sqlite3  # modulo para conexion
 from tkinter import messagebox
+from functools import partial
 
 # clase pago va a tener todos los metodos de mi ventana (titulo botones, entradas dde texto) funcionalidad de nuestras ventanas
 
 
 class Pago:
 
-    def boton(self):
-        ventana2 = Conexion(Tk())
 
-    def __init__(self, window):
+
+    def __init__(self, window, idCuil):
         self.wind = window
-        self.wind.title("Alquila Ya")
+        self.wind.title("VENTANA PAGO")
+
+
+
         # Obtiene ancho del área de visualización.
         screenWidth = window.winfo_screenwidth()
         screenHeight = window.winfo_screenheight()
@@ -30,66 +33,72 @@ class Pago:
         #Creacion del Frame
         frame = LabelFrame(self.wind)
         frame.place(relwidth=1, relheight=1)
+        frame.config(bg="light green")  # color fondo
 
         #Creacion de los Label de etiqueta
         tk.Label(frame, text="DATOS DEL ALQUILER").place(            relx=0.40, rely=0.0)
-        tk.Label(frame, text="Cuil:").place(                         relx=0.01, rely=0.05)
-        tk.Label(frame, text="Nombre y Apellido:").place(            relx=0.01, rely=0.10)
+        tk.Label(frame, text="Nombre y Apellido:").place(            relx=0.01, rely=0.05)
+        tk.Label(frame, text="Cuil:").place(                         relx=0.01, rely=0.10)
         tk.Label(frame, text="Correo").place(                        relx=0.01, rely=0.15)
         tk.Label(frame, text="Marca:").place(                        relx=0.01, rely=0.20)
         tk.Label(frame, text="Modelo:").place(                       relx=0.01, rely=0.25)
         tk.Label(frame, text="Matricula del auto alquilado:").place( relx=0.01, rely=0.30)
-        tk.Label(frame, text="Fecha del Alquiler:").place(           relx=0.01, rely=0.35)
-        tk.Label(frame, text="Precio del alquiler por dia:").place(  relx=0.01, rely=0.40)
-        tk.Label(frame, text="Cantidad de dias del alquiler:").place(relx=0.01, rely=0.45)
-        tk.Label(frame, text="Precio Total").place(                  relx=0.01, rely=0.50)
+        tk.Label(frame, text="Precio del alquiler por dia:").place(  relx=0.01, rely=0.35)
+        tk.Label(frame, text="Fecha del Alquiler:").place(           relx=0.01, rely=0.40)      #pongo yo   (HACER)
+        tk.Label(frame, text="Cantidad de dias del alquiler:").place(relx=0.01, rely=0.45)      # (CAJA DE TEXTO)
+        tk.Label(frame, text="Precio Total").place(                  relx=0.01, rely=0.50)      # sacarlo (PRECIO ALQUILER X DIA    X     CANTIDAD DE DIAS QUE QUIERAN ALQUILAR )
+        self.boxDiasDeAlquiler = tk.Entry(frame)
+        self.boxDiasDeAlquiler.focus()
+        self.boxDiasDeAlquiler.place(                                relx=0.4, rely=0.45)
+
+
+
         #Creacion de los Botones
-        tk.Button(frame, text="PAGO",command=self.verPago).place(               relx=0.05, rely=0.60)
-        tk.Button(frame, text="SIGUIENTE",command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
+        tk.Button(frame, text="PAGO",command=self.verPago).place(                                 relx=0.40, rely=0.60)
+        tk.Button(frame, text="SIGUIENTE",command=self.siguienteInterfaz).place(                  relx=0.80, rely=0.80)
+
+        tk.Button(frame, text="CALCULAR TOTAL",command = partial(self.calcularTOTAL,frame)).place(relx=0.60, rely=0.45)   #tasar
         #tk.Button(frame, text="A",command=self.atras).place(                    relx=0.01, rely=0.9)
 
-
-        window.mainloop()
-
-        """
-        self.idMatricula = ""
+        self.idMatricula = "AA222BB"
 
         db_name = "base_datos/databaseGeneral.sqlite3"
         con = sqlite3.connect(db_name)                                          # mi conexion   con
-        cursorAlq = con.cursor()                                                # mi cursor     cursorAlq
-        cursorAlq.execute("SELECT * FROM Alquileres WHERE idCuil=?", (idCuil,)) # ejecutar alquiereles--idcuil
-        recordsAlq= cursorAlq.fetchall()
-
-        for row in recordsAlq:
-            self.idMatricula = ""+row[1]
-            self.L1 = tk.Label(frame, text= row[0]).place(           relx=0.4, rely=0.05)
-            self.L5 = tk.Label(frame, text= row[1]).place(           relx=0.4, rely=0.20)
-            self.L6 = tk.Label(frame, text= row[2]).place(           relx=0.4, rely=0.30)
-            self.L7 = tk.Label(frame, text= row[3]).place(           relx=0.4, rely=0.35)
-            self.L8 = tk.Label(frame, text= row[4]).place(           relx=0.4, rely=0.40)
-            self.L9 = tk.Label(frame, text=(row[3]*row[4])).place(   relx=0.4, rely=0.45)
-
-        cursorUser = con.cursor()                                               # mi cursor     cursorUser
+        cursorUser = con.cursor()                                               # mi cursor     USUARIO
         cursorUser.execute("SELECT * FROM Usuarios WHERE Cuil=?", (idCuil,))    # ejecutar Usuarios--Cuil
         recordsUser= cursorUser.fetchall()
         for row in recordsUser:
-            self.L2 = tk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.10)
+            self.nombreApellido = tk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.05)
+            self.cuil = tk.Label(          frame, text= row[5]).place(           relx=0.4, rely=0.10)
+            self.correo = tk.Label(        frame, text= row[4]).place(           relx=0.4, rely=0.15)
 
-
-        cursorVehiculo = con.cursor()
+        cursorVehiculo = con.cursor()                                                                           #VEHICULOS
         cursorVehiculo.execute("SELECT * FROM vehiculos WHERE matricula=?", (self.idMatricula,))
         recordsVehiculo= cursorVehiculo.fetchall()
         for row in recordsVehiculo:
-            self.L3 = tk.Label(frame, text=row[1]).place(relx=0.4, rely=0.25)
-            self.L4 = tk.Label(frame, text=row[2]).place(relx=0.4, rely=0.15)
+            self.marca = tk.Label(          frame, text=row[1]).place(          relx=0.4, rely=0.20)
+            self.modelo = tk.Label(         frame, text=row[2]).place(          relx=0.4, rely=0.25)
+            self.matricula = tk.Label(      frame, text=row[4]).place(          relx=0.4, rely=0.30)
+            self.precio = tk.Label(         frame, text=row[6]).place(          relx=0.4, rely=0.35)
+            self.precioXdia = int(row[6])
+
+
+
+        cursorAlquiler = con.cursor()
+        cursorAlquiler.execute("SELECT * FROM Alquileres WHERE idCuil=?", (idCuil,))
+        recordsAlquiler= cursorAlquiler.fetchall()
+        for row in recordsAlquiler:
+            # self.idMatricula = ""+row[1]
+            self.fechaDelAlquiler = tk.Label(frame, text= row[2]).place(                      relx=0.4, rely=0.40)
+
 
         con.close()
-        """
 
+        window.mainloop()
 
     def verPago(self):
         self.verPago = Toplevel()
-        self.verPago.title("PAGO")
+        self.verPago.title(" VER PAGO")
         screenWidth = self.verPago.winfo_screenwidth()
         screenHeight = self.verPago.winfo_screenheight()
         # Establece ancho de la ventana.
@@ -120,6 +129,10 @@ class Pago:
         tk.Button(frameVerPago, text="Atras",
                   command=self.verPago.withdraw).place(relx=0.01, rely=0.01)
 
+
+    """
+    -----------------------------*******FUNCIONES********-----------------------------------------
+    """
     def validarPago(self):
         if (self.codigoVer.get()):
             if (self.codigoVer.get() == "123"):  # Valida el codigo ingresado con el codigo tecnico
@@ -137,5 +150,9 @@ class Pago:
         self.wind.withdraw()
         #Conexion con siguiente interfaz
 
+    def calcularTOTAL(self,frame):
+        a = int(self.precioXdia)
+        b = int(self.boxDiasDeAlquiler.get())
+        c = a*b
 
-app = Pago(Tk())
+        self.precioTotal = tk.Label(frame, text = c ).place(relx=0.4, rely=0.50)
