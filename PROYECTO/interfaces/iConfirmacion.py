@@ -9,7 +9,7 @@ from tkinter import messagebox
 
 class ConfirPago:
 
-    def __init__(self, window):
+    def __init__(self, window, mensaje, email):
         self.wind = window
         self.wind.title("Alquila Ya")
         # Obtiene ancho del área de visualización.
