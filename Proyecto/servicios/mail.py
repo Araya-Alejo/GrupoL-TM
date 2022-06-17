@@ -1,6 +1,6 @@
 import smtplib
-from servicios.SO import *
-from interfaces.ESTANDARES import *
+import servicios.SO
+import interfaces.ESTANDARES
 
 def ENVIAR_CORREO(mensaje, MAIL_OTHER_USER):
     try:

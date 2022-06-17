@@ -173,12 +173,15 @@ class  VentanaUsuario:
         self.nombre = Label(area, text = '', font= (tipografia,10))
         self.nombre.pack(fill=tk.BOTH)
 
-        self.nombre = Label(area, text = 'Nombre *', font= (tipografia,10))
-        self.nombre.pack(fill=tk.BOTH)
+        self.labelNombre = Label(area, text = 'Nombre *', font= (tipografia,10))
+        self.labelNombre.pack(fill=tk.BOTH)
+        self.labelNombre = Label(area, text="------------------", fg="red")
+        self.labelNombre.pack()
         self.nombre = Entry(area)
         self.nombre.pack(pady = 5)
         self.nombre.bind("<Key>", self.cuandoEscribaNombre)
         self.nombre.bind("<BackSpace>", lambda _:self.nombre.delete(tk.END))
+
 
 
         self.apellido =Label(area, text = 'Apellido *', font= (tipografia,10))
