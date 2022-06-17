@@ -68,4 +68,4 @@ class VentanaDevOk:
 
             con.close()
         except Exception:
-            MENSAJE_ERROR("HAY UN ERROR AL MODIFICAR EL ESTADO")
+            MENSAJE_ERROR("HAY UN ERROR AL MODIFICAR LOS DATOS")
