@@ -3,6 +3,9 @@ from tkinter import *  # botones tablas .. etc
 #from servicios.conexionPago import Conexion
 import sqlite3  # modulo para conexion
 from tkinter import messagebox
+from interfaces.ESTANDARES import *
+from servicios.mail import *
+from servicios.SO import *
 
 # clase pago va a tener todos los metodos de mi ventana (titulo botones, entradas dde texto) funcionalidad de nuestras ventanas
 
@@ -32,8 +35,8 @@ class ConfirPago:
         tk.Label(frame, text="CONFIRMACION Auto Alquilado").place(                                                                        relx=0.40, rely=0.40)                               # --->
 
         self.labelValidacion = tk.Label(frame, text="A continuacion se le enviará un email informando la confirmacion del alquiler").place(relx=0.2, rely=0.50)
-
-        # ENVIAR_CORREO(mensaje, email)
+        #print(mensaje)
+        ENVIAR_CORREO(email)
 
         #Creacion de los Botones
         tk.Button(frame, text="Salir",command=window.destroy).place(relx=0.60, rely=0.70)

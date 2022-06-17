@@ -134,17 +134,19 @@ class  VentanaUsuario:
                         self.Error_labelCuil["text"] = ""
         else:
             self.Error_labelCuil["text"] = "Incorrecto"
-
+        """
         try:
             print(self.variable.get())
             if(self.variable.get() == 0):
-                contador = contador + 1                 #terminar
+        """
+        contador = contador + 1                 #terminar
+        """
                 print("check bien")
         except ValueError:
             MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
 
         print("---------------------------------------------------------------------------------")
-
+        """
         if(contador == 7):
             return True
 #---------------------------------------------------------------------------------#

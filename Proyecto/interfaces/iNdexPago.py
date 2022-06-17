@@ -66,7 +66,7 @@ class Pago:
         tk.Button(frame, text="PAGO",command=partial(self.verPago,frame)).place(                                  relx=0.40, rely=0.60)
         tk.Button(frame, text="SIGUIENTE",command=partial(self.siguienteInterfaz, frame)).place(                  relx=0.80, rely=0.80)
         tk.Button(frame, text="CALCULAR TOTAL",command = partial(self.calcularTOTAL,frame)).place(                relx=0.60, rely=0.45)   #tasar
-        #tk.Button(frame, text="A",command=self.atras).place(                                                    relx=0.01, rely=0.9)
+        tk.Button(frame, text="ATRAS",command=self.atras).place(                                                    relx=0.01, rely=0.9)
 
         """
         ------------****************BASE DE DATOS******************----------------------------------------------------------------------------------------------OPEN---
@@ -109,6 +109,11 @@ class Pago:
         """
 
         window.mainloop()
+
+    def atras(self):
+        self.wind.withdraw()
+        from interfaces.iPrimerPantalla import Ventana1
+        obj=Ventana1(Tk())
 
     def verPago(self,frame):
         self.verPago = Toplevel()
@@ -164,12 +169,16 @@ class Pago:
         if(self.boxDiasDeAlquiler.get()):
             if(self.boxDiasDeAlquiler.get().isnumeric()):
                 if((int(self.boxDiasDeAlquiler.get())<15) and (int(self.boxDiasDeAlquiler.get())>0)):
-
+                    self.precioTotal = tk.Label(frame, text = "" )
+                    self.precioTotal.place(relx=0.4, rely=0.50)
                     a = int(self.precioXdia)
-                    b = int(self.boxDiasDeAlquiler.get())
-                    self.cantidadTotal = a*b
-
-                    self.precioTotal = tk.Label(frame, text = self.cantidadTotal ).place(relx=0.4, rely=0.50)
+                    if(self.boxDiasDeAlquiler.get()=="1"):
+                        self.precioTotal["text"] = a
+                    else:
+                        b = int(self.boxDiasDeAlquiler.get())
+                        self.cantidadTotal = str(a*b)
+                        self.precioTotal["text"] = ""
+                        self.precioTotal["text"] = self.cantidadTotal
                 else:
                     messagebox.showwarning(
                         "Error", "Tiene que ser un numero del 1 al 14")
@@ -225,8 +234,9 @@ class Pago:
                 cantDias=str(row[3])
                 precioTotal=str(row[4])
 
-            mensaje= "Subject: AlquilaYa - Devolución de Vehículo.\nSaludos Sr/Sra: " + self.NyApellido +"\nLe informamos que se ha alquitado correctamente el vehículo de los siguientes datos: \n Modelo: "+ self.nombreModelo +"\nMarca: "+ self.nombreMarca +"\nMatricula: "+ self.NroMatricula +"\nDesde la fecha"+ fecha +"\nDias del alquiler: "+ cantDias +"\nPrecio Total: "+ precioTotal +"\nMuchas gracias por usar nuestro servicio."
-            print(mensaje)
+            mensaje= "Saludos Sr/Sra: Le informamos que se ha alquilado correctamente el vehículo"
+            #mensaje= "Saludos Sr/Sra: " + self.NyApellido +"Le informamos que se ha alquitado correctamente el vehículo de los siguientes datos:  Modelo: "+ self.nombreModelo +"Marca: "+ self.nombreMarca +"Matricula: "+ self.NroMatricula +"Desde la fecha"+ fecha +"Dias del alquiler: "+ cantDias +"Precio Total: "+ precioTotal +"Muchas gracias por usar nuestro servicio."
+            #print(mensaje)
             con.close()
             return mensaje
         except Exception:

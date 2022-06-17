@@ -95,7 +95,8 @@ class VentanaDevolucion:
             modelo=row[2]
 
         con.close()
-        mensaje= "Subject: AlquilaYa - Devolución de Vehículo.\nSaludos Sr/Sra: " + nombreApellido +"\nLe informamos que se ha devuelto correctamente el vehículo de los siguientes datos: \n Modelo: "+ modelo +"\nMarca: "+ marca +"\nMatricula: "+ self.idMatricula +"\nDesde la fecha"+ fechaAlquiler +"\nDias del alquiler: "+ diasAlquiler +"\nPrecio Total: "+ precioTotal +"\nMuchas gracias por usar nuestro servicio."
+        mensaje= "Saludos Sr/Sra: Le informamos que se ha devuelto correctamente el vehículo"
+        #mensaje= "Saludos Sr/Sra: " + nombreApellido +"Le informamos que se ha devuelto correctamente el vehículo de los siguientes datos: Modelo: "+ modelo +"Marca: "+ marca +"Matricula: "+ self.idMatricula +"Desde la fecha"+ fechaAlquiler +"Dias del alquiler: "+ diasAlquiler +"Precio Total: "+ precioTotal +"Muchas gracias por usar nuestro servicio."
 
         #Creacion de los Botones
         tk.Button(frame, text="VERIFICACIÓN TÉCNICA",

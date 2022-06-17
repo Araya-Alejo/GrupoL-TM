@@ -37,8 +37,15 @@ class ReconIniciar:
         self.idCuil = tk.Entry(frame)
         self.idCuil.focus()
         self.idCuil.place(relx=0.50, rely=0.3)
+        tk.Button(frame, text="Atras",
+                   command=self.atras).place(relx=0.01, rely=0.9)
 
         window.mainloop()
+
+    def atras(self):
+        self.wind.withdraw()
+        from interfaces.iPrimerPantalla import Ventana1
+        obj=Ventana1(Tk())
 
     def validarUsuario(self):
         if (self.idCuil.get()):
