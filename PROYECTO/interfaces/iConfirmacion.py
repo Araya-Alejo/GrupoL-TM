@@ -7,10 +7,7 @@ from tkinter import messagebox
 # clase pago va a tener todos los metodos de mi ventana (titulo botones, entradas dde texto) funcionalidad de nuestras ventanas
 
 
-class Pago:
-
-    def boton(self):
-        ventana2 = Conexion(Tk())
+class ConfirPago:
 
     def __init__(self, window):
         self.wind = window
@@ -32,79 +29,23 @@ class Pago:
         frame.place(relwidth=1, relheight=1)
 
         #Creacion de los Label de etiqueta
-        tk.Label(frame, text="DATOS DEL ALQUILER").place(relx=0.40, rely=0.0)
-        tk.Label(frame, text="Cuil:").place(relx=0.01, rely=0.05)
-        tk.Label(frame, text="Nombre y Apellido:").place(
-            relx=0.01, rely=0.10)
-        tk.Label(frame, text="Correo").place(
-            relx=0.01, rely=0.15)
-        tk.Label(frame, text="Marca:").place(relx=0.01, rely=0.20)
-        tk.Label(frame, text="Modelo:").place(relx=0.01, rely=0.25)
-        tk.Label(frame, text="Matricula del auto alquilado:").place(
-            relx=0.01, rely=0.30)
-        tk.Label(frame, text="Fecha del Alquiler:").place(
-            relx=0.01, rely=0.35)
-        tk.Label(frame, text="Precio del alquiler por dia:").place(relx=0.01, rely=0.40)
-        tk.Label(frame, text="Cantidad de dias del alquiler:").place(
-            relx=0.01, rely=0.45)
-        tk.Label(frame, text="Precio Total").place(
-            relx=0.01, rely=0.50)
-        #Creacion de los Botones
+        tk.Label(frame, text="CONFIRMACION Auto Alquilado").place(                                                                        relx=0.40, rely=0.40)                               # --->
 
-        tk.Button(frame, text="CONFIRMAR",
-                  command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
+        self.labelValidacion = tk.Label(frame, text="A continuacion se le enviará un email informando la confirmacion del alquiler").place(relx=0.2, rely=0.50)
+
+        # ENVIAR_CORREO(mensaje, email)
+
+        #Creacion de los Botones
+        tk.Button(frame, text="Salir",command=window.destroy).place(relx=0.60, rely=0.70)
+        tk.Button(frame, text="Volver a Pagina de inicio", command=self.atras).place(relx=0.30, rely=0.7)
+
+
 
         window.mainloop()
-
         """
-        self.idMatricula = ""
-        db_name = "base_datos/databaseGeneral.sqlite3"
-        con = sqlite3.connect(db_name)
-        cursorAlq = con.cursor()
-        cursorAlq.execute("SELECT * FROM Alquileres WHERE idCuil=?", (idCuil,))
-        recordsAlq= cursorAlq.fetchall()
-        for row in recordsAlq:
-            self.idMatricula = ""+row[1]
-            self.L1 = tk.Label(frame, text= row[0]).place(relx=0.4, rely=0.05)
-            self.L5 = tk.Label(frame, text=row[1]).place(
-                relx=0.4, rely=0.20)
-            self.L6 = tk.Label(frame, text=row[2]).place(
-                relx=0.4, rely=0.30)
-            self.L7 = tk.Label(frame, text=row[3]).place(
-                relx=0.4, rely=0.35)
-            self.L8 = tk.Label(frame, text=row[4]).place(
-                relx=0.4, rely=0.40)
-            self.L9 = tk.Label(frame, text=(row[3]*row[4])).place(
-                relx=0.4, rely=0.45)
-
-        cursorUser = con.cursor()
-        cursorUser.execute("SELECT * FROM Usuarios WHERE Cuil=?", (idCuil,))
-        recordsUser= cursorUser.fetchall()
-        for row in recordsUser:
-            self.L2 = tk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.10)
-
-
-        cursorVehiculo = con.cursor()
-        cursorVehiculo.execute("SELECT * FROM vehiculos WHERE matricula=?", (self.idMatricula,))
-        recordsVehiculo= cursorVehiculo.fetchall()
-        for row in recordsVehiculo:
-            self.L3 = tk.Label(frame, text=row[1]).place(relx=0.4, rely=0.25)
-            self.L4 = tk.Label(frame, text=row[2]).place(relx=0.4, rely=0.15)
-
-        con.close()
+                                                                                                                                                                ---fin
         """
-
-        #tk.Button(frame, text="Atras",
-        #           command=self.atras).place(relx=0.01, rely=0.9)
-
-
-
-
-
-    def siguienteInterfaz(self):
+    def atras(self):
         self.wind.withdraw()
-        #Conexion con siguiente interfaz
-
-
-
-app = Pago(Tk())
+        from interfaces.iPrimerPantalla import Ventana1
+        obj= Ventana1(Tk())
