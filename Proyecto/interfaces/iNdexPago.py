@@ -80,20 +80,26 @@ class Pago:
         recordsUser= cursorUser.fetchall()
         for row in recordsUser:
             self.nombreApellido = tk.Label(frame, text= row[0]+" "+row[1]).place(relx=0.4, rely=0.05)
+            self.NyApellido = row[0]+" "+row[1]
             self.cuil = tk.Label(          frame, text= row[5]).place(           relx=0.4, rely=0.10)
             self.numeroCUIL = row[5]
             self.correo = tk.Label(        frame, text= row[4]).place(           relx=0.4, rely=0.15)
+            self.email = row[4]
+
 
         cursorVehiculo = con.cursor()                                                                                                   #---VEHICULO
         cursorVehiculo.execute("SELECT * FROM vehiculos WHERE matricula=?", (self.idMatricula,))
         recordsVehiculo= cursorVehiculo.fetchall()
         for row in recordsVehiculo:
             self.marca = tk.Label(          frame, text=row[1]).place(          relx=0.4, rely=0.20)
+            self.nombreMarca=row[1]
             self.modelo = tk.Label(         frame, text=row[2]).place(          relx=0.4, rely=0.25)
+            self.nombreModelo=row[2]
             self.matricula = tk.Label(      frame, text=row[4]).place(          relx=0.4, rely=0.30)
             self.NroMatricula = row[4]
             self.precio = tk.Label(         frame, text=row[6]).place(          relx=0.4, rely=0.35)
             self.precioXdia = int(row[6])
+
 
 
 
@@ -178,8 +184,9 @@ class Pago:
     def siguienteInterfaz(self, frame):
         if(self.Verificacion==True):
             self.cambiosEnBD()
+            mensaje = self.generacionMensaje()
             self.wind.withdraw()
-            obj=ConfirPago(Tk())
+            obj=ConfirPago(Tk(), mensaje, self.email)
 
         else:
             messagebox.showerror("Realizar Pago", "Por favor, haga el pago del alquiler ")
@@ -204,3 +211,23 @@ class Pago:
             con.close()
         except Exception:
             MENSAJE_ERROR("HAY UN ERROR AL MODIFICAR EL ESTADO")
+
+    def generacionMensaje(self):
+        try:
+            db_name = "base_datos/databaseGeneral.sqlite3"
+            con = sqlite3.connect(db_name)
+
+            cursorAlq = con.cursor()
+            cursorAlq.execute("SELECT * FROM Alquileres WHERE idCuil=?", (self.numeroCUIL,))
+            recordsAlq= cursorAlq.fetchall()
+            for row in recordsAlq:
+                fecha=str(row[2])
+                cantDias=str(row[3])
+                precioTotal=str(row[4])
+
+            mensaje= "Subject: AlquilaYa - Devolución de Vehículo.\nSaludos Sr/Sra: " + self.NyApellido +"\nLe informamos que se ha alquitado correctamente el vehículo de los siguientes datos: \n Modelo: "+ self.nombreModelo +"\nMarca: "+ self.nombreMarca +"\nMatricula: "+ self.NroMatricula +"\nDesde la fecha"+ fecha +"\nDias del alquiler: "+ cantDias +"\nPrecio Total: "+ precioTotal +"\nMuchas gracias por usar nuestro servicio."
+            print(mensaje)
+            con.close()
+            return mensaje
+        except Exception:
+            MENSAJE_ERROR("HAY UN ERROR AL GENERAR EL MENSAJE ")
