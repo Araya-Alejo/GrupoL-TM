@@ -155,12 +155,24 @@ class Pago:
 
 
     def calcularTOTAL(self,frame):
-        a = int(self.precioXdia)
-        b = int(self.boxDiasDeAlquiler.get())
-        self.cantidadTotal = a*b
+        if(self.boxDiasDeAlquiler.get()):
+            if(self.boxDiasDeAlquiler.get().isnumeric()):
+                if((int(self.boxDiasDeAlquiler.get())<15) and (int(self.boxDiasDeAlquiler.get())>0)):
 
-        self.precioTotal = tk.Label(frame, text = self.cantidadTotal ).place(relx=0.4, rely=0.50)
+                    a = int(self.precioXdia)
+                    b = int(self.boxDiasDeAlquiler.get())
+                    self.cantidadTotal = a*b
 
+                    self.precioTotal = tk.Label(frame, text = self.cantidadTotal ).place(relx=0.4, rely=0.50)
+                else:
+                    messagebox.showwarning(
+                        "Error", "Tiene que ser un numero del 1 al 14")
+            else:
+                messagebox.showwarning(
+                    "Error", "Tiene que ingresar un numero del 1 al 14")
+        else:
+            messagebox.showwarning(
+                "Error", "Los campos no pueden estar vacíos")
 
 
     def siguienteInterfaz(self, frame):
@@ -180,7 +192,8 @@ class Pago:
             db_name = "base_datos/databaseGeneral.sqlite3"
             con = sqlite3.connect(db_name)
             cursorAlq = con.cursor()
-            cursorAlq.execute("INSERT INTO Alquileres VALUES( ?,?,?,?,? )", (self.numeroCUIL,self.NroMatricula,self.fecha,self.boxDiasDeAlquiler.get(),self.cantidadTotal ,))
+
+            cursorAlq.execute("INSERT INTO Alquileres(IdCuil,IdMatricula,FechaAlquiler,CantDias,PrecioTotal) VALUES ( ?,?,?,?,? )", (self.numeroCUIL,self.NroMatricula,self.fecha,self.boxDiasDeAlquiler.get(),self.cantidadTotal ,))
             con.commit()
 
             cursorVehiculo = con.cursor()

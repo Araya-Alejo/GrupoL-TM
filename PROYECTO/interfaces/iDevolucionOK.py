@@ -35,7 +35,7 @@ class VentanaDevOk:
         self.labelValidacion = tk.Label(frame, text="A continuacion se le enviará un email informando la confirmacion de la Devolución").place(relx=0.2, rely=0.50)
 
         self.cambiosEnBD(idCuil, idMatricula)
-        ENVIAR_CORREO(mensaje, email)
+        #ENVIAR_CORREO(mensaje, email)
 
         self.idMatricula = ""
         #Creacion de los Botones

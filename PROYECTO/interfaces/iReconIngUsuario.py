@@ -61,7 +61,7 @@ class ReconIniciar:
         cur = con.cursor()
         idCuil = self.idCuil.get()
         cur.execute(
-            "SELECT IdCuil FROM Alquileres WHERE IdCuil=?", (idCuil,))
+            "SELECT Cuil FROM Usuarios WHERE Cuil=?", (idCuil,))
         datos = cur.fetchall()
         con.close()
         return datos
