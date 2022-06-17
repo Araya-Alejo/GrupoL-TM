@@ -9,10 +9,9 @@ from tkinter import messagebox
 
 class Pago:
 
-    def boton(self):
-        ventana2 = Conexion(Tk())
 
-    def __init__(self, window):
+
+    def __init__(self, window, idCuil):
         self.wind = window
         self.wind.title("Alquila Ya")
         # Obtiene ancho del área de visualización.
@@ -48,10 +47,6 @@ class Pago:
         tk.Button(frame, text="SIGUIENTE",command=self.siguienteInterfaz).place(relx=0.80, rely=0.80)
         #tk.Button(frame, text="A",command=self.atras).place(                    relx=0.01, rely=0.9)
 
-
-        window.mainloop()
-
-        """
         self.idMatricula = ""
 
         db_name = "base_datos/databaseGeneral.sqlite3"
@@ -84,8 +79,8 @@ class Pago:
             self.L4 = tk.Label(frame, text=row[2]).place(relx=0.4, rely=0.15)
 
         con.close()
-        """
 
+        window.mainloop()
 
     def verPago(self):
         self.verPago = Toplevel()
@@ -136,6 +131,3 @@ class Pago:
     def siguienteInterfaz(self):
         self.wind.withdraw()
         #Conexion con siguiente interfaz
-
-
-app = Pago(Tk())

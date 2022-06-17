@@ -5,6 +5,7 @@ from tkinter import messagebox
 # import entidades.usuario as usuario
 import sqlite3
 from interfaces.iUsuario import VentanaUsuario
+from interfaces.iReconIngUsuario import ReconIniciar
 
 class  VentanaInicioSesion:
     # db_nombre = 'database.db'
@@ -29,8 +30,12 @@ class  VentanaInicioSesion:
         self.boton1 = tk.Button(area, text = 'Registrarse', font= ("Bahnschrift Light",10), command= self.llamadaVentanaUsuario )
         self.boton1.place(relx = .3, rely=.5)
 
-        self.boton2 = tk.Button(area, text = 'Iniciar sesion', font= ("Bahnschrift Light",10))
+        self.boton2 = tk.Button(area, text = 'Iniciar sesion', font= ("Bahnschrift Light",10), command = self.siguientePantalla)
         self.boton2.place(relx = .6, rely=.5)
 
 
         ventana.mainloop()
+
+    def siguientePantalla(self):
+        self.ventana.withdraw()
+        obj = ReconIniciar(Tk())
