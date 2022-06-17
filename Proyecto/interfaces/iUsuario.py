@@ -135,13 +135,13 @@ class  VentanaUsuario:
         else:
             self.Error_labelCuil["text"] = "Incorrecto"
 
-        try:
-            print(self.variable.get())
-            if(self.variable.get() == 0):
-                contador = contador + 1                 #terminar
-                print("check bien")
-        except ValueError:
-            MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
+
+        if(self.comboTyC.get() == "SI"):
+                contador = contador + 1
+                self.Error_labelComboTyC["text"] = ""
+        else:
+            self.Error_labelComboTyC["text"] = "Incorrecto"
+
 
         print("---------------------------------------------------------------------------------")
 
@@ -222,12 +222,12 @@ class  VentanaUsuario:
         self.boton = tk.Button(area, text = 'T&C', font= (tipografia,10), command = TC.abrirPDF )
         self.boton.place(x=400, y=350)
 
-        # self.variable = IntVar()
-        # self.check = Checkbutton(area, text="Termino y condiciones *", font=(tipografia,10), variable=self.variable, onvalue=1, offvalue=0)
-        # self.check.place(x=340, y=400)
-
+        self.labelComboTyC =Label(area, text = '¿Esta de acuerdo con los termino y condiciones?', font= (tipografia,10))
+        self.labelComboTyC.place(x=270, y=380)
+        self.Error_labelComboTyC= Label(area, text="", fg="red")
+        self.Error_labelComboTyC.place(x=490, y=400)
         self.comboTyC = ttk.Combobox(area, state="readonly",
-            values=["SI", "NO"])
+        values=["SI", "NO"])
         self.comboTyC.place(x=342, y=400, height=24)
 
         self.boton = tk.Button(area, text = 'Reconocimiento facial *', font= (tipografia,10),command = self.validar )
