@@ -1,58 +1,31 @@
-import tkinter as tk
-from tkinter import *
+'''
+    Interfaz de Usuario para inisiar sesión mediante reconocimiento facial.
+    @author Bulos & Vargas
+'''
+# ------------------------------------------------------------------------------
+from tkinter import Frame, Label, Entry, Button, messagebox
+
 import sqlite3
-from tkinter import messagebox
 from interfaces.iDevolucion import VentanaDevolucion
+# ------------------------------------------------------------------------------
+class ReconDev():
 
-
-class ReconDev:
-    def __init__(self, window):
-        self.wind = window
-        self.wind.title("Alquila Ya")
-        # Obtiene ancho del área de visualización.
-        screenWidth = window.winfo_screenwidth()
-        screenHeight = window.winfo_screenheight()
-        # Establece ancho de la ventana.
-        width = 800
-        # Establece altura de la ventana.
-        height = 600
-        left = (screenWidth - width) / 2
-        top = (screenHeight - height) / 2
-        self.wind.geometry("%dx%d+%d+%d" % (width, height, left, top))
-        self.wind.resizable(0, 0)
-
-        #Creacion del Frame
-        frame = LabelFrame(self.wind)
-        frame.place(relwidth=1, relheight=1)
-
-        #Label
-        tk.Label(frame, text="EN ESTA INTERFAZ RECONOCERIA EL ROSTRO").place(
-            relx=0.40, rely=0.4)
-
-        #Creacion de los Botones
-        tk.Button(frame, text="Reconocimiento",
-                  command=self.validarUsuario).place(relx=0.40, rely=0.60)
-
-        #Crecion de Entry
-        self.idCuil = tk.Entry(frame)
-        self.idCuil.focus()
-        self.idCuil.place(relx=0.50, rely=0.3)
-        tk.Button(frame, text="Atras",
-                   command=self.atras).place(relx=0.01, rely=0.9)
-
-        window.mainloop()
-
-    def atras(self):
-        self.wind.withdraw()
+    '''
+        Procedimiento para el Button Volver
+    '''
+    def actionVolver(self):
         from interfaces.iPrimerPantalla import Ventana1
-        obj=Ventana1(Tk())
+        self.root.withdraw()
+        ventana = Ventana1(Tk())
 
+    '''
+        Procedimiento para validar un Usuario
+    '''
     def validarUsuario(self):
         if (self.idCuil.get()):
-            dato =self.idCuil.get()
-            if (self.searchUsuario()):
+            if (self.buscarUsuario()):
                 self.wind.withdraw()
-                ventana = VentanaDevolucion(Tk(), dato)
+                ventana = VentanaDevolucion(Tk(), self,idCuil.get())
             else:
                 messagebox.showwarning(
                     "Usuario sin operacion", "No hay alquileres pendientes para este usuario")
@@ -62,13 +35,58 @@ class ReconDev:
                 "Error", "Los campos no pueden estar vacíos")
             self.idCuil.focus()
 
-    def searchUsuario(self):
+    '''
+        Función para buscar un Usuario
+    '''
+    def buscarUsuario(self):
         db_name = "base_datos/databaseGeneral.sqlite3"
         con = sqlite3.connect(db_name)
         cur = con.cursor()
-        idCuil = self.idCuil.get()
-        cur.execute(
-            "SELECT IdCuil FROM Alquileres WHERE IdCuil=?", (idCuil,))
+        cur.execute("SELECT IdCuil FROM Alquileres WHERE IdCuil=?", (self.idCuil.get(),))
         datos = cur.fetchall()
         con.close()
         return datos
+
+    '''
+        Método Constructor
+    '''
+    def __init__(self, root):
+        # Ventana
+        self.root = root
+        screenWidth = root.winfo_screenwidth()                                  # Obtiene ancho del área de visualización.
+        screenHeight = root.winfo_screenheight()                                # Obtiene altura del área de visualización.
+        width = 500                                                             # Establece ancho de la ventana.
+        height = 300                                                            # Establece altura de la ventana.
+        left = (screenWidth - width) / 2
+        top = (screenHeight - height) / 2
+        root.geometry("%dx%d+%d+%d" % (width, height, left, top))               # Ancho x Alto + Desplazamiento x + Desplazamiento y
+        root.title("Iniciar Sesión")
+        root.resizable(False, False)
+
+        self.initComponents(root)
+
+    '''
+        Procedimiento que inicializa los componentes gráficos.
+    '''
+    def initComponents(self, root):
+        # Frame
+        frame1 = Frame(root, width="300", height="50")
+        frame1.pack(expand=False, fill="both")
+
+        frame2 = Frame(root, width="300", height="250")
+        frame2.pack(expand=False, fill="both")
+
+        # Label
+        Label(frame1, text="Iniciar Sesión", font=("Bahnschrift SemiLight", 20)).place(x=250 ,y=25, anchor="center")
+        Label(frame2, text="CUIL:", font=("Bahnschrift Light", 12)).place(x=25, y=20)
+
+        # Entry
+        self.idCuil = Entry(frame2, width=20)
+        self.idCuil.place(x=100, y=20, height=25)
+        self.idCuil.focus_force()
+
+        # Button
+        Button(frame2, text="Volver", command=self.actionVolver).place(x=50, y=150, anchor="center")
+        Button(frame2, text="Capturar Rostro", command=self.validarUsuario).place(x=250, y=100, anchor="center", width=200, height=50)
+
+        root.mainloop()
