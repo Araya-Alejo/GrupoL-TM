@@ -134,19 +134,15 @@ class  VentanaUsuario:
                         self.Error_labelCuil["text"] = ""
         else:
             self.Error_labelCuil["text"] = "Incorrecto"
-        """
-        try:
-            print(self.variable.get())
-            if(self.variable.get() == 0):
-        """
-        contador = contador + 1                 #terminar
-        """
-                print("check bien")
-        except ValueError:
-            MessageBox.showwarning("Alerta", "Uno de los valores fue erroneo")
 
-        print("---------------------------------------------------------------------------------")
-        """
+
+
+        if(self.comboTyC.get() == "SI"):
+            contador = contador + 1
+            self.Error_labelcomboTyC["text"] = ""
+        else:
+            self.Error_labelcomboTyC["text"] = "Incorrecto"
+
         if(contador == 7):
             return True
 #---------------------------------------------------------------------------------#
@@ -232,6 +228,8 @@ class  VentanaUsuario:
         self.comboTyC = ttk.Combobox(area, state="readonly",
             values=["SI", "NO"])
         self.comboTyC.place(x=342, y=400, height=24)
+        self.Error_labelcomboTyC = Label(area, text="", fg="red")
+        self.Error_labelcomboTyC.place(x=490, y=400)
 
         self.boton = tk.Button(area, text = 'Reconocimiento facial *', font= (tipografia,10),command = self.validar )
         self.boton.place(x=342, y=450)
