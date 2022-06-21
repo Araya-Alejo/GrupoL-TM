@@ -70,12 +70,10 @@ class VentanaDevolucion:
             self.bdDiasAlquiler = tk.Label(frame, text=row[3]).place(
                 relx=0.4, rely=0.35)
             diasAlquiler=str(row[3])
-            self.bdPrecio = tk.Label(frame, text=row[4]).place(
-                relx=0.4, rely=0.40)
-            precio=str(row[4])
-            self.dbPrecioTotal = tk.Label(frame, text=(row[3]*row[4])).place(
+
+            self.dbPrecioTotal = tk.Label(frame, text=row[4]).place(
                 relx=0.4, rely=0.45)
-            precioTotal=str(row[3]*row[4])
+            precioTotal=str(row[4])
 
         cursorUser = con.cursor()
         cursorUser.execute("SELECT * FROM Usuarios WHERE Cuil=?", (idCuil,))
@@ -93,6 +91,9 @@ class VentanaDevolucion:
             marca=row[1]
             self.bdModelo = tk.Label(frame, text=row[2]).place(relx=0.4, rely=0.15)
             modelo=row[2]
+            self.bdPrecio = tk.Label(frame, text=row[6]).place(
+                relx=0.4, rely=0.40)
+            precio=str(row[6])
 
         con.close()
         mensaje= "Saludos Sr/Sra: Le informamos que se ha devuelto correctamente el vehículo"

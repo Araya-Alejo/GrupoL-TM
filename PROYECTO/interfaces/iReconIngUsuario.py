@@ -6,8 +6,9 @@ from interfaces.iNdexPago import Pago
 
 
 class ReconIniciar:
-    def __init__(self, window):
+    def __init__(self, window, matricula):
         self.wind = window
+        self.parametroMatricula = matricula
         self.wind.title("Alquila Ya")
         # Obtiene ancho del área de visualización.
         screenWidth = window.winfo_screenwidth()
@@ -49,14 +50,14 @@ class ReconIniciar:
 
     def validarUsuario(self):
         if (self.idCuil.get()):
-            dato =self.idCuil.get()
-            if (self.searchUsuario()):
-                self.wind.withdraw()
-                ventana = Pago(Tk(), dato)
-            else:
+            datoCuil =self.idCuil.get()
+            if (self.searchEnAlquiler()):
                 messagebox.showwarning(
-                    "Usuario sin operacion", "No hay alquileres pendientes para este usuario")
+                    "Usuario sin operacion", "Ya tiene un auto en alquiler")
                 self.idCuil.focus()
+            else:
+                self.wind.withdraw()
+                ventana = Pago(Tk(), datoCuil, self.parametroMatricula)
         else:
             messagebox.showwarning(
                 "Error", "Los campos no pueden estar vacíos")
@@ -69,6 +70,16 @@ class ReconIniciar:
         idCuil = self.idCuil.get()
         cur.execute(
             "SELECT Cuil FROM Usuarios WHERE Cuil=?", (idCuil,))
+        datos = cur.fetchall()
+        con.close()
+        return datos
+
+    def searchEnAlquiler(self):
+        db_name = "base_datos/databaseGeneral.sqlite3"
+        con = sqlite3.connect(db_name)
+        cur = con.cursor()
+        idCuil = self.idCuil.get()
+        cur.execute("SELECT IdCuil FROM Alquileres WHERE IdCuil=?", (idCuil,))
         datos = cur.fetchall()
         con.close()
         return datos

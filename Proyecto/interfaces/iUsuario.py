@@ -151,8 +151,9 @@ class  VentanaUsuario:
             return True
 #---------------------------------------------------------------------------------#
 
-    def __init__(self, ventana):
+    def __init__(self, ventana, matricula):
         self.ventana = ventana
+        self.parametroMatricula = matricula
         ancho = ventana.winfo_screenwidth()
         alto = ventana.winfo_screenheight()
         ancho2 = 800

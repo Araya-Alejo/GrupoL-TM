@@ -3,7 +3,7 @@
     @author Bulos & Vargas
 '''
 # ------------------------------------------------------------------------------
-from tkinter import Frame, Label, Entry, Button, messagebox
+from tkinter import Frame, Label, Entry, Button, messagebox, Tk
 
 import sqlite3
 from interfaces.iDevolucion import VentanaDevolucion
@@ -24,8 +24,8 @@ class ReconDev():
     def validarUsuario(self):
         if (self.idCuil.get()):
             if (self.buscarUsuario()):
-                self.wind.withdraw()
-                ventana = VentanaDevolucion(Tk(), self,idCuil.get())
+                self.root.withdraw()
+                ventana = VentanaDevolucion(Tk(), self.idCuil.get())
             else:
                 messagebox.showwarning(
                     "Usuario sin operacion", "No hay alquileres pendientes para este usuario")

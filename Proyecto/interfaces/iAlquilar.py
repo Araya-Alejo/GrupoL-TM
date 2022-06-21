@@ -3,6 +3,8 @@ from tkinter import Tk, Frame, Label, Button, ttk, Entry
 from interfaces.iAgregarVehiculo import VentanaAgregarVehiculo
 from servicios.alquilarServicio import *
 from servicios.vehiculoservicio_basedatos import mensajeAdvertencia
+from interfaces.iIniciarSesion import VentanaInicioSesion
+from functools import partial
 
 
 class VentanaAlquilar():
@@ -12,19 +14,22 @@ class VentanaAlquilar():
         Muestra la ventana para cargar datos del Vehiculo.
     '''
 
-    def actionAlquilar(tree):
-        from interfaces.iIniciarSesion import VentanaInicioSesion
+    def actionAlquilar(self):
 
-        matricula = tree.item(tree.selection())["values"][3]
-        print(matricula)
-        self.root.withdraw()
-        ventanaPrincipal = VentanaUsuario(Tk())
+        try:
+            matricula = self.tree.item(self.tree.selection())["values"][3]
+            #print(matricula)
+            self.root.withdraw()
+            from interfaces.iIniciarSesion import VentanaInicioSesion
+            ventanaPrincipal = VentanaInicioSesion(Tk(), matricula)
+        except IndexError:
+            messagebox.showerror("Seleccionar auto", "Debe seleccionar un auto primero")
 
     def actionVolver(self):
         from interfaces.iPrimerPantalla import Ventana1
 
         self.root.withdraw()
-        ventana = VentanaUsuario(Tk())
+        ventana = Ventana1(Tk())
 
     def actionBuscar(self):
         if(self.entryBuscar.get()):
@@ -83,7 +88,7 @@ class VentanaAlquilar():
         # Treeview
 
         self.tree = ttk.Treeview(frame3, height=20, columns=[
-                                 f"#{n}" for n in range(1, 6)])
+                                 f"#{n}" for n in range(1, 7)])
         self.tree.heading("#0", text="Clasifiación",
                           command=self.ordenarPorClasificacion)
         self.tree.heading("#1", text="Marca",
@@ -92,9 +97,11 @@ class VentanaAlquilar():
                           command=self.ordenarPorModelo)
         self.tree.heading("#3", text="Generación",
                           command=self.ordenarPorGeneracion)
-        self.tree.heading("#4", text="Kilómetros",
+        self.tree.heading("#4", text="Matricula",
+                          command=self.ordenarPorMatricula)
+        self.tree.heading("#5", text="Kilómetros",
                           command=self.ordenarPorKilometros)
-        self.tree.heading("#5", text="Precio",
+        self.tree.heading("#6", text="Precio",
                           command=self.ordenarPorPrecio)
 
         self.tree.column("#0", minwidth=0, width=95)
@@ -103,6 +110,7 @@ class VentanaAlquilar():
         self.tree.column("#3", minwidth=0, width=95)
         self.tree.column("#4", minwidth=0, width=95)
         self.tree.column("#5", minwidth=0, width=95)
+        self.tree.column("#6", minwidth=0, width=95)
 
         self.tree.place(x=400, y=225, anchor="center")
 
@@ -143,6 +151,9 @@ class VentanaAlquilar():
 
     def ordenarPorGeneracion(self):
         ordenarPorGeneracion(self.tree, self.entryBuscar.get())
+
+    def ordenarPorMatricula(self):
+        ordenarPorMatricula(self.tree, self.entryBuscar.get())
 
     def ordenarPorKilometros(self):
         ordenarPorKilometros(self.tree, self.entryBuscar.get())

@@ -16,11 +16,9 @@ class Pago:
 
 
 
-    def __init__(self, window, idCuil):
+    def __init__(self, window, idCuil, matricula):
         self.wind = window
         self.wind.title("VENTANA PAGO")
-
-
 
         # Obtiene ancho del área de visualización.
         screenWidth = window.winfo_screenwidth()
@@ -37,7 +35,6 @@ class Pago:
         #Creacion del Frame
         frame = LabelFrame(self.wind)
         frame.place(relwidth=1, relheight=1)
-        frame.config(bg="light green")  # color fondo
 
         #Creacion de los Label de etiqueta
         tk.Label(frame, text="DATOS DEL ALQUILER").place(            relx=0.40, rely=0.0)
@@ -71,7 +68,7 @@ class Pago:
         """
         ------------****************BASE DE DATOS******************----------------------------------------------------------------------------------------------OPEN---
         """
-        self.idMatricula = "AA222BB"
+        self.idMatricula = matricula
 
         db_name = "base_datos/databaseGeneral.sqlite3"
         con = sqlite3.connect(db_name)                                                          # mi conexion   con
@@ -135,7 +132,7 @@ class Pago:
 
         #Creacion de los Label
         tk.Label(frameVerPago, text="Ingrese Codigo de Verificación:").place(
-            relx=0.30, rely=0.3)
+            relx=0.01, rely=0.3)
 
         #Crecion de los Textbox
         self.codigoVer = tk.Entry(frameVerPago)

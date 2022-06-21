@@ -6,6 +6,7 @@ import sqlite3
 from interfaces.iIniciarSesion import VentanaInicioSesion
 from tkinter import messagebox
 from interfaces.iLoginAdmin import LoginAdministrador
+from interfaces.iAlquilar import VentanaAlquilar
 
 class Ventana1:
 
@@ -45,7 +46,7 @@ class Ventana1:
 
     def llamadaInicioDeSesion(self):
         self.wind.withdraw()
-        ventana = VentanaInicioSesion(Tk())
+        ventana = VentanaAlquilar(Tk())
         #conexion con inicio de sesion de usuario
 
     def devolucion(self):

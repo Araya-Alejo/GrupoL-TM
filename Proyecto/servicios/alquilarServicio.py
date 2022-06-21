@@ -28,7 +28,7 @@ def mostrarVehiculoDisponible(tree):
     if (vehiculos != None):
         for vehiculo in vehiculos:
             if (vehiculo[7] == 0):
-                values = (vehiculo[1], vehiculo[2], vehiculo[3],
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
                           vehiculo[5], vehiculo[6])
                 tree.insert("", 0, text=vehiculo[0], values=values)
 
@@ -47,7 +47,7 @@ def ordenarPorClasificacion(tree, busqueda):
     if (vehiculos != None):
         for vehiculo in vehiculos:
             if (vehiculo[7] == 0):
-                values = (vehiculo[1], vehiculo[2], vehiculo[3],
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
                           vehiculo[5], vehiculo[6])
                 tree.insert("", 0, text=vehiculo[0], values=values)
 
@@ -66,7 +66,7 @@ def ordenarPorMarca(tree, busqueda):
     if (vehiculos != None):
         for vehiculo in vehiculos:
             if (vehiculo[7] == 0):
-                values = (vehiculo[1], vehiculo[2], vehiculo[3],
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
                           vehiculo[5], vehiculo[6])
                 tree.insert("", 0, text=vehiculo[0], values=values)
 
@@ -85,7 +85,7 @@ def ordenarPorModelo(tree, busqueda):
     if (vehiculos != None):
         for vehiculo in vehiculos:
             if (vehiculo[7] == 0):
-                values = (vehiculo[1], vehiculo[2], vehiculo[3],
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
                           vehiculo[5], vehiculo[6])
                 tree.insert("", 0, text=vehiculo[0], values=values)
 
@@ -104,10 +104,27 @@ def ordenarPorGeneracion(tree, busqueda):
     if (vehiculos != None):
         for vehiculo in vehiculos:
             if (vehiculo[7] == 0):
-                values = (vehiculo[1], vehiculo[2], vehiculo[3],
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
                           vehiculo[5], vehiculo[6])
                 tree.insert("", 0, text=vehiculo[0], values=values)
 
+def ordenarPorMatricula(tree, busqueda):
+    elementos = tree.get_children()
+    for elemento in elementos:
+        tree.delete(elemento)
+
+    if(busqueda):
+        consulta = consultaBusqueda(busqueda) + " ORDER BY km DESC"
+    else:
+        consulta = "SELECT * FROM vehiculos ORDER BY matricula DESC"
+    vehiculos = ejecutarConsulta(consulta, ())
+
+    if (vehiculos != None):
+        for vehiculo in vehiculos:
+            if (vehiculo[7] == 0):
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
+                          vehiculo[5], vehiculo[6])
+                tree.insert("", 0, text=vehiculo[0], values=values)
 
 def ordenarPorKilometros(tree, busqueda):
     elementos = tree.get_children()
@@ -123,7 +140,7 @@ def ordenarPorKilometros(tree, busqueda):
     if (vehiculos != None):
         for vehiculo in vehiculos:
             if (vehiculo[7] == 0):
-                values = (vehiculo[1], vehiculo[2], vehiculo[3],
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
                           vehiculo[5], vehiculo[6])
                 tree.insert("", 0, text=vehiculo[0], values=values)
 
@@ -142,7 +159,7 @@ def ordenarPorPrecio(tree, busqueda):
     if (vehiculos != None):
         for vehiculo in vehiculos:
             if (vehiculo[7] == 0):
-                values = (vehiculo[1], vehiculo[2], vehiculo[3],
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
                           vehiculo[5], vehiculo[6])
                 tree.insert("", 0, text=vehiculo[0], values=values)
 
@@ -158,7 +175,7 @@ def buscarVehiculo(tree, busqueda):
     if (vehiculos != None):
         for vehiculo in vehiculos:
             if (vehiculo[7] == 0):
-                values = (vehiculo[1], vehiculo[2], vehiculo[3],
+                values = (vehiculo[1], vehiculo[2], vehiculo[3],vehiculo[4],
                           vehiculo[5], vehiculo[6])
                 tree.insert("", 0, text=vehiculo[0], values=values)
 

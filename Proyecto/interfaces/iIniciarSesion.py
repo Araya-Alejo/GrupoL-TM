@@ -10,10 +10,11 @@ from interfaces.iReconIngUsuario import ReconIniciar
 class  VentanaInicioSesion:
     # db_nombre = 'database.db'
     def llamadaVentanaUsuario(self):
-        ventana = VentanaUsuario(Tk())
+        ventana = VentanaUsuario(Tk(), self.parametroMatricula)
 
-    def __init__(self, ventana):
+    def __init__(self, ventana, matricula):
         self.ventana = ventana
+        self.parametroMatricula = matricula
         ancho = ventana.winfo_screenwidth()
         alto = ventana.winfo_screenheight()
         ancho2 = 800
@@ -38,4 +39,4 @@ class  VentanaInicioSesion:
 
     def siguientePantalla(self):
         self.ventana.withdraw()
-        obj = ReconIniciar(Tk())
+        obj = ReconIniciar(Tk(), self.parametroMatricula)
