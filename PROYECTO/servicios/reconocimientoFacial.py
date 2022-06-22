@@ -16,21 +16,14 @@ from interfaces.ESTANDARES import *
 '''
 def convertToBinaryData(filename):
     try:
-        MENSAJE_CONSOLA("###########################################################################",visible)
-        MENSAJE_CONSOLA("A",visible)
         with open(filename, 'rb') as file:
-            MENSAJE_CONSOLA("B",visible)
             binaryData = file.read()
-            MENSAJE_CONSOLA("C",visible)
         return binaryData
     except:
-        MENSAJE_CONSOLA("D",visible)
         return 0
-    finally:
-        MENSAJE_CONSOLA("###########################################################################",visible)
 
 # ------------------------------------------------------------------------------
-                                REGISTRO
+    REGISTRO
 # ------------------------------------------------------------------------------
 '''
     Procedimiento que detecta el rostro de la imágen.
@@ -79,7 +72,7 @@ def register_capture(usuario):
     register_face_db(usuario, img)
 
 # ------------------------------------------------------------------------------
-                                    LOGIN
+    LOGIN
 # ------------------------------------------------------------------------------
 '''
     Función para compatibilidad entre imágenes
