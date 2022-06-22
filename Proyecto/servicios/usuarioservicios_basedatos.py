@@ -38,3 +38,57 @@ def ejecutar_consulta(consulta, parametros = ()):
     except sqlite3.OperationalError:
         MENSAJE_INFO("No se pudo acceder a la base de datos!")
     return resultado
+
+def write_file(data, path):
+    # Convert binary data to proper format and write it on your computer
+    with open(path, 'wb') as file:
+        file.write(data)
+
+
+
+
+# RETURN PHOTO
+# SHOW THE VIDEO
+
+def obtener_usuario(cuil,path):
+    try:
+        consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
+        parametros = (cuil,)
+        with sqlite3.connect(direccion_base_datos) as conn:
+            cursor = conn.cursor()
+            resultado = cursor.execute(consulta, parametros)
+
+            for row in records:
+                id = row[0]
+                write_file(row[2], path)
+            rows = len(records)
+
+            #records = cursor.fetchall()
+            conn.commit()
+
+
+
+
+
+
+
+
+
+
+
+        try:
+        con = db.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
+        cursor = con.cursor()
+        sql = "SELECT * FROM `user` WHERE name = %s"
+
+        cursor.execute(sql, (name,))
+        records = cursor.fetchall()
+
+
+    except db.Error as e:
+        print(f"Failed to read image: {e}")
+    finally:
+        if con.is_connected():
+            cursor.close()
+            con.close()
+    return {"id": id, "affected": rows}
