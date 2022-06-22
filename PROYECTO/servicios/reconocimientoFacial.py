@@ -133,7 +133,7 @@ def login_capture(cuil):
 
             comp = compatibility(face_reg, face_log)
 
-            if comp >= 0.94:
+            if (comp >= 0.94):
                 #print("{}Compatibilidad del {:.1%}{}".format(color_success, float(comp), color_normal))
                 print("Bienvenido")
             else:
