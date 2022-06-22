@@ -49,7 +49,7 @@ def write_file(data, path):
 
 # RETURN PHOTO
 # SHOW THE VIDEO
-
+'''
 def obtener_usuario(cuil,path):
     try:
         consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
@@ -76,13 +76,13 @@ def obtener_usuario(cuil,path):
 
 
 
-        try:
-        con = db.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
-        cursor = con.cursor()
-        sql = "SELECT * FROM `user` WHERE name = %s"
+    try:
+    con = db.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
+    cursor = con.cursor()
+    sql = "SELECT * FROM `user` WHERE name = %s"
 
-        cursor.execute(sql, (name,))
-        records = cursor.fetchall()
+    cursor.execute(sql, (name,))
+    records = cursor.fetchall()
 
 
     except db.Error as e:
@@ -92,3 +92,4 @@ def obtener_usuario(cuil,path):
             cursor.close()
             con.close()
     return {"id": id, "affected": rows}
+'''

@@ -7,7 +7,7 @@ from tkinter import Frame, Label, Entry, Button, messagebox, Tk
 
 import sqlite3
 from interfaces.iDevolucion import VentanaDevolucion
-from sevicios.reconocimientoFacial import login_capture
+from servicios.reconocimientoFacial import login_capture
 # ------------------------------------------------------------------------------
 class ReconDev():
 
