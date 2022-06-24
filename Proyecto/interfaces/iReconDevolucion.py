@@ -7,7 +7,7 @@ from tkinter import Frame, Label, Entry, Button, messagebox, Tk
 
 import sqlite3
 from interfaces.iDevolucion import VentanaDevolucion
-from servicios.reconocimientoFacial import login_capture
+from servicios.reconocimientoFacial import capturarImagenIngreso
 # ------------------------------------------------------------------------------
 class ReconDev():
 
@@ -25,9 +25,9 @@ class ReconDev():
     def validarUsuario(self):
         if (self.idCuil.get()):
             if (self.buscarUsuario()):
-                self.root.withdraw()
-                #login_capture(self.idCuil.get())
-                #ventana = VentanaDevolucion(Tk(), self.idCuil.get())
+                if (capturarImagenIngreso(self.idCuil.get())) :
+                    self.root.withdraw()
+                    ventana = VentanaDevolucion(Tk(), self.idCuil.get())
             else:
                 messagebox.showwarning(
                     "Usuario sin operacion", "No hay alquileres pendientes para este usuario")
@@ -55,13 +55,13 @@ class ReconDev():
     def __init__(self, root):
         # Ventana
         self.root = root
-        screenWidth = root.winfo_screenwidth()                                  # Obtiene ancho del área de visualización.
-        screenHeight = root.winfo_screenheight()                                # Obtiene altura del área de visualización.
-        width = 500                                                             # Establece ancho de la ventana.
-        height = 300                                                            # Establece altura de la ventana.
+        screenWidth = root.winfo_screenwidth()
+        screenHeight = root.winfo_screenheight()
+        width = 500
+        height = 300
         left = (screenWidth - width) / 2
         top = (screenHeight - height) / 2
-        root.geometry("%dx%d+%d+%d" % (width, height, left, top))               # Ancho x Alto + Desplazamiento x + Desplazamiento y
+        root.geometry("%dx%d+%d+%d" % (width, height, left, top))
         root.title("Iniciar Sesión")
         root.resizable(False, False)
 

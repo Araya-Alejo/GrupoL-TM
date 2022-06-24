@@ -69,7 +69,7 @@ class  VentanaUsuario:
             USUARIO = Usuario(self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.cuil.get())
 
             MessageBox.showinfo("", "VENTANA DE RECONOCIMIENTO FACIAL")
-            RECONOCIMIENTO_FACIAL.register_capture(USUARIO)
+            RECONOCIMIENTO_FACIAL.capturarImagenRegistro(USUARIO)
         elif (validado == None):
             MENSAJE_CONSOLA("PROBLEMAS CON LA VALIDACION",visible)
             print("---------------------------------------------------------------------------------")

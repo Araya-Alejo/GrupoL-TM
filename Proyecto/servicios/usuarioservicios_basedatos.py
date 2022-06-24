@@ -1,8 +1,7 @@
 import sqlite3
-from entidades.usuario import Usuario
 import interfaces.iUsuario
-import servicios.reconocimientoFacial as RF
 from interfaces.ESTANDARES import *
+from entidades.usuario import Usuario
 
 '''
 AGREGAR USUARIO
@@ -11,7 +10,8 @@ def agregar_usuario(usuario, imagen):
         try:
             consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
             MENSAJE_CONSOLA("CONSULTA", visible)
-            imagenBinario = RF.convertToBinaryData(imagen)
+            from servicios.reconocimientoFacial import convertirABinario
+            imagenBinario = convertirABinario(imagen)
             MENSAJE_CONSOLA("BINARIO", visible)
             if(imagenBinario != 0):
                 print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
@@ -28,8 +28,6 @@ def agregar_usuario(usuario, imagen):
         except Exception:
             MENSAJE_ERROR("HAY UN ERROR AL AGREGAR UN USUARIO")
 
-
-
 '''
 PETICION A LA BASE DE DATOS
 '''
@@ -39,37 +37,30 @@ def ejecutar_consulta(consulta, parametros = ()):
     try:
         with sqlite3.connect(direccion_base_datos) as conn:
             cursor = conn.cursor()
-            print("cursor")
             resultado = cursor.execute(consulta, parametros)
-            print("resultado")
             conn.commit()
     except sqlite3.OperationalError:
         MENSAJE_INFO("No se pudo acceder a la base de datos!")
     return resultado
 
-def write_file(data, path):
-    # Convert binary data to proper format and write it on your computer
-    with open(path, 'wb') as file:
-        file.write(data)
-
-
-
 '''
 RETORNAR IMAGEN
 '''
-# def obtener_usuario(cuil,path):
-#     try:
-#         with sqlite3.connect(direccion_base_datos) as conn:
-#         cursor = con.cursor()
-#         cursor.execute("SELECT * FROM Usuarios WHERE Foto=?", (Foto,))
-#         curson_adquerido = cursor.fetchall()
-#         for row in curson_adquerido:
-#             write_file(row[6], path)
-#
-#     except ValueError as e:
-#         print(f"Error al escribir la imagen: {e}")
-#     finally:
-#         if con.is_connected():
-#             cursor.close()
-#             conn.close()
-#     return
+def obtener_usuario(cuil, path):
+    from servicios.reconocimientoFacial import escribirArchivo
+    consulta = "SELECT * FROM Usuarios"
+
+    try:
+        with sqlite3.connect(direccion_base_datos) as conn:
+            cursor = con.cursor()
+            result = cursor.execute(consulta, ())
+            conn.commit()
+    except sqlite3.OperationalError:
+        print("¡Error al ingresar a la db!")
+    else:
+        if (result != None):
+            for usuario in result:
+                if (cuil == usuario[6]):
+                    print(cuil)
+                    escribirArchivo(usuario[7], path)
+    return

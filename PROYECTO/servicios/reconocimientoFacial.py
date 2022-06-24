@@ -8,13 +8,13 @@ import cv2
 from matplotlib import pyplot as plt
 from mtcnn.mtcnn import MTCNN
 from entidades.usuario import Usuario
-from servicios.usuarioservicios_basedatos import agregar_usuario
-from interfaces.ESTANDARES import *
+from servicios.vehiculoservicio_basedatos import mensajeInfo, mensajeError
+from servicios.usuarioservicios_basedatos import agregar_usuario, obtener_usuario
 # ------------------------------------------------------------------------------
 '''
     Función que convierte una imágen a formato binario.
 '''
-def convertToBinaryData(filename):
+def convertirABinario(filename):
     try:
         with open(filename, 'rb') as file:
             binaryData = file.read()
@@ -22,13 +22,20 @@ def convertToBinaryData(filename):
     except:
         return 0
 
+'''
+    Función que convierte de formato binario a imágen.
+'''
+def escribirArchivo(data, path):
+    with open(path, 'wb') as file:
+        file.write(data)
+
 # ------------------------------------------------------------------------------
     #REGISTRO
 # ------------------------------------------------------------------------------
 '''
     Procedimiento que detecta el rostro de la imágen.
 '''
-def face(img, faces):
+def rostro(img, faces):
     data = plt.imread(img)
     for i in range(len(faces)):
         x1, y1, ancho, alto = faces[i]["box"]
@@ -43,7 +50,7 @@ def face(img, faces):
     Procedimiento que llama al método para cargar el usuario a la base de datos.
     Envía un Usuario y la imágen (ya convertida en binario).
 '''
-def register_face_db(usuario, img):
+def registrarUsuario(usuario, img):
     path = os.getcwd().replace("\\", "/") + "/"
     agregar_usuario(usuario, path + img)
 
@@ -51,7 +58,7 @@ def register_face_db(usuario, img):
 '''
     Procedimiento que captura la imágen de registro.
 '''
-def register_capture(usuario):
+def capturarImagenRegistro(usuario):
     cap = cv2.VideoCapture(0)
     user_reg_img = usuario.getCuil()                                            # Nombre de la imagen (Número de cuil)
     img = f"{user_reg_img}.jpg"                                                 # Al nombre de la imagen se agrega .jpg
@@ -68,16 +75,16 @@ def register_capture(usuario):
 
     pixels = plt.imread(img)
     faces = MTCNN().detect_faces(pixels)
-    face(img, faces)
-    register_face_db(usuario, img)
+    rostro(img, faces)
+    registrarUsuario(usuario, img)
 
 # ------------------------------------------------------------------------------
     #LOGIN
 # ------------------------------------------------------------------------------
 '''
-    Función para compatibilidad entre imágenes
+    Función para obtener la compatibilidad entre imágenes.
 '''
-def compatibility(img1, img2):
+def compatibilidad(img1, img2):
     orb = cv2.ORB_create()
 
     kpa, dac1 = orb.detectAndCompute(img1, None)
@@ -93,13 +100,13 @@ def compatibility(img1, img2):
     return len(similar)/len(matches)
 
 '''
-    Procedimiento para capturar imágen de login
+    Procedimiento para capturar imágen de login.
 '''
-def login_capture(cuil):
+def capturarImagenIngreso(cuil):
     cap = cv2.VideoCapture(0)
     user_login = cuil
-    img = f"{user_login}_login.jpg"
-    img_user = f"{user_login}.jpg"
+    img = f"{user_login}_login.jpg"                                             # Imágen que capturamos
+    img_user = f"{user_login}.jpg"                                              # Imágen que recuperamos de la db
 
     while True:
         ret, frame = cap.read()
@@ -114,28 +121,31 @@ def login_capture(cuil):
     pixels = plt.imread(img)
     faces = MTCNN().detect_faces(pixels)
 
-    face(img, faces)
+    rostro(img, faces)
 
     path = os.getcwd().replace("\\", "/") + "/"
-    res_db = db.getUser(user_login, path + img_user)
+    res_db = obtener_usuario(user_login, path + img_user)
     if(red_db != None):
         my_files = os.listdir()
         if (img_user in my_files):
             face_reg = cv2.imread(img_user, 0)
             face_log = cv2.imread(img, 0)
 
-            comp = compatibility(face_reg, face_log)
+            comp = compatibilidad(face_reg, face_log)
 
             if (comp >= 0.94):
-                #print("{}Compatibilidad del {:.1%}{}".format(color_success, float(comp), color_normal))
-                print("Bienvenido")
+                mensajeInfo("¡Éxito!", "Bienvenido", None)
+                return 1
             else:
-                #print("{}Compatibilidad del {:.1%}{}".format(color_error, float(comp), color_normal))
-                print("No es Bienvenido")
+                mensajeError("¡Error!", "No se ha encontrado coincidencia entre las imágenes")
+                return 0
             os.remove(img_user)
 
         else:
-            print("¡Error! Usuario no encontrado")
+            mensajeError("¡Error!", "Usuario no encontrado")
+            os.remove(img)
+            return 0
     else:
-        print("¡Error! Usuario no encontrado")
-    os.remove(img)
+        mensajeError("¡Error!", "Usuario no encontrado")
+        os.remove(img)
+        return 0
