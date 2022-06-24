@@ -4,6 +4,9 @@ import interfaces.iUsuario
 import servicios.reconocimientoFacial as RF
 from interfaces.ESTANDARES import *
 
+'''
+AGREGAR USUARIO
+'''
 def agregar_usuario(usuario, imagen):
         try:
             consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
@@ -25,6 +28,11 @@ def agregar_usuario(usuario, imagen):
         except Exception:
             MENSAJE_ERROR("HAY UN ERROR AL AGREGAR UN USUARIO")
 
+
+
+'''
+PETICION A LA BASE DE DATOS
+'''
 def ejecutar_consulta(consulta, parametros = ()):
     print("ejecutar")
 
@@ -46,49 +54,22 @@ def write_file(data, path):
 
 
 
-
-# RETURN PHOTO
-# SHOW THE VIDEO
-
-def obtener_usuario(cuil,path):
-    try:
-        consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
-        parametros = (cuil,)
-        with sqlite3.connect(direccion_base_datos) as conn:
-            cursor = conn.cursor()
-            resultado = cursor.execute(consulta, parametros)
-
-            for row in records:
-                id = row[0]
-                write_file(row[2], path)
-            rows = len(records)
-
-            #records = cursor.fetchall()
-            conn.commit()
-
-
-
-
-
-
-
-
-
-
-
-        try:
-        con = db.connect(host=keys["host"], user=keys["user"], password=keys["password"], database=keys["database"])
-        cursor = con.cursor()
-        sql = "SELECT * FROM `user` WHERE name = %s"
-
-        cursor.execute(sql, (name,))
-        records = cursor.fetchall()
-
-
-    except db.Error as e:
-        print(f"Failed to read image: {e}")
-    finally:
-        if con.is_connected():
-            cursor.close()
-            con.close()
-    return {"id": id, "affected": rows}
+'''
+RETORNAR IMAGEN
+'''
+# def obtener_usuario(cuil,path):
+#     try:
+#         with sqlite3.connect(direccion_base_datos) as conn:
+#         cursor = con.cursor()
+#         cursor.execute("SELECT * FROM Usuarios WHERE Foto=?", (Foto,))
+#         curson_adquerido = cursor.fetchall()
+#         for row in curson_adquerido:
+#             write_file(row[6], path)
+#
+#     except ValueError as e:
+#         print(f"Error al escribir la imagen: {e}")
+#     finally:
+#         if con.is_connected():
+#             cursor.close()
+#             conn.close()
+#     return

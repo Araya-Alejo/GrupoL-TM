@@ -15,7 +15,9 @@ us = UsuarioServicio()
 
 class  VentanaUsuario:
 #---------------------------------------------------------------------------------#
-
+    '''
+    PROHIBICIONES DE ENTRADA DE DATOS
+    '''
     def cuandoEscribaFecha(self,event):
         if(len(self.fechaNacimiento.get()) > 9):
             return "break"
@@ -55,6 +57,10 @@ class  VentanaUsuario:
 
 #---------------------------------------------------------------------------------#
 
+    '''
+    VALIDAR ENTRADA DE DATOS
+    '''
+
     def validar(self):
         validado = self.aceptar()
         if(validado == True):
@@ -74,7 +80,9 @@ class  VentanaUsuario:
             return False
 
 #---------------------------------------------------------------------------------#
-
+    '''
+    LABEL DE 'INCORRECTO'
+    '''
     def aceptar(self):
         contador = 0
         print("---------------------------------------------------------------------------------")
@@ -146,6 +154,9 @@ class  VentanaUsuario:
         if(contador == 7):
             return True
 #---------------------------------------------------------------------------------#
+    '''
+    INTERFAZ GRAFICA DE INGRESO DE USUARIO
+    '''
 
     def __init__(self, ventana, matricula):
         self.ventana = ventana
@@ -221,10 +232,8 @@ class  VentanaUsuario:
         self.boton = tk.Button(area, text = 'T&C', font= (tipografia,10), command = TC.abrirPDF )
         self.boton.place(x=400, y=350)
 
-        # self.variable = IntVar()
-        # self.check = Checkbutton(area, text="Termino y condiciones *", font=(tipografia,10), variable=self.variable, onvalue=1, offvalue=0)
-        # self.check.place(x=340, y=400)
-
+        self.label_comboTyC =Label(area, text = '¿Esta de acuerdo con los terminos y condiciones?', font= (tipografia,10))
+        self.label_comboTyC.place(x=275, y=380)
         self.comboTyC = ttk.Combobox(area, state="readonly",
             values=["SI", "NO"])
         self.comboTyC.place(x=342, y=400, height=24)

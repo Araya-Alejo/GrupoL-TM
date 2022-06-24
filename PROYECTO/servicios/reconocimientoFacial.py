@@ -23,7 +23,7 @@ def convertToBinaryData(filename):
         return 0
 
 # ------------------------------------------------------------------------------
-    REGISTRO
+    #REGISTRO
 # ------------------------------------------------------------------------------
 '''
     Procedimiento que detecta el rostro de la imágen.
@@ -72,7 +72,7 @@ def register_capture(usuario):
     register_face_db(usuario, img)
 
 # ------------------------------------------------------------------------------
-    LOGIN
+    #LOGIN
 # ------------------------------------------------------------------------------
 '''
     Función para compatibilidad entre imágenes
