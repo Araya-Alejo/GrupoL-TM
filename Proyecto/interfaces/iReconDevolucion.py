@@ -7,7 +7,7 @@ from tkinter import Frame, Label, Entry, Button, messagebox, Tk
 
 import sqlite3
 from interfaces.iDevolucion import VentanaDevolucion
-from sevicios.reconocimientoFacial import login_capture
+from servicios.reconocimientoFacial import login_capture
 # ------------------------------------------------------------------------------
 class ReconDev():
 
@@ -26,7 +26,7 @@ class ReconDev():
         if (self.idCuil.get()):
             if (self.buscarUsuario()):
                 self.root.withdraw()
-                login_capture(self.idCuil.get())
+                #login_capture(self.idCuil.get())
                 #ventana = VentanaDevolucion(Tk(), self.idCuil.get())
             else:
                 messagebox.showwarning(

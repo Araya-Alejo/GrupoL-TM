@@ -161,7 +161,7 @@ def validarEdit(root, km, precio, kmIngresados, precioIngresado, labelKm, labelP
         labelPrecio["text"] = ""
 
     if (band):
-        consulta = "UPDATE vehiculos SET kilometros = ?, precio = ? WHERE kilometros = ? AND precio = ?"
+        consulta = "UPDATE vehiculos SET km = ?, precio = ? WHERE km = ? AND precio = ?"
         parametros = (kmIngresados.get(), precioIngresado.get(), km, precio)
         result = ejecutarConsulta(consulta, parametros)
         if (result != None):
