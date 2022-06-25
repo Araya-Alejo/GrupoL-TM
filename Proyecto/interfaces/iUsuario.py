@@ -64,19 +64,12 @@ class  VentanaUsuario:
     def validar(self):
         validado = self.aceptar()
         if(validado == True):
-            MENSAJE_CONSOLA("VALORES INGRESADOS VALIDADOS", visible)
-            print("---------------------------------------------------------------------------------")
             USUARIO = Usuario(self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.cuil.get())
 
-            MessageBox.showinfo("", "VENTANA DE RECONOCIMIENTO FACIAL")
             RECONOCIMIENTO_FACIAL.capturarImagenRegistro(USUARIO)
         elif (validado == None):
-            MENSAJE_CONSOLA("PROBLEMAS CON LA VALIDACION",visible)
-            print("---------------------------------------------------------------------------------")
             return False
         else:
-            MENSAJE_CONSOLA("PROBLEMAS CON EL RECONOCIMIENTO FACIL",visible)
-            print("---------------------------------------------------------------------------------")
             return False
 
 #---------------------------------------------------------------------------------#
@@ -85,7 +78,6 @@ class  VentanaUsuario:
     '''
     def aceptar(self):
         contador = 0
-        print("---------------------------------------------------------------------------------")
 
         # Validación Nombre
         if(not us.isStringVacio(self.nombre.get())):

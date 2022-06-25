@@ -21,7 +21,6 @@ def ENVIAR_CORREO(MAIL_OTHER_USER):
         #mensaje = "Subject: AlquilaYaPrueba3\nAlquiler"
         mensaje = "Subject: AlquilaYa\nLa operacion se ha realizado con exito, muchas gracias por trabajar con nosotros."
         conexion.sendmail(from_addr= "documentacion.facultad@gmail.com", to_addrs=MAIL_OTHER_USER,msg= mensaje)
-        #MENSAJE_CONSOLA("Envio ok", visible)
     except Exception:
         MENSAJE_CONSOLA(str(Exception), visible)
     finally:

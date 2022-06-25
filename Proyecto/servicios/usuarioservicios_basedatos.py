@@ -9,22 +9,18 @@ AGREGAR USUARIO
 def agregar_usuario(usuario, imagen):
         try:
             consulta = "INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)"
-            MENSAJE_CONSOLA("CONSULTA", visible)
             from servicios.reconocimientoFacial import convertirABinario
             imagenBinario = convertirABinario(imagen)
-            MENSAJE_CONSOLA("BINARIO", visible)
             if(imagenBinario != 0):
                 print(usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil())
                 parametros = (usuario.getNombre(),usuario.getApellido(),usuario.getCarnetConducir(),usuario.getFechaNacimiento(),usuario.getCorreo(),usuario.getCuil(), imagenBinario)
-                MENSAJE_CONSOLA("PARAMETROS",visible)
 
                 resultado = ejecutar_consulta(consulta,parametros)
-                MENSAJE_CONSOLA("RESULTADOS",visible)
 
                 if (resultado != None):
-                    MENSAJE_CONSOLA("EL USUARIO FUE GUARDADO EN LA BASE DE DATOS ", visible)
+                    MENSAJE_INFO("EL USUARIO FUE GUARDADO EN LA BASE DE DATOS ", visible)
             else:
-                MENSAJE_CONSOLA("Return 0, it won't save the user.", visible)
+                MENSAJE_INFO("Return 0, it won't save the user.", visible)
         except Exception:
             MENSAJE_ERROR("HAY UN ERROR AL AGREGAR UN USUARIO")
 
@@ -60,5 +56,5 @@ def obtener_usuario(cuil, path):
                 return 1
 
     except sqlite3.OperationalError:
-        print("¡Error al ingresar a la db!")
+        MENSAJE_INFO("¡Error al ingresar a la db!")
         return 0
