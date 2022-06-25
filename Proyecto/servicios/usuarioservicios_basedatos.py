@@ -48,19 +48,17 @@ RETORNAR IMAGEN
 '''
 def obtener_usuario(cuil, path):
     from servicios.reconocimientoFacial import escribirArchivo
-    consulta = "SELECT * FROM Usuarios"
+    consulta = "SELECT * FROM Usuarios WHERE Cuil = ?"
 
     try:
         with sqlite3.connect(direccion_base_datos) as conn:
-            cursor = con.cursor()
-            result = cursor.execute(consulta, ())
-            conn.commit()
+            cursor = conn.cursor()
+            cursor.execute(consulta, (cuil,))
+
+            if (results:= cursor.fetchone()) is not None:
+                escribirArchivo(results[6], path)
+                return 1
+
     except sqlite3.OperationalError:
         print("¡Error al ingresar a la db!")
-    else:
-        if (result != None):
-            for usuario in result:
-                if (cuil == usuario[6]):
-                    print(cuil)
-                    escribirArchivo(usuario[7], path)
-    return
+        return 0

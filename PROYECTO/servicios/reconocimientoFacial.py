@@ -125,7 +125,7 @@ def capturarImagenIngreso(cuil):
 
     path = os.getcwd().replace("\\", "/") + "/"
     res_db = obtener_usuario(user_login, path + img_user)
-    if(red_db != None):
+    if(res_db):
         my_files = os.listdir()
         if (img_user in my_files):
             face_reg = cv2.imread(img_user, 0)
@@ -135,17 +135,22 @@ def capturarImagenIngreso(cuil):
 
             if (comp >= 0.94):
                 mensajeInfo("¡Éxito!", "Bienvenido", None)
+                os.remove(img)
+                os.remove(img_user)
                 return 1
             else:
                 mensajeError("¡Error!", "No se ha encontrado coincidencia entre las imágenes")
+                os.remove(img)
+                os.remove(img_user)
                 return 0
-            os.remove(img_user)
 
         else:
             mensajeError("¡Error!", "Usuario no encontrado")
             os.remove(img)
+            os.remove(img_user)
             return 0
     else:
         mensajeError("¡Error!", "Usuario no encontrado")
         os.remove(img)
+        os.remove(img_user)
         return 0
