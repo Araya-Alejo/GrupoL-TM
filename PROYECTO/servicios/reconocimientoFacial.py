@@ -1,7 +1,7 @@
-# pip install opencv-python
-# pip install matplotlib
-# pip install mtcnn
-# pip install tensorflow
+'''
+    Métodos de Servicio para Reconocimiento Facial
+    @author Bulos
+'''
 # ------------------------------------------------------------------------------
 import os
 import cv2
@@ -28,10 +28,7 @@ def convertirABinario(filename):
 def escribirArchivo(data, path):
     with open(path, 'wb') as file:
         file.write(data)
-
-# ------------------------------------------------------------------------------
-    #REGISTRO
-# ------------------------------------------------------------------------------
+# --------------------------------REGISTRO--------------------------------------
 '''
     Procedimiento que detecta el rostro de la imágen.
 '''
@@ -60,10 +57,10 @@ def registrarUsuario(usuario, img):
 '''
 def capturarImagenRegistro(usuario):
     cap = cv2.VideoCapture(0)
-    user_reg_img = usuario.getCuil()                                            # Nombre de la imagen (Número de cuil)
-    img = f"{user_reg_img}.jpg"                                                 # Al nombre de la imagen se agrega .jpg
+    user_reg_img = usuario.getCuil()
+    img = f"{user_reg_img}.jpg"
 
-    while True:                                                                 # Bucle que se ejecutará hasta que se capture la imagen (Tecla Esc)
+    while True:
         ret, frame = cap.read()
         cv2.imshow("Registro Facial", frame)
         if cv2.waitKey(1) == 27:
@@ -77,10 +74,7 @@ def capturarImagenRegistro(usuario):
     faces = MTCNN().detect_faces(pixels)
     rostro(img, faces)
     registrarUsuario(usuario, img)
-
-# ------------------------------------------------------------------------------
-    #LOGIN
-# ------------------------------------------------------------------------------
+# --------------------------------LOGIN-----------------------------------------
 '''
     Función para obtener la compatibilidad entre imágenes.
 '''

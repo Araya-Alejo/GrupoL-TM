@@ -40,7 +40,9 @@ def ejecutar_consulta(consulta, parametros = ()):
     return resultado
 
 '''
-RETORNAR IMAGEN
+    Función para obtener la imágen de la base de datos.
+    Retorna un bool.
+    @author Bulos
 '''
 def obtener_usuario(cuil, path):
     from servicios.reconocimientoFacial import escribirArchivo
