@@ -35,7 +35,7 @@ class Ventana1:
         ttk.Button(frame, text="Devolución", command=self.devolucion).place(
             relx=0.55, rely=0.4)
         ttk.Button(frame, text="Ingreso de Administradores",
-                   command=self.loginAdmin).place(relx=0.80, rely=0.01)
+                   command=self.loginAdmin).place(relx=0.05, rely=0.01)
 
 
         window.mainloop()

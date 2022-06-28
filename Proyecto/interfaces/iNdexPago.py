@@ -14,8 +14,6 @@ from interfaces.ESTANDARES import *
 
 class Pago:
 
-
-
     def __init__(self, window, idCuil, matricula):
         self.wind = window
         self.wind.title("VENTANA PAGO")

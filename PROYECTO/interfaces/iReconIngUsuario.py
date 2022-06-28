@@ -3,48 +3,55 @@ from tkinter import *
 import sqlite3
 from tkinter import messagebox
 from interfaces.iNdexPago import Pago
+from servicios.reconocimientoFacial import capturarImagenIngreso
 
 
 class ReconIniciar:
-    def __init__(self, window, matricula):
-        self.wind = window
-        self.parametroMatricula = matricula
-        self.wind.title("Alquila Ya")
-        # Obtiene ancho del área de visualización.
-        screenWidth = window.winfo_screenwidth()
-        screenHeight = window.winfo_screenheight()
-        # Establece ancho de la ventana.
-        width = 800
-        # Establece altura de la ventana.
-        height = 600
+
+    def __init__(self, root, matricula):
+        # Ventana
+        self.root = root
+        self.matricula = matricula
+        screenWidth = root.winfo_screenwidth()
+        screenHeight = root.winfo_screenheight()
+        width = 500
+        height = 300
         left = (screenWidth - width) / 2
         top = (screenHeight - height) / 2
-        self.wind.geometry("%dx%d+%d+%d" % (width, height, left, top))
-        self.wind.resizable(0, 0)
+        root.geometry("%dx%d+%d+%d" % (width, height, left, top))
+        root.title("Iniciar Sesión")
+        root.resizable(False, False)
 
-        #Creacion del Frame
-        frame = LabelFrame(self.wind)
-        frame.place(relwidth=1, relheight=1)
+        self.initComponents(root)
 
-        #Label
-        tk.Label(frame, text="EN ESTA INTERFAZ RECONOCERIA EL ROSTRO").place(
-            relx=0.40, rely=0.4)
+    '''
+        Procedimiento que inicializa los componentes gráficos.
+    '''
+    def initComponents(self, root):
+        # Frame
+        frame1 = Frame(root, width="300", height="50")
+        frame1.pack(expand=False, fill="both")
 
-        #Creacion de los Botones
-        tk.Button(frame, text="Reconocimiento",
-                  command=self.validarUsuario).place(relx=0.40, rely=0.60)
+        frame2 = Frame(root, width="300", height="250")
+        frame2.pack(expand=False, fill="both")
 
-        #Crecion de Entry
-        self.idCuil = tk.Entry(frame)
-        self.idCuil.focus()
-        self.idCuil.place(relx=0.50, rely=0.3)
-        tk.Button(frame, text="Atras",
-                   command=self.atras).place(relx=0.01, rely=0.9)
+        # Label
+        Label(frame1, text="Iniciar Sesión", font=("Bahnschrift SemiLight", 20)).place(x=250 ,y=25, anchor="center")
+        Label(frame2, text="CUIL:", font=("Bahnschrift Light", 12)).place(x=25, y=20)
 
-        window.mainloop()
+        # Entry
+        self.idCuil = Entry(frame2, width=20)
+        self.idCuil.place(x=100, y=20, height=25)
+        self.idCuil.focus_force()
 
-    def atras(self):
-        self.wind.withdraw()
+        # Button
+        Button(frame2, text="Volver", command=self.actionVolver).place(x=50, y=150, anchor="center")
+        Button(frame2, text="Capturar Rostro", command=self.validarUsuario).place(x=250, y=100, anchor="center", width=200, height=50)
+
+        root.mainloop()
+
+    def actionVolver(self):
+        self.root.withdraw()
         from interfaces.iPrimerPantalla import Ventana1
         obj=Ventana1(Tk())
 
@@ -56,8 +63,11 @@ class ReconIniciar:
                     "Usuario sin operacion", "Ya tiene un auto en alquiler")
                 self.idCuil.focus()
             else:
-                self.wind.withdraw()
-                ventana = Pago(Tk(), datoCuil, self.parametroMatricula)
+                if (capturarImagenIngreso(self.idCuil.get())) :
+                    self.wind.withdraw()
+                    ventana = Pago(Tk(), datoCuil, self.matricula)
+                else:
+                    messagebox.showwarning("Usuario sin operacion", "Ya tiene un auto en alquiler")
         else:
             messagebox.showwarning(
                 "Error", "Los campos no pueden estar vacíos")
