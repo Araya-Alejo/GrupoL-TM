@@ -1,4 +1,10 @@
-from tkinter import *
+'''
+    Interfaz grafica que contiene dos caminos "Registrarse" o "Iniciar sesion"
+    cada una de ellas te deribarar a sus interfaces respetivamente
+    
+    @author Araya
+'''
+# ------------------------------------------------------------------------------from tkinter import *
 from functools import partial
 import tkinter as tk
 from tkinter import messagebox

@@ -1,3 +1,8 @@
+'''
+    Contiene metodos para el ingreso y obtencion del usuario
+    @author Araya
+'''
+# ------------------------------------------------------------------------------
 import sqlite3
 import interfaces.iUsuario
 from interfaces.ESTANDARES import *

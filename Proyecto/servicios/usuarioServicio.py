@@ -1,4 +1,8 @@
-from entidades.usuario import Usuario
+'''
+    Contiene metodos de validacion para el Usuario
+    @author Araya
+'''
+# ------------------------------------------------------------------------------from entidades.usuario import Usuario
 from servicios.vehiculoservicio import *
 import re
 
@@ -83,4 +87,3 @@ class UsuarioServicio():
                             return True
         except ValueError:
             return False
-            

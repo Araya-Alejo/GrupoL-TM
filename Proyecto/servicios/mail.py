@@ -1,11 +1,15 @@
+'''
+    Conexion con la platadorma de Gmail y envio de mail
+    @author Araya
+'''
+# ------------------------------------------------------------------------------
 import smtplib
 import servicios.SO
 from interfaces.ESTANDARES import *
-"""
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from smtplib import SMTP
-"""
+# from email.mime.multipart import MIMEMultipart
+# from email.mime.base import MIMEBase
+# from smtplib import SMTP
+
 
 def ENVIAR_CORREO(MAIL_OTHER_USER):
     try:

@@ -1,4 +1,16 @@
-class Usuario():
+'''
+    Creacion del modulo de Usuario que contiene como atributos
+        * Nombre
+        * Apellido
+        * Carnet de conducir`
+        * Fecha de nacimiento
+        * Correo electronico
+        * Cuil
+        * Foto
+        
+    @author Araya
+'''
+# ------------------------------------------------------------------------------class Usuario():
 
     # Constructor
     def __init__(self,nombre, apellido, carnetConducir, fechaNacimiento, correo,cuil):
