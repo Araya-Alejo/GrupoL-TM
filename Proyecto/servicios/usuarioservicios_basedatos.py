@@ -54,9 +54,8 @@ def obtener_usuario(cuil, path):
             cursor.execute(consulta, (cuil,))
 
             if (results:= cursor.fetchone()) is not None:
-                escribirArchivo(results[6], path)
-                return 1
-
+                for result in results:
+                    escribirArchivo(results[6], path)
+                    return 1
     except sqlite3.OperationalError:
-        MENSAJE_INFO("¡Error al ingresar a la db!")
         return 0

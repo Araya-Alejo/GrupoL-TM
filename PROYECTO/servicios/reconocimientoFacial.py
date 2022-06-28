@@ -56,7 +56,8 @@ def registrarUsuario(usuario, img):
     Procedimiento que captura la imágen de registro.
 '''
 def capturarImagenRegistro(usuario):
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)       #Windows
+    #cap = cv2.VideoCapture(0)      #Linux
     user_reg_img = usuario.getCuil()
     img = f"{user_reg_img}.jpg"
 
@@ -97,7 +98,8 @@ def compatibilidad(img1, img2):
     Procedimiento para capturar imágen de login.
 '''
 def capturarImagenIngreso(cuil):
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)       #Windows
+    #cap = cv2.VideoCapture(0)      #Linux
     user_login = cuil
     img = f"{user_login}_login.jpg"                                             # Imágen que capturamos
     img_user = f"{user_login}.jpg"                                              # Imágen que recuperamos de la db
