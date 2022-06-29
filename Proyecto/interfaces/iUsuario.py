@@ -15,6 +15,7 @@ from entidades.usuario import Usuario
 import TyC.ingresoTyC as TC
 import servicios.reconocimientoFacial as RECONOCIMIENTO_FACIAL
 from interfaces.ESTANDARES import *
+from interfaces.iNdexPago import Pago
 
 us = UsuarioServicio()
 
@@ -72,6 +73,9 @@ class  VentanaUsuario:
             USUARIO = Usuario(self.nombre.get(),self.apellido.get(),self.carnetConducir.get(),self.fechaNacimiento.get(),self.correo.get(),self.cuil.get())
 
             RECONOCIMIENTO_FACIAL.capturarImagenRegistro(USUARIO)
+            self.ventana.withdraw()
+            obj = Pago(Tk(),self.cuil.get(), self.parametroMatricula)
+
         elif (validado == None):
             return False
         else:
