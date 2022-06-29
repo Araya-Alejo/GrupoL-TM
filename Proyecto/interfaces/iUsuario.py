@@ -165,7 +165,7 @@ class  VentanaUsuario:
         izquierda = (ancho - ancho2) / 2
         arriba = (alto - alto2) / 2
         self.ventana.geometry("%dx%d+%d+%d" % (ancho2, alto2, izquierda, arriba))
-        self.ventana.title("Agregar Vehiculo")
+        self.ventana.title("Registro Usuario")
         self.ventana.resizable(False, False)
 
         area = Frame(ventana, pady=10)
