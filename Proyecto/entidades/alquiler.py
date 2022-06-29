@@ -1,3 +1,7 @@
+'''
+    Interfaz grafica para ingresar los atributos del usuario
+    @author Vargas
+'''
 from entidades.usuario import Usuario
 from entidades.vehiculo import Vehiculo
 

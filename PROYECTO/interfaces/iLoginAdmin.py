@@ -1,3 +1,7 @@
+'''
+    Interfaz grafica para ingresar los atributos del usuario
+    @author Vargas
+'''
 from tkinter import ttk
 from tkinter import *
 

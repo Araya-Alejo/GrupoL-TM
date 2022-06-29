@@ -1,3 +1,7 @@
+'''
+    Interfaz grafica para ingresar los atributos del usuario
+    @author  Croce
+'''
 from tkinter import Tk, Frame, Label, Button, ttk, Entry
 
 from interfaces.iAgregarVehiculo import VentanaAgregarVehiculo

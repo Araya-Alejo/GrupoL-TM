@@ -1,3 +1,7 @@
+'''
+    Interfaz grafica para ingresar los atributos del usuario
+    @author Vargas y Vega
+'''
 import tkinter as tk  # biblioteca para diseniar interfaz
 from tkinter import *  # botones tablas .. etc
 #from servicios.conexionPago import Conexion

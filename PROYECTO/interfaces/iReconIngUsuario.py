@@ -1,3 +1,7 @@
+'''
+    Interfaz grafica para ingresar los atributos del usuario
+    @author Vargas y Bulos
+'''
 import tkinter as tk
 from tkinter import *
 import sqlite3
