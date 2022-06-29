@@ -2,7 +2,8 @@
     Contiene metodos y variables globales
     @author Araya
 '''
-# ------------------------------------------------------------------------------from tkinter import messagebox as MessageBox, Label
+# ------------------------------------------------------------------------------
+from tkinter import messagebox as MessageBox, Label
 
 visible = True
 direccion_base_datos = "base_datos/databaseGeneral.sqlite3"

@@ -2,7 +2,8 @@
     Contiene metodos de validacion para el Usuario
     @author Araya
 '''
-# ------------------------------------------------------------------------------from entidades.usuario import Usuario
+# ------------------------------------------------------------------------------
+from entidades.usuario import Usuario
 from servicios.vehiculoservicio import *
 import re
 
