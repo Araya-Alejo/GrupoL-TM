@@ -7,11 +7,11 @@
         * Correo electronico
         * Cuil
         * Foto
-        
+
     @author Araya
 '''
 # ------------------------------------------------------------------------------class Usuario():
-
+class Usuario():
     # Constructor
     def __init__(self,nombre, apellido, carnetConducir, fechaNacimiento, correo,cuil):
         self.__nombre = nombre  # Texto
